@@ -1,0 +1,25 @@
+{
+  "name": "wiseinit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "GulpFile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sainthkh/WiseInit-Theme.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sainthkh/WiseInit-Theme/issues"
+  },
+  "homepage": "https://github.com/sainthkh/WiseInit-Theme",
+  "devDependencies": {
+    "coffee-script": "^1.9.3",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-sass": "^2.1.1"
+  }
+}
