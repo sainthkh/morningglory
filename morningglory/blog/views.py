@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 
@@ -29,3 +29,11 @@ def category(request):
 def category_paged(request):
     pass
 
+def write_new_post(request):
+    return render(request, 'blog-admin/write.html', {})
+
+def edit_post(request, post_id):
+    return render(request, 'blog-admin/write.html', {})
+
+def save_post(request):
+    return redirect('blog:edit_post', args=(1))

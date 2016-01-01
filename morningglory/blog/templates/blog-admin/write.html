@@ -1,0 +1,10 @@
+{% load staticfiles %}
+
+<form action="{% url 'blog:save-post' %}">
+    <div id="epiceditor"><textarea name="contents"></textarea></div>
+</form>
+
+<script src="{% static 'epiceditor/js/epiceditor.min.js' %}"></script>
+<script type="text/javascript">
+var editor = new EpicEditor({basePath: '{% static "epiceditor" %}'}).load();
+</script>
