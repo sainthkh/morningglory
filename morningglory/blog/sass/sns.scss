@@ -1,0 +1,38 @@
+$facebook-color: #43609c;
+$twitter-color: #55acee;
+$youtube-color: #e62117;
+
+#sns-links {
+	margin-bottom: 20px;
+
+	a {
+		color: white;
+		font-size: 32px;
+		padding: 10px;
+	}
+
+	ul {
+		margin: 0;
+	}
+
+	li {
+		list-style: none;
+		width: 60px;
+		text-align: center;
+		display: inline-block;
+		border-radius: 10px;
+		margin-right: 5px;
+	}
+
+	#sl-facebook {
+		background: $facebook-color;
+	}
+
+	#sl-twitter {
+		background: $twitter-color;
+	}
+
+	#sl-youtube {
+		background: $youtube-color;
+	}
+}

@@ -1,0 +1,57 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>{% block title %}WiseInit Korean | Learn & Apply Your Korean Here ! {% endblock %}</title>
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+    <script src="{% static 'blog/html5shiv.min.js' %}"></script>
+    <script src="{% static 'blog/html5shiv-printshiv.min.js' %}"></script>
+	<!--[if lt IE 9]>
+	<script src="static/js/html5shiv.min.js"></script>
+    <script src="static/js/html5shiv-printshiv.min.js"></script>
+	<![endif]-->
+    <link rel='stylesheet' id='bootstrap-css'  href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css?ver=4.4' type='text/css' media='all' />
+    <link rel='stylesheet' id='font-awesome-css'  href='//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css?ver=4.4' type='text/css' media='all' />
+    <link rel='stylesheet' id='wiseinit-style' href="{% static 'blog/style.css' %}" type="text/css" media='all' />
+</head>
+
+<body class="home blog logged-in admin-bar no-customize-support list-view grid">
+<div id="page" class="hfeed site">
+	<header id="masthead" class="site-header" role="banner">
+		<div class="header-main">
+			<h1 class="site-title"><a href="/" rel="home">WiseInit Korean</a></h1>
+			<nav id="primary-navigation" class="site-navigation primary-navigation" role="navigation">
+				<button class="menu-toggle">Primary Menu</button>
+				<a class="screen-reader-text skip-link" href="#content">Skip to content</a>
+			</nav>
+		</div>
+	</header>
+
+	<div class="container site-main-container">
+	<div class="row content-row">
+        <div id="primary" class="main-content col-md-9">
+            <div id="content" class="site-content" role="main">
+            {% block content %}{% endblock %}
+            </div><!-- #content -->
+        </div><!-- #main-content -->
+        <div id="secondary" class="col-md-3">
+            <div id="sns-links">
+                <ul>
+                    <li id="sl-facebook"><a href="https://www.facebook.com/wiseinitkorean" target="_black"><i class="fa fa-facebook"></i></a>
+                    <li id="sl-twitter"><a href="https://twitter.com/wiseinit" target="_black"><i class="fa fa-twitter"></i></a>
+                    <li id="sl-youtube"><a href="https://www.youtube.com/user/sainthkh" target="_black"><i class="fa fa-youtube"></i></a>
+                </ul>
+            </div>
+        </div><!-- #secondary -->
+	</div><!-- content-row -->
+   	</div><!-- container -->
+
+    <footer id="colophon" class="site-footer" role="contentinfo">
+        <div class="site-info">
+        </div><!-- .site-info -->
+    </footer><!-- #colophon -->
+</div><!-- #page -->
+</body>
+</html>

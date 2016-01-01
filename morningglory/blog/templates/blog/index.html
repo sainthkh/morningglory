@@ -1,0 +1,33 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+<article class="hentry">
+	<header class="entry-header">
+		{% for cat in post.categories %}
+		<div class="entry-meta">
+			<span class="cat-links"><a href="{{ cat.link }}">{{ cat.name }}</a></span>
+		</div>
+        {% endfor %}
+        <h1 class="entry-title"><a href="{{ post.link }}" rel="bookmark">{{ post.title }}</a></h1>
+		<div class="entry-meta">
+			<!-- #todo: edit link -->
+		</div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+    
+	<div class="entry-content">
+		<h1>아등바등</h1>
+        <p><img class="alignnone size-large wp-image-1283" src="http://wiseinit.com/wp-content/uploads/2015/12/277-3.png" alt="277-3" width="770" height="432" srcset="http://wiseinit.com/wp-content/uploads/2015/12/277-3-300x168.png 300w, http://wiseinit.com/wp-content/uploads/2015/12/277-3-768x431.png 768w, http://wiseinit.com/wp-content/uploads/2015/12/277-3-600x337.png 600w, http://wiseinit.com/wp-content/uploads/2015/12/277-3.png 873w" sizes="(max-width: 770px) 100vw, 770px" /></p>
+        <p>When you are struggling to do your utmost, it is called 아등바등. It is mimetic word.</p>
+        <p>It is used a lot when you are trying to get out of someone or something.</p>
+        <p>혼자서 아등바등 한다고 해도 바꿀 수 있는 것에는 한계가 있다.<br />
+        Even though you alone struggle to do something, you cannot change all by yourself. There is a limit.</p>
+        <p>1년 동안 아등바등 열심히 해 보았는데, 별로 한 건 없는 것 같다.<br />
+        For a year, I did my best, but it seems that I didn&#8217;t do anything much.</p>
+        <h1>More Words</h1>
+        <h1>1. <a href="http://wiseinit.com/2015/04/13/%ec%bd%a4%eb%b9%84combi-duo-pair-konglish-words-10/" target="_blank">콤비</a></h1>
+        <p><img class="alignnone size-large wp-image-1284" src="http://wiseinit.com/wp-content/uploads/2015/12/277-4.png" alt="277-4" width="770" height="432" srcset="http://wiseinit.com/wp-content/uploads/2015/12/277-4-300x168.png 300w, http://wiseinit.com/wp-content/uploads/2015/12/277-4-768x431.png 768w, http://wiseinit.com/wp-content/uploads/2015/12/277-4-600x337.png 600w, http://wiseinit.com/wp-content/uploads/2015/12/277-4.png 873w" sizes="(max-width: 770px) 100vw, 770px" /></p>
+        <p>콤비 means duo or pair. As many of you know, 유재석 and 권렬 are pair in Running Man.</p>
+	</div><!-- .entry-summary -->
+</article><!-- #post-## -->
+{% endblock %}
