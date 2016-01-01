@@ -20,8 +20,8 @@ def list_post(request):
 def list_post_paged(request):
     pass
 
-def single_post(request):
-    pass
+def single_post(request, year, month, date, slug):
+    return render(request, 'blog/single_post.html', {})
 
 def category(request):
     pass
