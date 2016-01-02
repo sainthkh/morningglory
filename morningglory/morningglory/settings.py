@@ -77,11 +77,13 @@ WSGI_APPLICATION = 'morningglory.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mongoengine_in_django',
-        'NAME': 'morningglory_db',
+        'ENGINE': 'django.db.backends.dummy',
     }
 }
 
+from mongoengine import connect 
+
+connect('morningglory_db')
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
