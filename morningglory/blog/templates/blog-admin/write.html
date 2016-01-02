@@ -1,10 +1,14 @@
 {% load staticfiles %}
 
-<form action="{% url 'blog:save-post' %}">
-    <div id="epiceditor"><textarea name="contents"></textarea></div>
+<form action="{% url 'blog:save-post' %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="slug" value="{{ post.slug }}" />
+    <div><input type="text" name="title" value="{{ post.title }}" /></div>
+    <div id="epiceditor"><textarea name="content">{{ post.content }}</textarea></div>
+    <input type=submit>
 </form>
 
 <script src="{% static 'epiceditor/js/epiceditor.min.js' %}"></script>
 <script type="text/javascript">
-var editor = new EpicEditor({basePath: '{% static "epiceditor" %}'}).load();
+//var editor = new EpicEditor({basePath: '{% static "epiceditor" %}'}).load();
 </script>

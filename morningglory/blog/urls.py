@@ -13,5 +13,5 @@ urlpatterns = [
     # Admin Pages.
     url(r'^admin/write-new-post', views.write_new_post, name='write-new-post'),
     url(r'^admin/save-post', views.save_post, name='save-post'),
-    url(r'^admin/edit-post/(?P<id>[0-9]+)', views.edit_post, name='edit-post'),
+    url(r'^admin/edit-post/(?P<slug>[-_\w]+)', views.edit_post, name='edit-post'),
 ]
