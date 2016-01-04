@@ -3,11 +3,12 @@
 {% load staticfiles %}
 
 {% block content %}
-<form action="{% url 'blog:save-post' %}" method="POST">
+<form id="write-form" action="{% url 'blog:save-post' %}" method="POST">
     {% csrf_token %}
     <input type="hidden" name="slug" value="{{ post.slug }}" />
     <div><input type="text" name="title" value="{{ post.title }}" /></div>
-    <div id="epiceditor"><textarea name="content">{{ post.content }}</textarea></div>
+    <input id="write-content" type="hidden" name="content" value="{{ post.content }}" />
+    <div id="epiceditor"></div>
     <input type=submit>
 </form>
 {% endblock %}
@@ -15,6 +16,12 @@
 {% block script_at_bottom %}
 <script src="{% static 'epiceditor/js/epiceditor.min.js' %}"></script>
 <script type="text/javascript">
-//var editor = new EpicEditor({basePath: '{% static "epiceditor" %}'}).load();
+$(document).ready(function(){
+    var editor = new EpicEditor({basePath: '{% static "epiceditor" %}'}).load();
+    editor.importFile('', $('#write-content').val() )
+    $('#write-form').submit(function(){
+        $('#write-content').val(editor.exportFile())
+    })
+})
 </script>
 {% endblock %}
