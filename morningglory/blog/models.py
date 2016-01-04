@@ -9,8 +9,9 @@ class Comment(EmbeddedDocument):
     website = StringField()
     content = StringField()
 
-class Post(Document):
+class Post(DynamicDocument):
     slug = StringField(unique=True)
-    title = StringField(required=True)
+    post_type = StringField()
+    title = StringField()
     content = StringField()
     comments = ListField(EmbeddedDocumentField('Comment'))

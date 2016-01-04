@@ -23,7 +23,9 @@ def list_post_paged(request):
     pass
 
 def single_post(request, year, month, date, slug):
-    return render(request, 'blog/single_post.html', {})
+    post_slug = slug
+    post = Post.objects(slug=post_slug)
+    return __view_single(request, post)
 
 def category(request):
     pass
@@ -72,6 +74,18 @@ def save_post(request):
     
     post.title = request.POST['title']
     post.content = request.POST['content']
+    post.post_type = 'post'
     post.save()
     
     return redirect('blog:edit-post', slug=post.slug)
+    
+def distribute_post(request, slug):
+    post_slug = slug
+    post = Post.objects(slug=post_slug)[0]
+    
+    if(post.post_type == "link"):
+        return redirect(post.redirect_link)
+    return __view_single(request, post)
+    
+def __view_single(request, post):
+    return render(request, 'blog/single_post.html', {'post': post })
