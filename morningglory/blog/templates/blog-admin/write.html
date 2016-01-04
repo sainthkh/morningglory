@@ -1,5 +1,8 @@
+{% extends 'blog-admin/base.html' %}
+
 {% load staticfiles %}
 
+{% block content %}
 <form action="{% url 'blog:save-post' %}" method="POST">
     {% csrf_token %}
     <input type="hidden" name="slug" value="{{ post.slug }}" />
@@ -7,8 +10,11 @@
     <div id="epiceditor"><textarea name="content">{{ post.content }}</textarea></div>
     <input type=submit>
 </form>
+{% endblock %}
 
+{% block script_at_bottom %}
 <script src="{% static 'epiceditor/js/epiceditor.min.js' %}"></script>
 <script type="text/javascript">
 //var editor = new EpicEditor({basePath: '{% static "epiceditor" %}'}).load();
 </script>
+{% endblock %}
