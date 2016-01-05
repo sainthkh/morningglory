@@ -17,6 +17,3 @@ class Post(DynamicDocument):
     title = StringField()
     content = StringField()
     comments = ListField(EmbeddedDocumentField('Comment'))
-    
-    def get_absolute_url():
-        return '' #dummy
