@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
-from django.utils.text import slugify
+#from django.utils.text import slugify
 from .models import *
+from datetime import datetime
+from urllib.parse import quote, unquote
+import re
 
 # Create your views here.
 
@@ -55,8 +58,11 @@ def edit_post(request, slug):
 def save_post(request):
     if (request.POST['slug'] != ""):
         post = Post.objects(slug=request.POST['slug'])[0] 
+        post.last_modified_date = datetime.now()
     else:
         post = Post()
+        post.published_date = datetime.now()
+        post.last_modified_date = post.published_date
         slug_base = slugify(request.POST['title'])
         print(Post.objects(slug=slug_base).count())
         exist = Post.objects(slug=slug_base).count() != 0
@@ -80,8 +86,12 @@ def save_post(request):
     return redirect('blog:edit-post', slug=post.slug)
     
 def distribute_post(request, slug):
+    print(slug)
+    if "%" not in slug:
+        slug = quote(slug)
+    print(slug) 
     post_slug = slug
-    post = Post.objects(slug=post_slug)[0]
+    post = Post.objects.get(slug=post_slug)
     
     if(post.post_type == "link"):
         return redirect(post.redirect_link)
@@ -89,3 +99,11 @@ def distribute_post(request, slug):
     
 def __view_single(request, post):
     return render(request, 'blog/single_post.html', {'post': post })
+
+def slugify(text):
+    text = re.sub("\s+", '-', text.lower()) # space to -
+    text = quote(text) # escape text
+    text = re.sub("\-\-+", '-', text) # multiple '-' with single '-'
+    text = re.sub("^-+", '', text) # Trim - in the front
+    text = re.sub("-+$", '', text) # Trim - in the back
+    return text

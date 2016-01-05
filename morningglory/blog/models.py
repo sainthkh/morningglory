@@ -12,6 +12,11 @@ class Comment(EmbeddedDocument):
 class Post(DynamicDocument):
     slug = StringField(unique=True)
     post_type = StringField()
+    published_date = DateTimeField()
+    last_modified_date = DateTimeField()
     title = StringField()
     content = StringField()
     comments = ListField(EmbeddedDocumentField('Comment'))
+    
+    def get_absolute_url():
+        return '' #dummy
