@@ -1,0 +1,17 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="series-toc-list">
+	{% for post in series.posts %}
+		<div class="series-toc-title"></div>
+		<div class="series-toc-img">
+		</div>
+		<div class="series-toc-preview">
+			<div class="series-toc-excerpt">
+			</div>
+			<div class="series-toc-key-points">
+			</div>
+		</div>
+	{% endfor %}
+</div>
+{% endblock %}
