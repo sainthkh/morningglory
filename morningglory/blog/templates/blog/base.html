@@ -30,22 +30,7 @@
 	</header>
 
 	<div class="container site-main-container">
-	<div class="row content-row">
-        <div id="primary" class="main-content col-md-9">
-            <div id="content" class="site-content" role="main">
-            {% block content %}{% endblock %}
-            </div><!-- #content -->
-        </div><!-- #main-content -->
-        <div id="secondary" class="col-md-3">
-            <div id="sns-links">
-                <ul>
-                    <li id="sl-facebook"><a href="https://www.facebook.com/wiseinitkorean" target="_black"><i class="fa fa-facebook"></i></a>
-                    <li id="sl-twitter"><a href="https://twitter.com/wiseinit" target="_black"><i class="fa fa-twitter"></i></a>
-                    <li id="sl-youtube"><a href="https://www.youtube.com/user/sainthkh" target="_black"><i class="fa fa-youtube"></i></a>
-                </ul>
-            </div>
-        </div><!-- #secondary -->
-	</div><!-- content-row -->
+        {% block content %}{% endblock %}
    	</div><!-- container -->
 
     <footer id="colophon" class="site-footer" role="contentinfo">
