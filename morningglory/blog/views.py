@@ -2,8 +2,7 @@ from django.shortcuts import render, redirect
 #from django.utils.text import slugify
 from .models import *
 from datetime import datetime
-from urllib.parse import quote, unquote
-import re
+from .utils import slugify
 
 # Create your views here.
 
@@ -109,10 +108,3 @@ def distribute_post(request, slug):
 def __view_single(request, post):
 	return render(request, 'blog/single_post.html', {'post': post })
 
-def slugify(text):
-	text = re.sub("\s+", '-', text.lower()) # space to -
-	text = quote(text) # escape text
-	text = re.sub("\-\-+", '-', text) # multiple '-' with single '-'
-	text = re.sub("^-+", '', text) # Trim - in the front
-	text = re.sub("-+$", '', text) # Trim - in the back
-	return text
