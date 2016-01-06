@@ -17,26 +17,13 @@
 	<link rel='stylesheet' id='wiseinit-style' href="{% static 'blog/style.css' %}" type="text/css" media='all' />
 </head>
 
-<body class="home blog logged-in admin-bar no-customize-support list-view grid">
-<div id="page" class="hfeed site">
-	<header id="masthead" class="site-header" role="banner">
-		<div class="header-main">
-			<h1 class="site-title"><a href="/" rel="home">WiseInit Korean</a></h1>
-			<nav id="primary-navigation" class="site-navigation primary-navigation" role="navigation">
-				<button class="menu-toggle">Primary Menu</button>
-				<a class="screen-reader-text skip-link" href="#content">Skip to content</a>
-			</nav>
-		</div>
+<body class="">
+	<header class="site-header">
 	</header>
-
 	<div class="container site-main-container">
 		{% block content %}{% endblock %}
-	</div><!-- container -->
-
-	<footer id="colophon" class="site-footer" role="contentinfo">
-		<div class="site-info">
-		</div><!-- .site-info -->
-	</footer><!-- #colophon -->
-</div><!-- #page -->
+	</div>
+	<footer>
+	</footer>
 </body>
 </html>
