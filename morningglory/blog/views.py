@@ -36,6 +36,15 @@ def category(request):
 def category_paged(request):
 	pass 
 
+def series(request, slug):
+	pass
+	
+def series_list(request, slug):
+	pass
+	
+def series_list_paged(request, slug):
+	pass
+
 def write_new_post(request):
 	empty = {
 		"slug": "",
