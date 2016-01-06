@@ -17,3 +17,13 @@ class Post(DynamicDocument):
     title = StringField()
     content = StringField()
     comments = ListField(EmbeddedDocumentField('Comment'))
+
+class Category(DynamicDocument):
+	slug = StringField(unique=True)
+	name = StringField()
+	series_list = ListField(ReferenceField('Series'))
+	
+class Series(DynamicDocument):
+	slug = StringField(unique=True)
+	name = StringField()
+	post_list = ListField(ReferenceField('Post'))
