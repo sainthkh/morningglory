@@ -1,5 +1,6 @@
 $facebook-color: #43609c;
 $twitter-color: #55acee;
+$pinterest-color: #b31920;
 $youtube-color: #e62117;
 
 #sns-links {
@@ -34,5 +35,53 @@ $youtube-color: #e62117;
 
 	#sl-youtube {
 		background: $youtube-color;
+	}
+}
+
+.share {
+	padding: 10px 0;
+	
+	h3 {
+		margin-top: 0;
+		font-weight: bold;
+	}
+	
+	a {
+		display: block;
+		color: white;
+		margin: 5px;
+		padding: 8px;
+		
+		.fa {
+			width: 25px;
+		}
+		
+		&:hover {
+			text-decoration: none;
+		}
+	}
+	
+	.twitter-share-btn {
+		background: $twitter-color;
+		
+		&:hover {
+			background: darken($twitter-color, 10%)
+		}
+	}
+	
+	.facebook-share-btn {
+		background: $facebook-color;
+		
+		&:hover {
+			background: darken($facebook-color, 10%)
+		}
+	}
+	
+	.pinterest-share-btn {
+		background: $pinterest-color;
+		
+		&:hover {
+			background: darken($pinterest-color, 10%)
+		}
 	}
 }

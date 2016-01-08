@@ -1,12 +1,15 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-<article class="post col-md-offset-2 col-md-8">
+<div class="post col-md-offset-2 col-md-8">
+<article>
 <div class="post-head">
+	{% if post.series != None %}
 	<div class="series">
 		<a class="category" href="">{{ post.category.name }}</a>
 		<a class="series" href="">{{ post.series.name }}</a>
 	</div>
+	{% endif %}
 	<div class="post-title">
 		<h1>{{ post.title }}</h1>
 	</div>
@@ -18,7 +21,21 @@
 	{{ post.content}}	
 </div>
 </article>
-<div class="share">
+<div class="post-info share">
+	<div class="row">
+		<div class="col-md-8">
+			<h3>Share What You Just Learned!</h3>
+			<blockquote>
+				<p>Those who teach what they are learning are, by far, the greatest students.</p>
+				<footer>Steven Covey in <cite title="Source Title">The 8th Habit</cite></footer>
+			</blockquote>
+		</div>
+		<div class="col-md-4">
+			<a class="twitter-share-btn" href="http://twitter.com/intent/tweet?status={{share.title}}+{{share.url}}"><i class="fa fa-twitter"></i>Twitter</a>
+			<a class="facebook-share-btn" href="http://www.facebook.com/share.php?u={{share.url}}&title={{share.title}}"><i class="fa fa-facebook"></i>Facebook</a>
+			<a class="pinterest-share-btn" href="http://pinterest.com/pin/create/bookmarklet/?url={{share.url}}&is_video=false&description={{share.title}}"><i class="fa fa-pinterest"></i>Pinterest</a>
+		</div>
+	</div>
 </div>
 <div class="lead-magnet-offer">
 </div>
@@ -27,5 +44,6 @@
 <div class="author">
 </div>
 <div class="learn-more">
+</div>
 </div>
 {% endblock %}
