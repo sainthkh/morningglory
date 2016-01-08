@@ -1,5 +1,32 @@
+html, 
+body {
+	height: 100%;
+}
+
 .site-main-container {
-	background: #f1f3f7;
+	background: #f5f6f7;
+	height: 100%;
+}
+
+.post-title {
+	border-bottom: 1px solid #78685c;
+	margin-bottom: 15px;
+	
+	h1 {
+		margin: 20px 8px;
+	}
+}
+
+.post-content {
+	margin-bottom: 25px;
+}
+
+.post-info {
+	border-top: 3px solid #430fbb;
+	background: #b3d5f7;
+	.row {
+		padding: 10px;	
+	}	
 }
 
 @import "sns.scss"
