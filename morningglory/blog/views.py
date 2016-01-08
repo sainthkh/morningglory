@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from .models import *
 from datetime import datetime
 from .utils import slugify
+from urllib.parse import quote
 
 # Create your views here.
 
@@ -94,10 +95,8 @@ def save_post(request):
 	return redirect('blog:edit-post', slug=post.slug)
 	
 def distribute_post(request, slug):
-	print(slug)
 	if "%" not in slug:
 		slug = quote(slug)
-	print(slug) 
 	post_slug = slug
 	post = Post.objects.get(slug=post_slug)
 	
