@@ -13,7 +13,8 @@ class Post(DynamicDocument):
 	slug = StringField(unique=True)
 	post_type = StringField()
 	published_date = DateTimeField()
-	last_modified_date = DateTimeField() 
+	last_modified_date = DateTimeField()
+	series = ReferenceField('Series')
 	title = StringField()
 	content = StringField()
 	comments = ListField(EmbeddedDocumentField('Comment'))
@@ -25,5 +26,6 @@ class Category(DynamicDocument):
 	
 class Series(DynamicDocument):
 	slug = StringField(unique=True)
+	category = ReferenceField('Catergory')
 	name = StringField()
 	post_list = ListField(ReferenceField('Post'))
