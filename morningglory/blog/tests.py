@@ -6,26 +6,34 @@ from django.utils.html import strip_tags
 from .utils import *
 
 class UtilTest(TestCase):
-	def test__sanitize_title__correct_string__korean(self):
-		r = sanitize_title('세계 vs. 세상')
-		self.assertEqual(r, '%EC%84%B8%EA%B3%84-vs-%EC%84%B8%EC%83%81')
-	
-	def test__sanitize_title__correct__korean_with_commas(self):
-		r = sanitize_title('결정, 방법')
-		self.assertEqual(r, '%EA%B2%B0%EC%A0%95-%EB%B0%A9%EB%B2%95')
+	def test__quote(self):
+		test_set = [
+			('세계', '%EC%84%B8%EA%B3%84'),
+		]
 		
-	def test__sanitize_title__correct__hash_in_title(self):
-		r = sanitize_title('Learn English #1')
-		self.assertEqual(r, 'learn-english-1')
+		self.run_tests(test_set, quote)
 		
-	def test__remove_accents__return_constructed_hangul__hangul_as_argument(self):
-		r = remove_accents('한글입니다')
-		self.assertEqual(r, '한글입니다')
+	def test__slugify__correct_slug__in_any_language(self):
+		test_set = [
+			('세계 vs. 세상', '%EC%84%B8%EA%B3%84-vs-%EC%84%B8%EC%83%81'),
+			('결정, 방법', '%EA%B2%B0%EC%A0%95-%EB%B0%A9%EB%B2%95'),
+			('Learn English #1', 'learn-english-1'),
+		]
 		
-	def test__remove_accents__return_constructed_hangul_with_english_alphabet__hangul_and_alphabet_as_argument(self):
-		r = remove_accents('세계 vs. 세상')
-		self.assertEqual(r, '세계 vs. 세상')
+		self.run_tests(test_set, slugify)
 		
-	def test__strip_tags__return_hangul__input_hangul(self):
-		r = strip_tags('세계 vs. 세상')
-		self.assertEqual(r, '세계 vs. 세상')
+	def test__remove_non_letters_and_normalize__only_letters_space_dash__in_any_language(self):
+		test_set = [
+			("세계 vs. 세상", '세계 vs 세상'),
+			('한글입니다', '한글입니다'),
+			('Learn English #1', 'Learn English 1'),
+			('こんにちは。', 'こんにちは'),
+		]
+		
+		self.run_tests(test_set, remove_non_letters_and_normalize)
+				
+	def run_tests(self, test_set, f):
+		for t in test_set:
+			with self.subTest(input=t[0]):
+				result = f(t[0])
+				self.assertEqual(result, t[1])
