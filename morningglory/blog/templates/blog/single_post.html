@@ -18,7 +18,9 @@
 	<img src="" />
 </div>
 <div class="post-content">
-	{{ post.content}}	
+	{% autoescape off %}
+	{{ post.content}}
+	{% endautoescape %}	
 </div>
 </article>
 <div class="post-info share">
