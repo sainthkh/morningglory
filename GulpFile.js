@@ -3,6 +3,7 @@ var gutil = require('gulp-util');
 var sass = require('gulp-sass');
 var coffee = require('gulp-coffee');
 var concat = require('gulp-concat');
+var cssnano = require('gulp-cssnano');
 
 gulp.task('styles', function() {
     return gulp.src('./morningglory/blog/sass/**/*.scss')
@@ -15,4 +16,10 @@ gulp.task('style-copy', ['styles'], function() {
         .pipe(gulp.dest('./morningglory/blog/static/blog/'));
 });
 
-gulp.task('all', ['style-copy']);
+gulp.task('minify-css', ['style-copy'], function() {
+    return gulp.src('./morningglory/blog/static/blog/*.css')
+        .pipe(cssnano())
+        .pipe(gulp.dest('./morningglory/blog/static/blog/'));
+});
+
+gulp.task('all', ['minify-css']);
