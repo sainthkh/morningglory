@@ -28,6 +28,9 @@
 		<div class="row write-form-box wfb-series-select">
 		</div>
 		<div class="row write-form-box wfb-splash">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#file-uploader">
+				Upload Files
+			</button>
 		</div>
 		<div class="row write-form-box wfb-files-preview">
 		</div>
@@ -46,4 +49,5 @@ $(document).ready(function(){
     })
 })
 </script>
+{% include 'blog-admin/file-uploader.html' %}
 {% endblock %}
