@@ -12,7 +12,7 @@ gulp.task('styles', function() {
 });
 
 gulp.task('style-copy', ['styles'], function() {
-    gulp.src('./morningglory/blog/css/*style.css')
+    return gulp.src('./morningglory/blog/css/*style.css')
         .pipe(gulp.dest('./morningglory/blog/static/blog/'));
 });
 
