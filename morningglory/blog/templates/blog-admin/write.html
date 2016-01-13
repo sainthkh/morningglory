@@ -4,12 +4,34 @@
 
 {% block content %}
 <form id="write-form" action="{% url 'blog:save-post' %}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="slug" value="{{ post.slug }}" />
-    <div><input type="text" name="title" value="{{ post.title }}" /></div>
-    <input id="write-content" type="hidden" name="content" value="{{ post.content }}" />
-    <div id="epiceditor"></div>
-    <input type=submit>
+	<div class="col-md-8">
+		{% csrf_token %}
+		<input type="hidden" name="slug" value="{{ post.slug }}" />
+		<div class="title-wrap">
+			<input type="text" class="form-control" name="title" value="{{ post.title }}" placeholder="Title" />
+		</div>
+		<input id="write-content" type="hidden" name="content" value="{{ post.content }}" />
+		<div id="epiceditor" style="height:500px"></div>
+		<div class="form-group">
+			<label for="post-excerpt">Excerpt</label>
+			<textarea class="form-control" id="post-excerpt" name="excerpt" placeholder="Excerpt"></textarea>
+		</div>
+		<div class="form-group">
+			<label for="post-key-points">Key Points</label>
+			<textarea class="form-control" id="post-key-points" name="key-points" placeholder="Key Points"></textarea>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="row write-form-box wfb-publish">
+			<button type="submit"" class="btn btn-default">Submit</button>
+		</div>
+		<div class="row write-form-box wfb-series-select">
+		</div>
+		<div class="row write-form-box wfb-splash">
+		</div>
+		<div class="row write-form-box wfb-files-preview">
+		</div>
+	</div>
 </form>
 {% endblock %}
 
