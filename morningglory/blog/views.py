@@ -89,6 +89,8 @@ def save_post(request):
 	post.title = request.POST['title']
 	post.content = request.POST['content']
 	post.post_type = 'post'
+	post.excerpt = request.POST['excerpt']
+	post.key_points = request.POST['key-points']
 	post.save()
 	
 	return redirect('blog:edit-post', slug=unquote(post.slug))
