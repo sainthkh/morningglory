@@ -1,9 +1,6 @@
 from django.test import TestCase
-from django.utils.html import strip_tags
 
-# Create your tests here.
-
-from .utils import *
+from blog.utils import *
 
 class UtilTest(TestCase):
 	def test__quote(self):
