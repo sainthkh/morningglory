@@ -17,6 +17,7 @@ class Post(DynamicDocument):
 	series = ReferenceField('Series')
 	title = StringField()
 	content = StringField()
+	compiled_content = StringField()
 	excerpt = StringField()
 	key_points = StringField()
 	splash_image_path = StringField()

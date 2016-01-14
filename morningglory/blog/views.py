@@ -4,6 +4,7 @@ from .models import *
 from datetime import datetime
 from .utils import slugify
 from urllib.parse import quote, unquote
+from .expanders import expand_content
 
 # Create your views here.
 
@@ -88,6 +89,7 @@ def save_post(request):
 	
 	post.title = request.POST['title']
 	post.content = request.POST['content']
+	post.compiled_content = expand_content(request.POST['content'])
 	post.post_type = 'post'
 	post.excerpt = request.POST['excerpt']
 	post.key_points = request.POST['key-points']
@@ -103,7 +105,10 @@ def distribute_post(request, slug):
 	return __view_single(request, post)
 	
 def __view_single(request, post):
-	return render(request, 'blog/single_post.html', {'post': post })
+	return render(request, 'blog/single_post.html', {
+			'post': post,
+			'final_content': post.compiled_content
+		})
 
 def normalize_slug(slug):
 	if "%" not in slug:
