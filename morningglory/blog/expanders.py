@@ -30,4 +30,8 @@ def template_to_html(file, context):
 def example_template(content):
 	return template_to_html('expander/example.html', {"content" : content})
 
+def eye_catch_template(content):
+	return template_to_html('expander/eye-catch.html', {"content": content})
+
 add_custom_tag("example", example_template)
+add_custom_tag("eye-catch", eye_catch_template)

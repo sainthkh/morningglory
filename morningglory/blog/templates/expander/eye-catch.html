@@ -1,0 +1,10 @@
+{% load blog_tags %}
+<blockquote class="eye-catch">
+	<div class="eye-catch-content">
+	<span>
+	{% autoescape off %}
+	{{ content|markdown }}
+	{% endautoescape %}
+	</span>
+	</div>
+</blockquote>
