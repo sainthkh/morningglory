@@ -5,6 +5,7 @@ from datetime import datetime
 from .utils import slugify
 from urllib.parse import quote, unquote
 from .expanders import expand_content
+from blog.urls.shortcuts import get_post_url_by_slug
 
 # Create your views here.
 
@@ -105,9 +106,13 @@ def distribute_post(request, slug):
 	return __view_single(request, post)
 	
 def __view_single(request, post):
+	share = {}
+	share['title'] = quote(post.title)
+	share['url'] = request.build_absolute_uri(quote(get_post_url_by_slug(post.slug)))
 	return render(request, 'blog/single_post.html', {
 			'post': post,
-			'final_content': post.compiled_content
+			'final_content': post.compiled_content,
+			'share': share,
 		})
 
 def normalize_slug(slug):
