@@ -22,4 +22,5 @@ gulp.task('minify-css', ['style-copy'], function() {
         .pipe(gulp.dest('./morningglory/blog/static/blog/'));
 });
 
-gulp.task('all', ['minify-css']);
+gulp.task('all', ['style-copy']);
+gulp.task('deploy' ['minify-css']);
