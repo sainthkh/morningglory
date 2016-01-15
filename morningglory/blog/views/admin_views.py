@@ -8,6 +8,10 @@ from blog.urls.shortcuts import get_post_url_by_slug
 from .utils import normalize_slug
 
 # Create your views here.
+def dashboard(request):
+	return render(request, 'blog-admin/dashboard.html', {
+	})
+
 def post_list(request):
 	pass
 
