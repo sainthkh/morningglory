@@ -1,6 +1,6 @@
 from django.contrib.sitemaps import Sitemap
 from blog.models import Post
-from django.core.urlresolvers import reverse
+from blog.urls.shortcuts import get_post_url_by_slug
 
 class BlogSitemap(Sitemap):
     changefreq = "never"
@@ -13,5 +13,5 @@ class BlogSitemap(Sitemap):
         return obj.last_modified_date
         
     def location(self, obj):
-        return reverse('blog:distribute-post', kwargs={"slug" : obj.slug})
+        return get_post_url_by_slug(obj.slug)
     
