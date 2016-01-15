@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 #from django.utils.text import slugify
-from .models import *
+from blog.models import *
 from datetime import datetime
-from .utils import slugify
+from blog.utils import slugify
 from urllib.parse import quote, unquote
-from .expanders import expand_content
+from blog.expanders import expand_content
 from blog.urls.shortcuts import get_post_url_by_slug
+from .utils import normalize_slug
 
 # Create your views here.
 
@@ -46,57 +47,6 @@ def series_list(request, slug):
 	
 def series_list_paged(request, slug):
 	pass
-
-def write_new_post(request):
-	empty = {
-		"slug": "",
-		"title": "",
-		"content": "",
-	}
-	return render(request, 'blog-admin/write.html', {
-		"post" : empty,
-	})
-
-def edit_post(request, slug):
-	posts = Post.objects(slug=normalize_slug(slug))
-	post = posts[0]
-
-	return render(request, 'blog-admin/write.html', {
-		"post": post
-	})
-
-def save_post(request):
-	if (request.POST['slug'] != ""):
-		post = Post.objects(slug=request.POST['slug'])[0] 
-		post.last_modified_date = datetime.now()
-	else:
-		post = Post()
-		post.published_date = datetime.now()
-		post.last_modified_date = post.published_date
-		slug_base = slugify(request.POST['title'])
-		print(Post.objects(slug=slug_base).count())
-		exist = Post.objects(slug=slug_base).count() != 0
-		if exist:
-			num = 1
-			while True:
-				final_slug = slug_base + '-' + str(num)
-				exist = Post.objects(slug=final_slug).count() != 0
-				if not exist:
-					break
-			post.slug = final_slug
-		else:
-			post.slug = slug_base        
-			  
-	
-	post.title = request.POST['title']
-	post.content = request.POST['content']
-	post.compiled_content = expand_content(request.POST['content'])
-	post.post_type = 'post'
-	post.excerpt = request.POST['excerpt']
-	post.key_points = request.POST['key-points']
-	post.save()
-	
-	return redirect('blog:edit-post', slug=unquote(post.slug))
 	
 def distribute_post(request, slug):
 	post = Post.objects.get(slug=normalize_slug(slug))
@@ -114,9 +64,3 @@ def __view_single(request, post):
 			'final_content': post.compiled_content,
 			'share': share,
 		})
-
-def normalize_slug(slug):
-	if "%" not in slug:
-		slug = quote(slug)
-	
-	return slug

@@ -1,7 +1,8 @@
 from django.conf.urls import url
 from django.contrib.sitemaps.views import sitemap
 from blog.sitemaps import BlogSitemap
-from blog import views
+import blog.views as views
+from blog.views import admin_views
 
 sitemaps = {
     "blog": BlogSitemap
@@ -23,9 +24,13 @@ urlpatterns = [
     url(r'^sitemap.xml$', sitemap, { "sitemaps": sitemaps }, name='django.contrib.sitemaps.views.sitemap'),
     
     # Admin Pages.
-    url(r'^admin/write-new-post', views.write_new_post, name='write-new-post'),
-    url(r'^admin/save-post', views.save_post, name='save-post'),
-    url(r'^admin/edit-post/(?P<slug>[%-_\w]+)', views.edit_post, name='edit-post'),
+	url(r'^admin/posts', admin_views.post_list, name='admin-posts'),
+    url(r'^admin/write-new-post', admin_views.write_new_post, name='write-new-post'),
+	url(r'^admin/series', admin_views.series_list, name='admin-series'),
+	url(r'^admin/categories', admin_views.category_list, name='admin-categories'),
+    url(r'^admin/save-post', admin_views.save_post, name='save-post'),
+    url(r'^admin/edit-post/(?P<slug>[%-_\w]+)', admin_views.edit_post, name='edit-post'),
     
+	# post distributor.
     url(r'^(?P<slug>[%-_\w]+)', views.distribute_post, name='distribute-post'),
 ]
