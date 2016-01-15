@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.contrib.sitemaps.views import sitemap
-from .sitemaps import *
-from . import views
+from blog.sitemaps import BlogSitemap
+from blog import views
 
 sitemaps = {
     "blog": BlogSitemap
