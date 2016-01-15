@@ -29,6 +29,7 @@ def write_new_post(request):
 	}
 	return render(request, 'blog-admin/write.html', {
 		"post" : empty,
+		"page_title" : "Add New Post"
 	})
 
 def edit_post(request, slug):
@@ -36,7 +37,8 @@ def edit_post(request, slug):
 	post = posts[0]
 
 	return render(request, 'blog-admin/write.html', {
-		"post": post
+		"post": post,
+		"page_title": "Edit Post : " + post.title
 	})
 
 def save_post(request):

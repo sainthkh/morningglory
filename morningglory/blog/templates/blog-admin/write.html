@@ -2,6 +2,8 @@
 
 {% load staticfiles %}
 
+{% block page_title %}{{ page_title }}{% endblock %}
+
 {% block content %}
 <form id="write-form" action="{% url 'blog:save-post' %}" method="POST">
 	<div class="col-md-8">
