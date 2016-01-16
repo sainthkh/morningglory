@@ -26,6 +26,27 @@
 		{% block content %}{% endblock %}
 	</div>
 	<footer>
+		<div class="sns-list">
+			<ul>
+				<li id="sl-facebook"><a href="https://www.facebook.com/wiseinitkorean" target="_black"><i class="fa fa-facebook"></i></a>
+				<li id="sl-twitter"><a href="https://twitter.com/wiseinit" target="_black"><i class="fa fa-twitter"></i></a>
+				<li id="sl-youtube"><a href="https://www.youtube.com/user/sainthkh" target="_black"><i class="fa fa-youtube"></i></a>
+				<li id="sl-podcast"><a href="http://wiseinit.podbean.com/" target="_black"><i class="fa fa-microphone"></i></a>
+				<li id="sl-RSS"><a href="{% url 'blog:post-rss' %}" target="_black"><i class="fa fa-rss"></i></a>
+			</ul>
+		</div>
+		<div class="footer-offers">
+		</div>
+		<nav class="bottom-nav">
+			<ul>
+				<li><a href="{% url 'blog:distribute-post' 'about' %}">About</a></li>
+				<li><a href="{% url 'blog:distribute-post' 'privacy-policy' %}">Privacy Policy</a></li>
+				<li><a href="{% url 'blog:distribute-post' 'faq' %}">FAQ</a></li>
+				<li><a href="{% url 'blog:distribute-post' 'user-agreement' %}">User Agreement</a></li>
+				<li><a href="{% url 'blog:distribute-post' 'terms-of-service' %}">Terms of Service</a></li>
+				<li><a href="{% url 'blog:distribute-post' 'contact' %}">Contact</a></li>
+			</ul>
+		</nav>
 	</footer>
 </body>
 </html>
