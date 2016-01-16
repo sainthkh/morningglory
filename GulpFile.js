@@ -23,4 +23,4 @@ gulp.task('minify-css', ['style-copy'], function() {
 });
 
 gulp.task('all', ['style-copy']);
-gulp.task('deploy' ['minify-css']);
+gulp.task('deploy', ['minify-css']);
