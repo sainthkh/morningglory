@@ -1,3 +1,5 @@
+$background-color: #ccdbf5;
+
 html, 
 body {
 	height: 100%;
@@ -95,10 +97,9 @@ $youtube-color: #e62117;
 }
 
 .sns-list {
-	margin-bottom: 20px;
 	background-color: #d8dce1;
-	border-top: 1px solid darken(#ccdbf5, 10%);
-	border-bottom: 1px solid darken(#ccdbf5, 10%);
+	border-top: 1px solid darken($background-color, 10%);
+	border-bottom: 1px solid darken($background-color, 10%);
 	
 	$sns-list-text-color: rgb(0, 30, 74); 
 	
@@ -126,6 +127,29 @@ $youtube-color: #e62117;
 		border-radius: 10px;
 		margin-right: 5px;
 	}
+}
+
+.bottom-nav {
+	background-color: #000b1a;
+	padding: 20px 0;
+	
+	ul {
+		margin: 0 auto;
+		width: 660px;
+	}
+	
+	li {
+		list-style: none;
+		display: inline-block;
+		padding: 0 15px;
+		
+		a {
+			color: $background-color;
+			
+		}
+	}
+	
+	
 }
 
 @import "expanders.scss";
