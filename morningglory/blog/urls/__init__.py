@@ -3,6 +3,7 @@ from django.contrib.sitemaps.views import sitemap
 from blog.sitemaps import BlogSitemap
 import blog.views as views
 from blog.views import admin_views
+from blog.feeds import LatestPostsFeed
 
 sitemaps = {
     "blog": BlogSitemap
@@ -19,6 +20,8 @@ urlpatterns = [
 	url(r'^series/(?P<slug>[%-_\w]+)$', views.series, name='series'),
 	url(r'^series/(?P<slug>[%-_\w]+)/list$', views.series_list, name='series-list'),
     url(r'^series/(?P<slug>[%-_\w]+)/list/page/(?P<page>[0-9]+)$', views.series_list_paged, name='series-list-paged'),
+	url(r'^rss$', LatestPostsFeed(), name='post-rss'),
+	url(r'^feed$', LatestPostsFeed(), name='post-feed'),
 	
     #sitemap
     url(r'^sitemap.xml$', sitemap, { "sitemaps": sitemaps }, name='django.contrib.sitemaps.views.sitemap'),
