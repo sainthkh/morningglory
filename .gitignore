@@ -60,3 +60,6 @@ target/
 # Morning Glory
 css/
 *style.css
+js/
+front.js
+admin.js

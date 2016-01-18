@@ -16,11 +16,27 @@ gulp.task('style-copy', ['styles'], function() {
         .pipe(gulp.dest('./morningglory/blog/static/blog/'));
 });
 
+gulp.task('coffee', function() {
+	return gulp.src('./morningglory/blog/coffee/**/*.coffee')
+		.pipe(coffee({bare: true}).on('error', gutil.log))
+		.pipe(gulp.dest('./morningglory/blog/js/'))
+});
+
+var script_dir = './morningglory/blog/static/blog';
+gulp.task('scripts', ['coffee'], function() {
+	gulp.src('./morningglory/blog/js/front/*.js')
+		.pipe(concat('front.js'))
+		.pipe(gulp.dest(script_dir));
+	gulp.src('./morningglory/blog/js/admin/*.js')
+		.pipe(concat('admin.js'))
+		.pipe(gulp.dest(script_dir));
+});
+
 gulp.task('minify-css', ['style-copy'], function() {
     return gulp.src('./morningglory/blog/static/blog/*.css')
         .pipe(cssnano())
         .pipe(gulp.dest('./morningglory/blog/static/blog/'));
 });
 
-gulp.task('all', ['style-copy']);
+gulp.task('all', ['style-copy', 'scripts']);
 gulp.task('deploy', ['minify-css']);
