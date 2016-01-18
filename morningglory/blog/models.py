@@ -3,7 +3,7 @@ from mongoengine import *
 
 # Create your models here.
 
-class Comment(EmbeddedDocument):
+class Comment(DynamicDocument):
 	name = StringField(required=True)
 	email = StringField()
 	website = StringField()
@@ -21,7 +21,7 @@ class Post(DynamicDocument):
 	excerpt = StringField()
 	key_points = StringField()
 	splash_image_path = StringField()
-	comments = ListField(EmbeddedDocumentField('Comment'))
+	comments = ListField(ReferenceField('Comment'))
 
 class Category(DynamicDocument):
 	slug = StringField(unique=True)
