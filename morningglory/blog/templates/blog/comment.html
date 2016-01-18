@@ -1,0 +1,18 @@
+<div class="comment-wrap">
+	<div class="comment-head">
+		{% if comment.website != '' %}
+			<a href="{{ comment.website }}" class="comment-name">{{ comment.name }}</a>
+		{% else %}
+			<span class="comment-name">{{ comment.name }}</span>
+		{% endif%}
+		<span class="comment-date">{{ comment.time|date:"M, d, Y" }}</span>
+	</div>
+	<div class="comment-content">
+		{{ comment.content }}
+	</div>
+	{% if pending %}
+	<div class="pending-msg">
+		The comment is waiting for the approval. 
+	</div>
+	{% endif %}
+</div>

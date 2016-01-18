@@ -3,11 +3,12 @@ from django.http import JsonResponse
 #from django.utils.text import slugify
 from blog.models import *
 from datetime import datetime
-from blog.utils import slugify
+from blog.utils import slugify, template_to_html
 from urllib.parse import quote, unquote
 from blog.expanders import expand_content
 from blog.urls.shortcuts import get_post_url_by_slug
 from .utils import normalize_slug
+import re
 
 # Create your views here.
 
@@ -79,6 +80,24 @@ def save_comment_ajax(request, slug):
 		response_data['msg'] = 'Name should not be empty.'
 	else:
 		response_data['success'] = True
-		response_data['html'] = 'test success'
+		comment = __save_comment(request, slug)
+		response_data['html'] = template_to_html('blog/comment.html', {
+				"comment": comment,
+				"pending": True,
+			})
 
 	return JsonResponse(response_data)
+
+def __save_comment(request, slug):
+	comment = Comment()
+	comment.name = request.POST['name']
+	comment.email = request.POST['email']
+	comment.website = request.POST['website'].strip()
+	if comment.website != '' and re.match('https?://.+', comment.website) == None:
+		comment.website = 'http://' + comment.website
+	comment.content = request.POST['comment']
+	comment.time = datetime.now()
+	comment.status = 'pending'
+	comment.post_slug = slug
+	comment.save()
+	return comment
