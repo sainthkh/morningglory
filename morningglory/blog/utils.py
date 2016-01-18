@@ -2,6 +2,7 @@ import re
 import unicodedata
 from urllib.parse import quote, unquote
 from django.utils.html import strip_tags
+from django.template.loader import get_template 
 
 def slugify(text):
 	text = remove_non_letters_and_normalize(text)
@@ -31,3 +32,7 @@ def remove_non_letters_and_normalize(string):
 			result_string.append(c)
 	
 	return ''.join(result_string)
+
+def template_to_html(file, context):
+	t = get_template(file)
+	return t.render(context)

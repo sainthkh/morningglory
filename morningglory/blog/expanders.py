@@ -1,6 +1,6 @@
 import re
-from django.template.loader import get_template 
 from django.template.context import Context
+from blog.utils import template_to_html
 
 expanders = {}
 
@@ -22,10 +22,6 @@ def add_custom_tag(tag_name, tag_func):
 
 def remove_custom_tag(tag_name):
 	expanders.pop(tag_name)
-
-def template_to_html(file, context):
-	t = get_template(file)
-	return t.render(context)
 
 def example_template(content):
 	return template_to_html('expander/example.html', {"content" : content})

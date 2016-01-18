@@ -34,3 +34,13 @@ class UtilTest(TestCase):
 			with self.subTest(input=t[0]):
 				result = f(t[0])
 				self.assertEqual(result, t[1])
+	
+	#
+	# -- template_to_html tests --
+	#
+	######################################################
+	
+	def test__template_to_html__correct_file__correct_text(self):
+		r = template_to_html('unittest/simple.html', {"content": "Hello" })
+		
+		self.assertEqual(r, "<div>Hello</div>")

@@ -103,12 +103,3 @@ class ExpanderTest(TestCase):
 			"**Hi**More text here<<no_name>>Good Bye!<</no_name>>"
 		)
 	
-	#
-	# -- template_to_html tests --
-	#
-	######################################################
-	
-	def test__template_to_html__correct_file__correct_text(self):
-		r = template_to_html('unittest/simple.html', {"content": "Hello" })
-		
-		self.assertEqual(r, "<div>Hello</div>")
