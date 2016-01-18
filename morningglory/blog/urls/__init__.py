@@ -37,5 +37,6 @@ urlpatterns = [
 	
 	# post distributor.
 	url(r'^(?P<slug>[%-_\w]+)/comment$', views.save_comment, name='save-comment'),
+	url(r'^(?P<slug>[%-_\w]+)/comment/ajax$', views.save_comment_ajax, name='save-comment'),
 	url(r'^(?P<slug>[%-_\w]+)', views.distribute_post, name='distribute-post'),
 ]

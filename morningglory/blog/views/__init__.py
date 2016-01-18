@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 #from django.utils.text import slugify
 from blog.models import *
 from datetime import datetime
@@ -66,3 +67,18 @@ def __view_single(request, post):
 			'share': share,
 			'comment_action': comment_action,
 		})
+
+def save_comment(request, slug):
+	return redirect('blog:distribute-post', slug=unquote(slug))
+
+def save_comment_ajax(request, slug):
+	response_data = {}
+
+	if not (request.POST['name']).strip():
+		response_data['success'] = False
+		response_data['msg'] = 'Name should not be empty.'
+	else:
+		response_data['success'] = True
+		response_data['html'] = 'test success'
+
+	return JsonResponse(response_data)
