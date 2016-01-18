@@ -7,6 +7,9 @@ class Comment(DynamicDocument):
 	name = StringField(required=True)
 	email = StringField()
 	website = StringField()
+	post_slug = StringField()
+	time = DateTimeField()
+	status = StringField()
 	content = StringField()
 
 class Post(DynamicDocument):
