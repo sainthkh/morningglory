@@ -36,5 +36,6 @@ urlpatterns = [
     url(r'^admin/edit-post/(?P<slug>[%-_\w]+)', admin_views.edit_post, name='edit-post'),
     
 	# post distributor.
+    url(r'^(?P<slug>[%-_\w]+)/comment$', views.save_comment, name='save-comment'),
     url(r'^(?P<slug>[%-_\w]+)', views.distribute_post, name='distribute-post'),
 ]
