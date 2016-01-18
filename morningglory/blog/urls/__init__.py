@@ -32,6 +32,8 @@ urlpatterns = [
 	url(r'^admin/write-new-post', admin_views.write_new_post, name='write-new-post'),
 	url(r'^admin/series', admin_views.series_list, name='admin-series'),
 	url(r'^admin/categories', admin_views.category_list, name='admin-categories'),
+	url(r'^admin/comments$', admin_views.comments, name='admin-comments'),
+	url(r'^admin/comments/spam$', admin_views.spam_comments, name='admin-spam-comments'),
 	url(r'^admin/save-post', admin_views.save_post, name='save-post'),
 	url(r'^admin/edit-post/(?P<slug>[%-_\w]+)', admin_views.edit_post, name='edit-post'),
 	

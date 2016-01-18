@@ -32,6 +32,18 @@ def write_new_post(request):
 		"page_title" : "Add New Post"
 	})
 
+def comments(request):
+	comments = Comment.objects
+	return render(request, 'blog-admin/comments.html', {
+		"page_title": "Comments",
+		"comments" : comments
+	})
+
+def spam_comments(request):
+	return render(request, 'blog-admin/comments.html', {
+		"page_title": "Spam Comments",
+	})
+
 def edit_post(request, slug):
 	posts = Post.objects(slug=normalize_slug(slug))
 	post = posts[0]
