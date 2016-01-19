@@ -51,6 +51,7 @@ $youtube-color: #e62117;
 
 .share {
 	padding: 10px 0;
+	margin: 10px 0;
 	
 	h3 {
 		margin-top: 0;
@@ -153,14 +154,58 @@ $youtube-color: #e62117;
 	
 }
 
-.comment-form-wrap {
-	padding: 15px 0;
+@mixin wrap-base() {
+	padding-top: 15px;
 	border-top: 1px solid $border-color;
-	margin-top: 10px;
+	margin: 15px 0;
+}
+
+.comments-wrap {
+	@include wrap-base();
+	
+	.comment-count {
+		h3 {
+			margin-top: 0;
+		}
+	}
+	
+	.comment {
+		border-bottom: 1px dotted lightgray;
+		margin-bottom: 8px; 
+		padding: 0 15px;
+		
+		.comment-head {
+			padding-top: 10px;
+			
+			.comment-name {
+				font-size: 18px;
+				font-weight: bold;
+				color: black;
+			}
+			
+			.comment-date {
+				color: gray;
+				margin-left: 8px;
+			}
+		}
+		
+		.comment-content {
+			padding: 10px;
+		}
+		
+		&:last-child {
+			border: none;
+		}
+	}
+}
+
+.comment-form-wrap {
+	@include wrap-base();
 	
 	.comment-cta {
 		h3 {
 			margin-top: 0;
+			margin-bottom: 20px;
 		}	
 	}
 	

@@ -46,14 +46,23 @@
 </div>
 <div class="author">
 </div>
-<div class="comments">
+<div class="comments-wrap">
+	{% with comment_count=post.comments|length %}
+	<div class="comment-count">
+		<h3><span class="comment-number">{{ comment_count }}</span> Comments</h3>
+	</div>
+	{% if comment_count != 0 %}
+	<div class="comments">
 	{% for c in post.comments %}
 		{% include 'blog/comment.html' with comment=c %}
 	{% endfor %}
+	</div>
+	{% endif %}
+	{% endwith %}
 </div>
 <div class="comment-form-wrap">
 <div class="comment-cta">
-	<h3>Leave a Comment</h3>
+	<h3>Speak Your Mind</h3>
 </div>
 <form class="comment-form" action="{{ comment_action }}" method="post">
 	{% csrf_token %}
