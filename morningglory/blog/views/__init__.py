@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-#from django.utils.text import slugify
 from blog.models import *
 from datetime import datetime
 from blog.utils import slugify, template_to_html
