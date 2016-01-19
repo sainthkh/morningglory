@@ -1,4 +1,5 @@
 $background-color: #ccdbf5;
+$border-color: darken($background-color, 10%);
 
 html, 
 body {
@@ -98,8 +99,8 @@ $youtube-color: #e62117;
 
 .sns-list {
 	background-color: #d8dce1;
-	border-top: 1px solid darken($background-color, 10%);
-	border-bottom: 1px solid darken($background-color, 10%);
+	border-top: 1px solid $border-color;
+	border-bottom: 1px solid $border-color;
 	
 	$sns-list-text-color: rgb(0, 30, 74); 
 	
@@ -150,6 +151,24 @@ $youtube-color: #e62117;
 	}
 	
 	
+}
+
+.comment-form-wrap {
+	padding: 15px 0;
+	border-top: 1px solid $border-color;
+	margin-top: 10px;
+	
+	.comment-cta {
+		h3 {
+			margin-top: 0;
+		}	
+	}
+	
+	.form-group {
+		input {
+			width: 40%;
+		}
+	}
 }
 
 @import "expanders.scss";

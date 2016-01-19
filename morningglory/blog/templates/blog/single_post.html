@@ -51,6 +51,10 @@
 		{% include 'blog/comment.html' with comment=c %}
 	{% endfor %}
 </div>
+<div class="comment-form-wrap">
+<div class="comment-cta">
+	<h3>Leave a Comment</h3>
+</div>
 <form class="comment-form" action="{{ comment_action }}" method="post">
 	{% csrf_token %}
 	<p id="comment-error" class="hidden bg-danger">{{ error_message }}</p>
@@ -68,6 +72,7 @@
 	</div>
 	<button type="submit" class="btn btn-primary">Post Comment</button>
 </form>
+</div>
 <div class="learn-more">
 </div>
 </div>
