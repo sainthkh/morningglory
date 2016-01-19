@@ -44,6 +44,12 @@ def spam_comments(request):
 	return render(request, 'blog-admin/comments.html', {
 		"page_title": "Spam Comments",
 	})
+
+def activities(request):
+	activities = Activity.objects
+	return render(request, 'blog-admin/activities.html', {
+		"activities": activities,
+	})
 	
 def settings(request):
 	if len(Secret.objects(name='akismet')) > 0:
@@ -120,7 +126,8 @@ def save_comment_ajax(request, slug):
 		response_data['msg'] = 'Name should not be empty.'
 	else:
 		response_data['success'] = True
-		comment = __save_comment(request, slug)
+		comment = __setup_comment(request)
+		__save_comment(comment, slug)
 		response_data['html'] = template_to_html('blog/comment.html', {
 				"comment": comment,
 				"pending": True,
@@ -128,7 +135,7 @@ def save_comment_ajax(request, slug):
 
 	return JsonResponse(response_data)
 
-def __save_comment(request, slug):
+def __setup_comment(request):
 	comment = Comment()
 	comment.name = request.POST['name']
 	comment.email = request.POST['email']
@@ -137,10 +144,40 @@ def __save_comment(request, slug):
 		comment.website = 'http://' + comment.website
 	comment.content = request.POST['comment']
 	comment.time = datetime.now()
-	comment.status = 'pending'
-	comment.post_slug = slug
-	comment.save()
 	return comment
+
+def __save_comment(comment, slug):
+	#spam = is_spam(comment.name, comment.content)
+	spam = True
+	if not spam:
+		activity = CommentActivity()
+	else:
+		activity = SpamCommentActivity()
+	
+	activity.comment = comment
+	activity.date = comment.time
+	
+	post = Post.objects(slug=slug)[0]
+	activity.slug = slug
+	activity.title = post.title
+	
+	activity.save()
+	
+	if not spam:
+		post.comments.append(comment)
+		post.save()
+
+def approve_comment(request, pos):
+	activity = Activity.objects[int(pos)]
+	
+	post = Post.objects(slug=activity.slug)[0]
+	post.comments.append(activity.comment)
+	post.save()
+	
+	activity.status = 'approved'
+	activity.save()
+	
+	return redirect('blog:admin-activities')		
 
 def is_spam(content, author):
 	from pykismet3 import Akismet
@@ -156,6 +193,5 @@ def is_spam(content, author):
 			'referrer': os.environ.get('HTTP_REFERER', 'unknown'),
 			'comment_content': content,
 			'comment_author': author,
-			'is_test': 1,
 		})
 	

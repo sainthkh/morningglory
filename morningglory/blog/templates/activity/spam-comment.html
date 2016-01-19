@@ -1,0 +1,11 @@
+{% with comment=activity.comment post_title=activity.title %}
+<span class="user-name">{{ comment.name }}</span> left spam comment on <a href="{% url 'blog:distribute-post' activity.slug %}">{{ post_title }}</a>
+<div>
+	Comment: {{ comment.content }}
+</div>
+<div class="activity-actions">
+	{% if activity.status != 'approved' %}
+	<a href="{% url 'blog:admin-approve-comment' index %}">Approve</a>
+	{% endif %}	
+</div>  
+{% endwith %}

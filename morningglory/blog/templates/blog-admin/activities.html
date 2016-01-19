@@ -1,0 +1,27 @@
+{% extends 'blog-admin/base.html' %}
+
+{% load staticfiles %}
+
+{% block page_title %}Activities{% endblock %}
+
+{% block content %}
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Date</th>
+			<th>Message</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for a in activities %}
+			<tr>
+				<td class="col-md-2">{{ a.date }}</td>
+				<td class="col-md-10">{% include a.template with activity=a index=forloop.counter0 %}</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}
+
+{% block script_at_bottom %}
+{% endblock %}

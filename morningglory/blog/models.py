@@ -7,9 +7,7 @@ class Comment(DynamicDocument):
 	name = StringField(required=True)
 	email = StringField()
 	website = StringField()
-	post_slug = StringField()
 	time = DateTimeField()
-	status = StringField()
 	content = StringField()
 
 class Post(DynamicDocument):
@@ -24,7 +22,7 @@ class Post(DynamicDocument):
 	excerpt = StringField()
 	key_points = StringField()
 	splash_image_path = StringField()
-	comments = ListField(ReferenceField('Comment'))
+	comments = ListField(EmbeddedDocumentField('Comment'))
 
 class Category(DynamicDocument):
 	slug = StringField(unique=True)
@@ -40,3 +38,22 @@ class Series(DynamicDocument):
 class Secret(Document):
 	name = StringField(required=True, unique=True)
 	key = StringField()
+
+class Activity(DynamicDocument):
+	date = DateTimeField()
+	template = ''
+	
+	meta = {
+		"allow_inheritance": True,
+	}
+
+class CommentActivity(Activity):
+	comment = EmbeddedDocumentField('Comment')
+	slug = StringField()
+	title = StringField()
+	template = 'activity/comment.html'
+	
+
+class SpamCommentActivity(CommentActivity):
+	template = 'activity/spam-comment.html'
+	status = StringField(default='spam')

@@ -1,0 +1,3 @@
+{% with comment=activity.comment post_title=activity.title %}
+<span class="user-name">{{ comment.name }}</span> left comment on <a href="{% url 'blog:distribute-post' activity.slug %}">{{ post_title }}</a>
+{% endwith %}
