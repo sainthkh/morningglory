@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from blog.models import *
 from datetime import datetime
-from blog.utils import slugify
+from blog.utils import slugify, template_to_html
 from urllib.parse import quote, unquote
 from blog.expanders import expand_content
 from blog.urls.shortcuts import get_post_url_by_slug
@@ -107,6 +108,40 @@ def save_post(request):
 	post.save()
 	
 	return redirect('blog:edit-post', slug=unquote(post.slug))
+
+def save_comment(request, slug):
+	return redirect('blog:distribute-post', slug=unquote(slug))
+
+def save_comment_ajax(request, slug):
+	response_data = {}
+
+	if not (request.POST['name']).strip():
+		response_data['success'] = False
+		response_data['msg'] = 'Name should not be empty.'
+	else:
+		response_data['success'] = True
+		comment = __save_comment(request, slug)
+		response_data['html'] = template_to_html('blog/comment.html', {
+				"comment": comment,
+				"pending": True,
+			})
+
+	return JsonResponse(response_data)
+
+def __save_comment(request, slug):
+	comment = Comment()
+	comment.name = request.POST['name']
+	comment.email = request.POST['email']
+	comment.website = request.POST['website'].strip()
+	if comment.website != '' and re.match('https?://.+', comment.website) == None:
+		comment.website = 'http://' + comment.website
+	comment.content = request.POST['comment']
+	comment.time = datetime.now()
+	comment.status = 'pending'
+	comment.post_slug = slug
+	comment.save()
+	return comment
+
 def is_spam(content, author):
 	from pykismet3 import Akismet
 	import os

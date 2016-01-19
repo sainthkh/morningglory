@@ -38,9 +38,9 @@ urlpatterns = [
 	url(r'^admin/edit-post/(?P<slug>[%-_\w]+)', admin_views.edit_post, name='edit-post'),
 	url(r'^admin/settings', admin_views.settings, name='admin-settings'),
 	url(r'^admin/save-settings', admin_views.save_settings, name='admin-save-settings'),
+	url(r'^(?P<slug>[%-_\w]+)/comment$', admin_views.save_comment, name='save-comment'),
+	url(r'^(?P<slug>[%-_\w]+)/comment/ajax$', admin_views.save_comment_ajax, name='save-comment'),
 	
 	# post distributor.
-	url(r'^(?P<slug>[%-_\w]+)/comment$', views.save_comment, name='save-comment'),
-	url(r'^(?P<slug>[%-_\w]+)/comment/ajax$', views.save_comment_ajax, name='save-comment'),
 	url(r'^(?P<slug>[%-_\w]+)', views.distribute_post, name='distribute-post'),
 ]
