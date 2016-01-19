@@ -47,7 +47,7 @@
 <div class="author">
 </div>
 <div class="comments">
-	{% for c in comments %}
+	{% for c in post.comments %}
 		{% include 'blog/comment.html' with comment=c %}
 	{% endfor %}
 </div>
