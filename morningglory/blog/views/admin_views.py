@@ -107,3 +107,20 @@ def save_post(request):
 	post.save()
 	
 	return redirect('blog:edit-post', slug=unquote(post.slug))
+def is_spam(content, author):
+	from pykismet3 import Akismet
+	import os
+	
+	a = Akismet(blog_url="http://wiseinit.com",
+				user_agent="WiseInit System/0.0.1")
+
+	a.api_key=""
+	
+	return a.check({'user_ip': os.environ['REMOTE_ADDR'],
+			'user_agent': os.environ['HTTP_USER_AGENT'],
+			'referrer': os.environ.get('HTTP_REFERER', 'unknown'),
+			'comment_content': content,
+			'comment_author': author,
+			'is_test': 1,
+		})
+	
