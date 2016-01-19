@@ -36,3 +36,7 @@ class Series(DynamicDocument):
 	category = ReferenceField('Catergory')
 	name = StringField()
 	post_list = ListField(ReferenceField('Post'))
+
+class Secret(Document):
+	name = StringField(required=True, unique=True)
+	key = StringField()

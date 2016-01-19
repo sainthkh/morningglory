@@ -36,6 +36,8 @@ urlpatterns = [
 	url(r'^admin/comments/spam$', admin_views.spam_comments, name='admin-spam-comments'),
 	url(r'^admin/save-post', admin_views.save_post, name='save-post'),
 	url(r'^admin/edit-post/(?P<slug>[%-_\w]+)', admin_views.edit_post, name='edit-post'),
+	url(r'^admin/settings', admin_views.settings, name='admin-settings'),
+	url(r'^admin/save-settings', admin_views.save_settings, name='admin-save-settings'),
 	
 	# post distributor.
 	url(r'^(?P<slug>[%-_\w]+)/comment$', views.save_comment, name='save-comment'),

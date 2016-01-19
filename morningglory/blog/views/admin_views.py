@@ -43,6 +43,28 @@ def spam_comments(request):
 	return render(request, 'blog-admin/comments.html', {
 		"page_title": "Spam Comments",
 	})
+	
+def settings(request):
+	if len(Secret.objects(name='akismet')) > 0:
+		akismet_key = (Secret.objects(name='akismet')[0]).key
+	else:
+		akismet_key = ''
+		
+	return render(request, 'blog-admin/settings.html', {
+		"akismet_key": akismet_key,
+	})
+	
+def save_settings(request):
+	if len(Secret.objects(name='akismet')) > 0:
+		secret = Secret.objects(name='akismet')[0]
+	else:
+		secret = Secret()
+		secret.name = 'akismet'
+	
+	secret.key = request.POST['akismet-key']
+	secret.save()
+	
+	return redirect('blog:admin-settings')
 
 def edit_post(request, slug):
 	posts = Post.objects(slug=normalize_slug(slug))
