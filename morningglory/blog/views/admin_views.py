@@ -33,18 +33,6 @@ def write_new_post(request):
 		"page_title" : "Add New Post"
 	})
 
-def comments(request):
-	comments = Comment.objects
-	return render(request, 'blog-admin/comments.html', {
-		"page_title": "Comments",
-		"comments" : comments
-	})
-
-def spam_comments(request):
-	return render(request, 'blog-admin/comments.html', {
-		"page_title": "Spam Comments",
-	})
-
 def activities(request):
 	activities = Activity.objects
 	return render(request, 'blog-admin/activities.html', {
@@ -116,6 +104,9 @@ def save_post(request):
 	return redirect('blog:edit-post', slug=unquote(post.slug))
 
 def save_comment(request, slug):
+	comment = __setup_comment(request)
+	__save_comment(comment, slug)
+	
 	return redirect('blog:distribute-post', slug=unquote(slug))
 
 def save_comment_ajax(request, slug):
@@ -130,7 +121,6 @@ def save_comment_ajax(request, slug):
 		__save_comment(comment, slug)
 		response_data['html'] = template_to_html('blog/comment.html', {
 				"comment": comment,
-				"pending": True,
 			})
 
 	return JsonResponse(response_data)
@@ -147,8 +137,7 @@ def __setup_comment(request):
 	return comment
 
 def __save_comment(comment, slug):
-	#spam = is_spam(comment.name, comment.content)
-	spam = True
+	spam = is_spam(comment.name, comment.content)
 	if not spam:
 		activity = CommentActivity()
 	else:
