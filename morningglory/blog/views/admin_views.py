@@ -33,6 +33,16 @@ def write_new_post(request):
 		"page_title" : "Add New Post"
 	})
 
+def write_new_series(request):
+	pass
+
+def edit_series(requst, slug):
+	pass
+	
+def save_series(requset):
+	pass
+
+
 def activities(request):
 	activities = Activity.objects
 	return render(request, 'blog-admin/activities.html', {
