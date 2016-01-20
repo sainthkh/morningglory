@@ -4,8 +4,8 @@ from datetime import datetime
 from blog.utils import slugify, template_to_html
 from urllib.parse import quote, unquote
 from blog.expanders import expand_content
-from blog.urls.shortcuts import get_post_url_by_slug
-from .utils import normalize_slug
+
+from .utils import *
 import re
 
 # Create your views here.
@@ -29,8 +29,7 @@ def list_post_paged(request):
 	pass
 
 def single_post(request, year, month, date, slug):
-	post_slug = slug
-	post = Post.objects(slug=post_slug)
+	post = get_writing(Post, slug)
 	return __view_single(request, post)
 
 def category(request):
@@ -40,8 +39,9 @@ def category_paged(request):
 	pass 
 
 def series(request, slug):
+	series = get_writing(Series, slug)
 	return render(request, "blog/series.html", {
-		
+		"series" : series,
 	})
 	
 def series_list(request, slug):
@@ -53,7 +53,7 @@ def series_list_paged(request, slug):
 	pass
 	
 def distribute_post(request, slug):
-	post = Post.objects.get(slug=normalize_slug(slug))
+	post = get_writing(Post, slug)
 	
 	if(post.post_type == "link"):
 		return redirect(post.redirect_link)
