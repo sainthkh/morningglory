@@ -2,21 +2,23 @@
 {% load blog_tags %}
 
 {% block content %}
-<div class="series">
+<div class="series col-md-offset-2 col-md-8">
+<article>
 	<div class="series-head">
-		<div class="series-title"></div>
+		<div class="series-title">{{ series.title }}</div>
 		<div class="series-subtitle"></div>
 	</div>
 	<div class="series-img">
 	</div>
-	<div class="series-excerpt">
+	<div class="series-introduction">
+		{{ series.content }}
 	</div>
 	<div class="series-key-points">
+		{{ series.key_points }}
 	</div>
 	<div class="series-toc">
 	</div>
-	<div class="share">
-	</div>
+</article>
 {% share series %}
 </div>
 {% endblock %}
