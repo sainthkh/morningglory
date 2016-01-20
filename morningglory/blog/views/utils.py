@@ -1,8 +1,10 @@
+from django.conf import settings
+from django.http import Http404
+
 from urllib.parse import quote, unquote
 from blog.models import *
 from blog.utils import slugify
 from datetime import datetime
-from django.conf import settings
 
 def normalize_slug(slug):
 	if "%" not in slug:
@@ -31,7 +33,10 @@ def setup_writing_for_save(writing_type, request):
 
 def get_writing(writing_type, slug):
 	if slug != "":
-		writing = writing_type.objects(slug=slug)[0]
+		try:
+			writing = writing_type.objects(slug=normalize_slug(slug))[0]
+		except IndexError:
+			raise Http404
 	else:
 		writing = writing_type()
 	return writing

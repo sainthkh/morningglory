@@ -31,8 +31,7 @@ def write_new_post(request):
 	})
 
 def edit_post(request, slug):
-	posts = Post.objects(slug=normalize_slug(slug))
-	post = posts[0]
+	post = get_writing(Post, slug)
 
 	return render(request, 'blog-admin/write-post.html', {
 		"writing": post,
@@ -61,7 +60,7 @@ def write_new_series(request):
 	})
 
 def edit_series(request, slug):
-	series = Series.objects(slug=normalize_slug(slug))[0]
+	series = get_writing(Series, slug)
 	return render(request, 'blog-admin/write-series.html', {
 		"writing": series, 
 		"page_title": "Edit Series: " + series.title,
