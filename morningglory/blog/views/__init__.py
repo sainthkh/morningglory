@@ -60,7 +60,7 @@ def __view_single(request, post):
 	share['title'] = quote(post.title)
 	share['url'] = request.build_absolute_uri(quote(get_post_url_by_slug(post.slug)))
 	comment_action = request.path + '/comment'
-	return render(request, 'blog/single_post.html', {
+	return render(request, 'blog/single-post.html', {
 			'post': post,
 			'final_content': post.compiled_content,
 			'share': share,
