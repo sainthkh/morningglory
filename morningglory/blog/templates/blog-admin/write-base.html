@@ -5,22 +5,22 @@
 {% block page_title %}{{ page_title }}{% endblock %}
 
 {% block content %}
-<form id="write-form" action="{% url 'blog:save-post' %}" method="POST">
+<form id="write-form" action="{% block write_action %}{% endblock %}" method="POST">
 	<div class="col-md-8">
 		{% csrf_token %}
-		<input type="hidden" name="slug" value="{{ post.slug }}" />
+		<input type="hidden" name="slug" value="{{ writing.slug }}" />
 		<div class="title-wrap">
-			<input type="text" class="form-control" name="title" value="{{ post.title }}" placeholder="Title" />
+			<input type="text" class="form-control" name="title" value="{{ writing.title }}" placeholder="Title" />
 		</div>
-		<input id="write-content" type="hidden" name="content" value="{{ post.content }}" />
+		<input id="write-content" type="hidden" name="content" value="{{ writing.content }}" />
 		<div id="epiceditor" style="height:500px"></div>
 		<div class="form-group">
 			<label for="post-excerpt">Excerpt</label>
-			<textarea class="form-control" id="post-excerpt" name="excerpt" placeholder="Excerpt"></textarea>
+			<textarea class="form-control" id="post-excerpt" name="excerpt" placeholder="Excerpt">{{ writing.excerpt }}</textarea>
 		</div>
 		<div class="form-group">
 			<label for="post-key-points">Key Points</label>
-			<textarea class="form-control" id="post-key-points" name="key-points" placeholder="Key Points"></textarea>
+			<textarea class="form-control" id="post-key-points" name="key-points" placeholder="Key Points">{{ writing.key_points }}</textarea>
 		</div>
 	</div>
 	<div class="col-md-4">
