@@ -24,3 +24,7 @@ def share_div(context, writing):
 	return {
 		"share": share
 	}
+
+@register.simple_tag(takes_context=True)
+def comment_action(context):
+	return context['request'].path + '/comment'

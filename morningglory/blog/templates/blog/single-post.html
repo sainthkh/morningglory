@@ -49,7 +49,7 @@
 <div class="comment-cta">
 	<h3>Speak Your Mind</h3>
 </div>
-<form class="comment-form" action="{{ comment_action }}" method="post">
+<form class="comment-form" action="{% comment_action %}" method="post">
 	{% csrf_token %}
 	<p id="comment-error" class="hidden bg-danger">{{ error_message }}</p>
 	<div class="form-group">
