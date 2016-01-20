@@ -32,7 +32,10 @@ class Category(DynamicDocument):
 class Series(DynamicDocument):
 	slug = StringField(unique=True)
 	category = ReferenceField('Catergory')
-	name = StringField()
+	title = StringField()
+	introduction = StringField()
+	key_points = StringField()
+	excerpt = StringField()
 	post_list = ListField(ReferenceField('Post'))
 
 class Secret(Document):

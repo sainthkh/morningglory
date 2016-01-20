@@ -1,0 +1,22 @@
+{% extends 'blog-admin/write-base.html' %}
+
+{% block write_action %}{% url 'blog:save-series' %}{% endblock %}
+
+{% block write_sidebar %}
+<div class="panel panel-default wfb-category-select">
+	<div class="panel-heading">Category</div>
+	<div class="panel-body">
+	</div>
+</div>
+<div class="panel panel-default wfb-splash">
+	<div class="panel-heading">Thumbnail Image</div>
+	<div class="panel-body">
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#file-uploader">Upload Files</button>
+	</div>
+</div>
+<div class="panel panel-default wfb-files-preview">
+	<div class="panel-heading">Preview Files</div>
+	<div class="panel-body">
+	</div>
+</div>
+{% endblock %}

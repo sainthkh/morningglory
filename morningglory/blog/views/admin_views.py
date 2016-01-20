@@ -37,39 +37,14 @@ def edit_post(request, slug):
 	post = posts[0]
 
 	return render(request, 'blog-admin/write-post.html', {
-		"post": post,
+		"writing": post,
 		"page_title": "Edit Post : " + post.title
 	})
 
 def save_post(request):
-	if (request.POST['slug'] != ""):
-		post = Post.objects(slug=request.POST['slug'])[0] 
-		post.last_modified_date = datetime.now()
-	else:
-		post = Post()
-		post.published_date = datetime.now()
-		post.last_modified_date = post.published_date
-		slug_base = slugify(request.POST['title'])
-		print(Post.objects(slug=slug_base).count())
-		exist = Post.objects(slug=slug_base).count() != 0
-		if exist:
-			num = 1
-			while True:
-				final_slug = slug_base + '-' + str(num)
-				exist = Post.objects(slug=final_slug).count() != 0
-				if not exist:
-					break
-			post.slug = final_slug
-		else:
-			post.slug = slug_base        
-			  
-	
-	post.title = request.POST['title']
-	post.content = request.POST['content']
-	post.compiled_content = expand_content(request.POST['content'])
+	post = setup_writing_for_save(Post, request)
+	post.compiled_content = expand_content(post.content)
 	post.post_type = 'post'
-	post.excerpt = request.POST['excerpt']
-	post.key_points = request.POST['key-points']
 	post.save()
 	
 	return redirect('blog:edit-post', slug=unquote(post.slug))
@@ -83,13 +58,22 @@ def series_list(request):
 	pass
 
 def write_new_series(request):
-	pass
+	return render(request, 'blog-admin/write-series.html', {
+		"page_title": "Add New Series",
+	})
 
-def edit_series(requst, slug):
-	pass
+def edit_series(request, slug):
+	series = Series.objects(slug=normalize_slug(slug))[0]
+	return render(request, 'blog-admin/write-series.html', {
+		"writing": series, 
+		"page_title": "Edit Series: " + series.title,
+	})
 	
-def save_series(requset):
-	pass
+def save_series(request):
+	series = setup_writing_for_save(Series, request)
+	series.save()
+
+	return redirect('blog:edit-series', slug=unquote(series.slug))
 
 #
 # Category Views
@@ -99,6 +83,59 @@ def save_series(requset):
 def category_list(request):
 	pass
 
+#
+# Writing Helpers
+# 
+# These are common helper functions for writing types like Post, Series, Views 
+#
+##############################################################
+
+def setup_writing_for_save(writing_type, request):
+	writing = get_writing(writing_type, request.POST["slug"])
+	is_edit = request.POST['slug'] != ""
+	setup_dates(writing, is_edit)
+	
+	if not is_edit:
+		writing.slug = create_slug(writing_type, request.POST["title"]) 
+	
+	setup_basic_content(writing, request.POST)
+	
+	return writing
+
+def get_writing(writing_type, slug):
+	if slug != "":
+		writing = writing_type.objects(slug=slug)[0]
+	else:
+		writing = writing_type()
+	return writing
+
+def setup_dates(writing, is_edit):
+	if is_edit:
+		writing.last_modified_date = datetime.now()
+	else:
+		writing.published_date = writing.last_modified_date = datetime.now()
+
+def create_slug(writing_type, title):
+	slug_base = slugify(title)
+	final_slug = slug_base
+	exist = writing_type.objects(slug=slug_base).count() != 0
+
+	if exist:
+		num = 1
+		while True:
+			slug_candidate = slug_base + '-' + str(num)
+			exist = writing_type.objects(slug=slug_candidate).count() != 0
+			if not exist:
+				break
+		final_slug = slug_candidate
+	
+	return final_slug	
+
+def setup_basic_content(writing, POST):
+	writing.title = POST['title']
+	writing.content = POST['content']
+	writing.excerpt = POST['excerpt']
+	writing.key_points = POST['key-points']
 
 #
 # Activity Views
