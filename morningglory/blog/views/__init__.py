@@ -40,10 +40,14 @@ def category_paged(request):
 	pass 
 
 def series(request, slug):
-	pass
+	return render(request, "blog/series.html", {
+		
+	})
 	
 def series_list(request, slug):
-	pass
+	return render(request, "blog/series-list.html", {
+		
+	})
 	
 def series_list_paged(request, slug):
 	pass
