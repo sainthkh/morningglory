@@ -13,13 +13,12 @@ def dashboard(request):
 	return render(request, 'blog-admin/dashboard.html', {
 	})
 
+#
+# Post Views
+#
+###########################################################
+
 def post_list(request):
-	pass
-
-def series_list(request):
-	pass
-
-def category_list(request):
 	pass
 
 def write_new_post(request):
@@ -32,44 +31,6 @@ def write_new_post(request):
 		"post" : empty,
 		"page_title" : "Add New Post"
 	})
-
-def write_new_series(request):
-	pass
-
-def edit_series(requst, slug):
-	pass
-	
-def save_series(requset):
-	pass
-
-
-def activities(request):
-	activities = Activity.objects
-	return render(request, 'blog-admin/activities.html', {
-		"activities": activities,
-	})
-	
-def settings(request):
-	if len(Secret.objects(name='akismet')) > 0:
-		akismet_key = (Secret.objects(name='akismet')[0]).key
-	else:
-		akismet_key = ''
-		
-	return render(request, 'blog-admin/settings.html', {
-		"akismet_key": akismet_key,
-	})
-	
-def save_settings(request):
-	if len(Secret.objects(name='akismet')) > 0:
-		secret = Secret.objects(name='akismet')[0]
-	else:
-		secret = Secret()
-		secret.name = 'akismet'
-	
-	secret.key = request.POST['akismet-key']
-	secret.save()
-	
-	return redirect('blog:admin-settings')
 
 def edit_post(request, slug):
 	posts = Post.objects(slug=normalize_slug(slug))
@@ -112,6 +73,87 @@ def save_post(request):
 	post.save()
 	
 	return redirect('blog:edit-post', slug=unquote(post.slug))
+
+#
+# Series Views
+#
+################################################################
+
+def series_list(request):
+	pass
+
+def write_new_series(request):
+	pass
+
+def edit_series(requst, slug):
+	pass
+	
+def save_series(requset):
+	pass
+
+#
+# Category Views
+#
+##############################################################
+
+def category_list(request):
+	pass
+
+
+#
+# Activity Views
+#
+##############################################################
+
+def activities(request):
+	activities = Activity.objects
+	return render(request, 'blog-admin/activities.html', {
+		"activities": activities,
+	})
+
+def approve_comment(request, pos):
+	activity = Activity.objects[int(pos)]
+	
+	post = Post.objects(slug=activity.slug)[0]
+	post.comments.append(activity.comment)
+	post.save()
+	
+	activity.status = 'approved'
+	activity.save()
+	
+	return redirect('blog:admin-activities')	
+
+#
+# Setting Views
+#
+###############################################################
+	
+def settings(request):
+	if len(Secret.objects(name='akismet')) > 0:
+		akismet_key = (Secret.objects(name='akismet')[0]).key
+	else:
+		akismet_key = ''
+		
+	return render(request, 'blog-admin/settings.html', {
+		"akismet_key": akismet_key,
+	})
+	
+def save_settings(request):
+	if len(Secret.objects(name='akismet')) > 0:
+		secret = Secret.objects(name='akismet')[0]
+	else:
+		secret = Secret()
+		secret.name = 'akismet'
+	
+	secret.key = request.POST['akismet-key']
+	secret.save()
+	
+	return redirect('blog:admin-settings')
+
+#
+# Save Comments
+#
+#################################################################
 
 def save_comment(request, slug):
 	comment = __setup_comment(request)
@@ -164,19 +206,7 @@ def __save_comment(comment, slug):
 	
 	if not spam:
 		post.comments.append(comment)
-		post.save()
-
-def approve_comment(request, pos):
-	activity = Activity.objects[int(pos)]
-	
-	post = Post.objects(slug=activity.slug)[0]
-	post.comments.append(activity.comment)
-	post.save()
-	
-	activity.status = 'approved'
-	activity.save()
-	
-	return redirect('blog:admin-activities')		
+		post.save()	
 
 def is_spam(content, author):
 	from pykismet3 import Akismet
