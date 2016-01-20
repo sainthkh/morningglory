@@ -21,9 +21,8 @@ urlpatterns = [
 	url(r'^(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<date>[0-9]+)/(?P<slug>[-_\w]+)/$', views.single_post, name='single-post'),
 	url(r'^categories/(?P<slug>[%-_\w]+)/$', views.category, name='category'),
 	url(r'^categories/(?P<slug>[%-_\w]+)/page/(?P<page>[0-9]+)$', views.category_paged, name='category-paged'),
+	url(r'^series/(?P<slug>[%-_\w]+)/list(/page/(?P<page>[0-9]+))?$', views.series_list, name='series-list'),
 	url(r'^series/(?P<slug>[%-_\w]+)$', views.series, name='series'),
-	url(r'^series/(?P<slug>[%-_\w]+)/list$', views.series_list, name='series-list'),
-	url(r'^series/(?P<slug>[%-_\w]+)/list/page/(?P<page>[0-9]+)$', views.series_list_paged, name='series-list-paged'),
 	url(r'^rss$', LatestPostsFeed(), name='post-rss'),
 	url(r'^feed$', LatestPostsFeed(), name='post-feed'),
 	

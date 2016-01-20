@@ -44,13 +44,14 @@ def series(request, slug):
 		"series" : series,
 	})
 	
-def series_list(request, slug):
+def series_list(request, slug, page=None):
+	if not page:
+		page = 1
+	page = int(page)
+	posts = Post.objects(series_slug=slug)[(page-1)*5:page*5]
 	return render(request, "blog/series-list.html", {
-		
+		"posts": posts,
 	})
-	
-def series_list_paged(request, slug):
-	pass
 	
 def distribute_post(request, slug):
 	post = get_writing(Post, slug)

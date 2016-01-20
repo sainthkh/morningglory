@@ -2,14 +2,16 @@
 
 {% block content %}
 <div class="series-toc-list">
-	{% for post in series.posts %}
-		<div class="series-toc-title"></div>
+	{% for post in posts %}
+		<div class="series-toc-title">{{ post.title }}</div>
 		<div class="series-toc-img">
 		</div>
 		<div class="series-toc-preview">
 			<div class="series-toc-excerpt">
+				{{ post.excerpt }}
 			</div>
 			<div class="series-toc-key-points">
+				{{ post.key_points }}
 			</div>
 		</div>
 	{% endfor %}
