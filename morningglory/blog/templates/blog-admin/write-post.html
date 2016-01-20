@@ -1,4 +1,5 @@
 {% extends 'blog-admin/write-base.html' %}
+{% load admin_tags %}
 
 {% block write_action %}{% url 'blog:save-post' %}{% endblock %}
 
@@ -6,8 +7,7 @@
 <div class="panel panel-default wfb-series-select">
 	<div class="panel-heading">Series</div>
 	<div class="panel-body">
-		<select name="series">
-		</select>
+		{% select_series writing %}
 	</div>
 </div>
 <div class="panel panel-default wfb-splash">

@@ -20,13 +20,7 @@ def post_list(request):
 	pass
 
 def write_new_post(request):
-	empty = {
-		"slug": "",
-		"title": "",
-		"content": "",
-	}
 	return render(request, 'blog-admin/write-post.html', {
-		"post" : empty,
 		"page_title" : "Add New Post"
 	})
 
@@ -42,6 +36,7 @@ def save_post(request):
 	post = setup_writing_for_save(Post, request)
 	post.compiled_content = expand_content(post.content)
 	post.post_type = 'post'
+	post.series_slug = request.POST['series']
 	post.save()
 	
 	return redirect('blog:edit-post', slug=unquote(post.slug))
