@@ -62,5 +62,4 @@ def distribute_post(request, slug):
 def __view_single(request, post):
 	return render(request, 'blog/single-post.html', {
 			'post': post,
-			'final_content': post.compiled_content,
 		})

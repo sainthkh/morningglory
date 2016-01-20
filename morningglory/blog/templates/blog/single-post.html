@@ -20,7 +20,7 @@
 </div>
 <div class="post-content">
 	{% autoescape off %}
-	{{ final_content|markdown}}
+	{{ post.compiled_content|markdown}}
 	{% endautoescape %}	
 </div>
 </article>
