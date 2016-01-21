@@ -15,7 +15,7 @@ class Post(DynamicDocument):
 	post_type = StringField()
 	published_date = DateTimeField()
 	last_modified_date = DateTimeField()
-	series = ReferenceField('Series')
+	series_slug = StringField()
 	title = StringField()
 	content = StringField()
 	compiled_content = StringField()
@@ -26,17 +26,16 @@ class Post(DynamicDocument):
 
 class Category(DynamicDocument):
 	slug = StringField(unique=True)
-	name = StringField()
-	series_list = ListField(ReferenceField('Series'))
+	title = StringField()
+	content = StringField()
 	
 class Series(DynamicDocument):
 	slug = StringField(unique=True)
-	category = ReferenceField('Catergory')
+	category_slug = StringField()
 	title = StringField()
 	content = StringField()
 	key_points = StringField()
 	excerpt = StringField()
-	post_list = ListField(ReferenceField('Post'))
 
 class Secret(Document):
 	name = StringField(required=True, unique=True)
