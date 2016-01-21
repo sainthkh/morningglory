@@ -211,4 +211,35 @@ $youtube-color: #e62117;
 	}
 }
 
+.series-post {
+	padding: 20px;
+	border: 1px solid #78685c;
+	border-radius: 3px;
+	margin: 15px 0;
+	background-color: lighten(#430fbb, 57%);
+	
+	h2, h3, h4 {
+		margin-top: 0;
+	}
+	
+	a {
+		color: #000b1a;
+	}
+	
+	.row {
+		margin: 0;
+	}
+	
+	.series-toc-title {
+		margin-bottom: 15px;
+		border-bottom: 1px dotted lighten(#430fbb, 40%);
+	}
+	
+	.series-toc-key-points {
+		background-color: #fff3c5;
+		padding: 15px;
+		border-radius: 5px;
+	}
+}
+
 @import "expanders.scss";

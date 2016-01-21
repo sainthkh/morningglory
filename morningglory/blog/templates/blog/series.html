@@ -5,13 +5,17 @@
 <div class="series col-md-offset-2 col-md-8">
 <article>
 	<div class="series-head">
-		<div class="series-title">{{ series.title }}</div>
+		<div class="writing-title">
+			<h1>{{ series.title }}</h1>
+		</div>
 		<div class="series-subtitle"></div>
 	</div>
 	<div class="series-img">
 	</div>
-	<div class="series-introduction">
+	<div class="writing-content">
+		{% autoescape off %}
 		{{ series.content }}
+		{% endautoescape %}
 	</div>
 	<div class="series-key-points">
 		{{ series.key_points }}

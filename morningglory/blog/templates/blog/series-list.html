@@ -2,20 +2,33 @@
 {% load blog_tags %}
 
 {% block content %}
-<div class="series-toc-list">
+<div class="series-toc-list col-md-offset-2 col-md-8">
+<div class="series-posts">
 	{% for post in posts %}
-		<div class="series-toc-title">{{ post.title }}</div>
+	<div class="series-post">
+		<div class="series-toc-title">
+			<h2><a href="{% url 'blog:distribute-post' post.slug %}">{{ post.title }}</a></h2>
+		</div>
 		<div class="series-toc-img">
 		</div>
 		<div class="series-toc-preview">
-			<div class="series-toc-excerpt">
-				{{ post.excerpt }}
-			</div>
-			<div class="series-toc-key-points">
-				{{ post.key_points }}
+			<div class="row">
+				<div class="series-toc-excerpt col-md-8">
+					{{ post.excerpt }}
+				</div>
+				<div class="series-toc-key-points col-md-4">
+					<div class="key-points-title">
+						<h4>Key Points</h4>
+					</div>
+					<div class="key-points-content">
+						{{ post.key_points }}
+					</div>
+				</div>
 			</div>
 		</div>
+	</div>
 	{% endfor %}
 </div>
 {% pagination slug page %}
+</div>
 {% endblock %}
