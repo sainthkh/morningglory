@@ -11,7 +11,7 @@ body {
 	min-height: 100%;
 }
 
-.post-title {
+.writing-title {
 	border-bottom: 1px solid #78685c;
 	margin-bottom: 15px;
 	
@@ -20,19 +20,8 @@ body {
 	}
 }
 
-.post-content {
+.writing-content {
 	margin-bottom: 25px;
-}
-
-.post-info {
-	border-top: 3px solid #430fbb;
-	background: #b3d5f7;
-	.row {
-		padding: 10px;	
-	}	
-}
-
-.post-content {
 	h1, .h1,
 	h2, .h2, 
 	h3, .h3, 
@@ -50,8 +39,14 @@ $pinterest-color: #b31920;
 $youtube-color: #e62117;
 
 .share {
+	border-top: 3px solid #430fbb;
+	background: #b3d5f7;	
 	padding: 10px 0;
 	margin: 10px 0;
+	
+	.row {
+		padding: 10px;	
+	}	
 	
 	h3 {
 		margin-top: 0;
