@@ -51,6 +51,8 @@ def series_list(request, slug, page=None):
 	posts = Post.objects(series_slug=slug)[(page-1)*5:page*5]
 	return render(request, "blog/series-list.html", {
 		"posts": posts,
+		"slug" : slug,
+		"page" : page,
 	})
 	
 def distribute_post(request, slug):

@@ -1,4 +1,5 @@
 {% extends 'blog/base.html' %}
+{% load blog_tags %}
 
 {% block content %}
 <div class="series-toc-list">
@@ -16,4 +17,5 @@
 		</div>
 	{% endfor %}
 </div>
+{% pagination slug page %}
 {% endblock %}

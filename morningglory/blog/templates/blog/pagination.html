@@ -1,0 +1,21 @@
+<nav>
+	<ul class="pagination">
+	{% if previous_page %}
+		<li>
+			<a href="#" aria-label="Previous">
+				<span aria-hidden="true">&laquo;</span>
+			</a>
+		</li>
+	{% endif %}
+	{% for i in range %}
+		<li><a href="{% url 'blog:series-list' slug=slug page=i %}">{{ i }}</a></li>
+	{% endfor %}
+	{% if next_page %}
+		<li>
+			<a href="#" aria-label="Next">
+				<span aria-hidden="true">&raquo;</span>
+			</a>
+		</li>
+	{% endif %}
+	</ul>
+</nav>
