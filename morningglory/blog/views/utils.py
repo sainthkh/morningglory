@@ -66,6 +66,8 @@ def create_slug(writing_type, title):
 def setup_basic_content(writing, POST):
 	writing.title = POST['title']
 	writing.content = POST['content']
+
+def setup_extra_fields(writing, POST):
 	writing.excerpt = POST['excerpt']
 	writing.key_points = POST['key-points']
 

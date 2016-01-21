@@ -48,6 +48,9 @@ urlpatterns = [
 	url(r'^admin/save-series', admin_views.save_series, name='save-series'),
 	
 	url(r'^admin/categories', admin_views.category_list, name='admin-categories'),
+	url(r'^admin/write-new-category', admin_views.write_new_category, name='write-new-category'),
+	url(r'^admin/edit-category/(?P<slug>[%-_\w]+)', admin_views.edit_category, name='edit-category'),
+	url(r'^admin/save-category', admin_views.save_category, name='save-category'),
 	
 	url(r'^admin/activities$', admin_views.activities, name='admin-activities'),
 	url(r'^admin/comments/approve/(?P<pos>[0-9]+)$', admin_views.approve_comment, name='admin-approve-comment'),

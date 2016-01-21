@@ -1,0 +1,12 @@
+{% extends 'blog-admin/write-base.html' %}
+{% load admin_tags %}
+
+{% block write_action %}{% url 'blog:save-category' %}{% endblock %}
+
+{% block write_sidebar %}
+<div class="panel panel-default wfb-files-preview">
+	<div class="panel-heading">Preview Files</div>
+	<div class="panel-body">
+	</div>
+</div>
+{% endblock %}

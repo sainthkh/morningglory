@@ -34,6 +34,7 @@ def edit_post(request, slug):
 
 def save_post(request):
 	post = setup_writing_for_save(Post, request)
+	setup_extra_fields(post, request)
 	post.compiled_content = expand_content(post.content)
 	post.post_type = 'post'
 	post.series_slug = request.POST['series']
@@ -63,6 +64,7 @@ def edit_series(request, slug):
 	
 def save_series(request):
 	series = setup_writing_for_save(Series, request)
+	setup_extra_fields(series, request)
 	series.save()
 
 	return redirect('blog:edit-series', slug=unquote(series.slug))
@@ -74,6 +76,26 @@ def save_series(request):
 
 def category_list(request):
 	pass
+
+def write_new_category(request):
+	return render(request, 'blog-admin/write-category.html', {
+		"page_title": "Add New Category",
+		"hide_extra": True, 
+	})
+
+def edit_category(request, slug):
+	category = get_writing(Category, slug)
+	return render(request, 'blog-admin/write-category.html', {
+		"writing": category, 
+		"page_title": "Edit Category: " + category.title,
+		"hide_extra": True,
+	})
+	
+def save_category(request):
+	category = setup_writing_for_save(Category, request)
+	category.save()
+
+	return redirect('blog:edit-category', slug=unquote(category.slug))
 
 #
 # Activity Views
