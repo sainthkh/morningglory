@@ -1,0 +1,7 @@
+{% extends 'blog-admin/base.html' %}
+
+{% block page_title %}Categories{% endblock %}
+
+{% block content %}
+<a href="{% url 'blog:write-new-category' %}">Add New Category</a>
+{% endblock %}

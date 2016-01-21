@@ -48,7 +48,9 @@ def save_post(request):
 ################################################################
 
 def series_list(request):
-	pass
+	return render(request, 'blog-admin/series.html', {
+		
+	})
 
 def write_new_series(request):
 	return render(request, 'blog-admin/write-series.html', {
@@ -75,7 +77,9 @@ def save_series(request):
 ##############################################################
 
 def category_list(request):
-	pass
+	return render(request, 'blog-admin/category.html', {
+		
+	})
 
 def write_new_category(request):
 	return render(request, 'blog-admin/write-category.html', {
