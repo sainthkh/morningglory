@@ -14,6 +14,7 @@
 		</div>
 		<input id="write-content" type="hidden" name="content" value="{{ writing.content }}" />
 		<div id="epiceditor" style="height:500px"></div>
+		{% if not hide_extra %}
 		<div class="form-group">
 			<label for="post-excerpt">Excerpt</label>
 			<textarea class="form-control" id="post-excerpt" name="excerpt" placeholder="Excerpt">{{ writing.excerpt }}</textarea>
@@ -22,6 +23,7 @@
 			<label for="post-key-points">Key Points</label>
 			<textarea class="form-control" id="post-key-points" name="key-points" placeholder="Key Points">{{ writing.key_points }}</textarea>
 		</div>
+		{% endif %}
 	</div>
 	<div class="col-md-4">
 		<div class="panel panel-default wfb-publish">
