@@ -32,11 +32,12 @@ def single_post(request, year, month, date, slug):
 	post = get_writing(Post, slug)
 	return __view_single(request, post)
 
-def category(request):
-	pass
-
-def category_paged(request):
-	pass 
+def category(request, slug, page):
+	series_list = Series.objects(category_slug=slug)
+	
+	return render(request, "blog/category.html", {
+		"series_list": series_list,
+	})
 
 def series(request, slug):
 	series = get_writing(Series, slug)

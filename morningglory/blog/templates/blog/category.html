@@ -1,0 +1,17 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="category">
+	{% for s in series_list %}
+	<div class="series">
+		<div class="thumbnail">
+		</div>
+		<div class="introduction">
+			<div class="series-title">
+			</div>
+			<div class="series-excerpt">
+			</div>
+		</div>
+	{% endfor %}
+</div>
+{% endblock %}
