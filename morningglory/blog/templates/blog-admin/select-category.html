@@ -1,0 +1,5 @@
+<select class="select-category" name="series">
+{% for c in category_list %}
+	<option value="{{ s.slug }}" {% if c.slug == current %}selected{%endif%}>{{ c.title }} </option>
+{% endfor %}
+</select>

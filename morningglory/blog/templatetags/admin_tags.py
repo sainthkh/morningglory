@@ -16,3 +16,17 @@ def select_series(post):
 		"current_series": current_series,
 		"series_list": series_list,
 	}
+
+@register.inclusion_tag('blog-admin/select-category.html')
+def select_category(series):
+	current = ''
+	
+	if isinstance(series, Series):
+		current = series.category_slug
+		
+	series_list = Category.objects.only("title", "slug")
+	
+	return {
+		"current_series": current,
+		"category_list": series_list,
+	}
