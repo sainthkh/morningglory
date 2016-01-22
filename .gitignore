@@ -57,6 +57,9 @@ docs/_build/
 # PyBuilder
 target/
 
+# Bower
+bower_components/
+
 # Morning Glory
 css/
 *style.css

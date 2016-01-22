@@ -4,10 +4,18 @@ var sass = require('gulp-sass');
 var coffee = require('gulp-coffee');
 var concat = require('gulp-concat');
 var cssnano = require('gulp-cssnano');
+var bower = require('gulp-bower');
+
+var config = {
+    bootstrapDir: './bower_components/bootstrap-sass',
+    publicDir: './public',
+};
 
 gulp.task('styles', function() {
     return gulp.src('./morningglory/blog/sass/**/*.scss')
-        .pipe(sass().on('error', sass.logError))
+        .pipe(sass({
+        	includePaths: [config.bootstrapDir + '/assets/stylesheets'],
+   		}).on('error', sass.logError))
         .pipe(gulp.dest('./morningglory/blog/css/'))
 });
 
@@ -40,3 +48,22 @@ gulp.task('minify-css', ['style-copy'], function() {
 
 gulp.task('all', ['style-copy', 'scripts']);
 gulp.task('deploy', ['minify-css']);
+
+gulp.task('bower', function(){
+	return bower({cmd:'update'});
+});
+
+gulp.task('compile-bootstrap', ['bower'], function() {
+	return gulp.src('./css/app.scss')
+    .pipe(sass({
+        includePaths: [config.bootstrapDir + '/assets/stylesheets'],
+    }))
+    .pipe(gulp.dest(config.publicDir + '/css'));
+});
+
+gulp.task('fonts', ['compile-bootstrap'], function() {
+    return gulp.src(config.bootstrapDir + '/assets/fonts/**/*')
+    .pipe(gulp.dest(config.publicDir + '/fonts'));
+});
+
+gulp.task('bootstrap', ['compile-bootstrap', 'fonts'])

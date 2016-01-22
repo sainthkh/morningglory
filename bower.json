@@ -1,0 +1,26 @@
+{
+  "name": "morningglory",
+  "homepage": "https://github.com/sainthkh/morningglory",
+  "authors": [
+    "sainthkh <sainthkh@naver.com>"
+  ],
+  "description": "django blog",
+  "main": "manage.py",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "django",
+    "wiseinit",
+    "blog"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
