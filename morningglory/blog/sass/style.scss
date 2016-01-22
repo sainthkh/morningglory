@@ -1,7 +1,8 @@
 @import "bootstrap.scss";
 
-$background-color: #ccdbf5;
+$background-color: $body-bg;
 $border-color: darken($background-color, 10%);
+$post-border-color: #78685c;
 
 html, 
 body {
@@ -14,7 +15,7 @@ body {
 }
 
 .writing-title {
-	border-bottom: 1px solid #78685c;
+	border-bottom: 1px solid $post-border-color;
 	margin-bottom: 15px;
 	
 	h1 {
@@ -41,7 +42,7 @@ $pinterest-color: #b31920;
 $youtube-color: #e62117;
 
 .share {
-	border-top: 3px solid #430fbb;
+	border-top: 3px solid $brand-primary;
 	background: #b3d5f7;	
 	padding: 10px 0;
 	margin: 10px 0;
@@ -215,10 +216,10 @@ $youtube-color: #e62117;
 
 .series-post {
 	padding: 20px;
-	border: 1px solid #78685c;
+	border: 1px solid $post-border-color;
 	border-radius: 3px;
 	margin: 15px 0;
-	background-color: lighten(#430fbb, 57%);
+	background-color: lighten($brand-primary, 57%);
 	
 	h2, h3, h4 {
 		margin-top: 0;
@@ -234,7 +235,7 @@ $youtube-color: #e62117;
 	
 	.series-toc-title {
 		margin-bottom: 15px;
-		border-bottom: 1px dotted lighten(#430fbb, 40%);
+		border-bottom: 1px dotted lighten($brand-primary, 40%);
 	}
 	
 	.series-toc-key-points {
