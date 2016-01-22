@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var sass = require('gulp-sass');
 var coffee = require('gulp-coffee');
+var jsminify = require('gulp-minify');
 var concat = require('gulp-concat');
 var cssnano = require('gulp-cssnano');
 var bower = require('gulp-bower');
@@ -46,8 +47,14 @@ gulp.task('minify-css', ['style-copy'], function() {
         .pipe(gulp.dest('./morningglory/blog/static/blog/'));
 });
 
+gulp.task('minify-js', ['coffee'], function(){
+	return gulp.src('./morningglory/blog/js/**/*.js')
+		.pipe(jsminify())
+		.pipe(gulp.dest('./morning/blog/js/'))
+});
+
 gulp.task('all', ['style-copy', 'scripts']);
-gulp.task('deploy', ['minify-css']);
+gulp.task('deploy', ['minify-css', 'minify-js']);
 
 gulp.task('bower', function(){
 	return bower({cmd:'update'});
