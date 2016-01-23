@@ -3,6 +3,7 @@ from django.http import Http404
 
 from urllib.parse import quote, unquote
 from blog.models import *
+from blog.models.email_models import *
 from blog.utils import slugify
 from datetime import datetime
 
@@ -125,4 +126,15 @@ def is_spam(content, author):
 			'comment_content': content,
 			'comment_author': author,
 		})
-	
+
+#
+# Email functions
+#
+###################################################################
+
+def send_mail(slug, addr):
+    e = Email.objects(slug=slug)
+    message = EmailMessage(e.title, e.content, "WiseInit <info@wiseinit.com>",
+            [addr], [], reply_to=['sainthkh@gmail.com'])
+    message.content_subtype = "html"
+    message.send()
