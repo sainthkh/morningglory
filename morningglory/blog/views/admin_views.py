@@ -152,6 +152,43 @@ def save_settings(request):
 	return redirect('blog:admin-settings')
 
 #
+# Email Views
+#
+#################################################################
+
+def emails(request):
+	pass
+
+def write_new_email(request):
+	pass
+
+def edit_email(request):
+	pass
+
+def save_email(request):
+	pass
+
+#
+# Email List Views
+#
+#################################################################
+
+def email_lists(request):
+	pass
+
+def email_list_detail(request):
+	pass
+
+def add_new_email_list(request):
+	pass
+	
+def edit_email_list(request):
+	pass
+	
+def save_email_list(request):
+	pass
+
+#
 # Save Comments
 #
 #################################################################

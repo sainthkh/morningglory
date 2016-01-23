@@ -55,6 +55,9 @@ def series_list(request, slug, page=None):
 		"slug" : slug,
 		"page" : page,
 	})
+
+def email_signup(request):
+	pass
 	
 def distribute_post(request, slug):
 	post = get_writing(Post, slug)
