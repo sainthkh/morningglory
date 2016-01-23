@@ -169,14 +169,16 @@ def write_new_email(request):
 	})
 
 def edit_email(request, slug):
-	email = Email.objects(slug=slug)
+	email = get_writing(Email, slug)
 	return render(request, "blog-admin/email/write-email.html", {
 		"page_title": "Edit Email: " + email.title,
 		"writing": email,
 	})
 
 def save_email(request):
-	pass
+	email = setup_writing_for_save(Email, request)
+	email.save()
+	return redirect('blog:edit-email', slug=email.slug)
 
 #
 # Email List Views
