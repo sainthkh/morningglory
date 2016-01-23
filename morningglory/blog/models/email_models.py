@@ -12,5 +12,5 @@ class Email(DynamicDocument):
 
 class EmailList(DynamicDocument):
 	slug = StringField(unique=True)
-	name = StringField()
+	title = StringField()
 	subscribers = ListField(ReferenceField('Subscriber'))
