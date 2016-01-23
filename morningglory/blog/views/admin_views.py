@@ -21,14 +21,14 @@ def post_list(request):
 	pass
 
 def write_new_post(request):
-	return render(request, 'blog-admin/write-post.html', {
+	return render(request, 'blog-admin/writing/write-post.html', {
 		"page_title" : "Add New Post"
 	})
 
 def edit_post(request, slug):
 	post = get_writing(Post, slug)
 
-	return render(request, 'blog-admin/write-post.html', {
+	return render(request, 'blog-admin/writing/write-post.html', {
 		"writing": post,
 		"page_title": "Edit Post : " + post.title
 	})
@@ -49,18 +49,18 @@ def save_post(request):
 ################################################################
 
 def series_list(request):
-	return render(request, 'blog-admin/series.html', {
+	return render(request, 'blog-admin/writing/series.html', {
 		
 	})
 
 def write_new_series(request):
-	return render(request, 'blog-admin/write-series.html', {
+	return render(request, 'blog-admin/writing/write-series.html', {
 		"page_title": "Add New Series",
 	})
 
 def edit_series(request, slug):
 	series = get_writing(Series, slug)
-	return render(request, 'blog-admin/write-series.html', {
+	return render(request, 'blog-admin/writing/write-series.html', {
 		"writing": series, 
 		"page_title": "Edit Series: " + series.title,
 	})
@@ -78,19 +78,19 @@ def save_series(request):
 ##############################################################
 
 def category_list(request):
-	return render(request, 'blog-admin/category.html', {
+	return render(request, 'blog-admin/writing/category.html', {
 		
 	})
 
 def write_new_category(request):
-	return render(request, 'blog-admin/write-category.html', {
+	return render(request, 'blog-admin/writing/write-category.html', {
 		"page_title": "Add New Category",
 		"hide_extra": True, 
 	})
 
 def edit_category(request, slug):
 	category = get_writing(Category, slug)
-	return render(request, 'blog-admin/write-category.html', {
+	return render(request, 'blog-admin/writing/write-category.html', {
 		"writing": category, 
 		"page_title": "Edit Category: " + category.title,
 		"hide_extra": True,
