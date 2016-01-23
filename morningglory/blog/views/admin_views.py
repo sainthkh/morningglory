@@ -178,7 +178,10 @@ def save_email(request):
 #################################################################
 
 def email_lists(request):
-	pass
+	email_lists = EmailList.objects
+	return render(request, "blog-admin/email/email-lists.html", {
+		"email_lists": email_lists,
+	})
 
 def email_list_detail(request):
 	pass
