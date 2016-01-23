@@ -1,0 +1,9 @@
+{% extends 'blog-admin/base.html' %}
+
+{% block page_title %}Emails{% endblock %}
+
+{% block content %}
+	{% for email in emails %}
+    	<li><a href="{% url 'blog:edit-email' email.slug %}">{{ email.title }}</a></li>
+	{% endfor %}
+{% endblock %}
