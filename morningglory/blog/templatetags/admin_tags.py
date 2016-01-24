@@ -3,7 +3,7 @@ from blog.models import *
 
 register = template.Library()
 
-@register.inclusion_tag('blog-admin/select-series.html')
+@register.inclusion_tag('blog-admin/writing/select-series.html')
 def select_series(post):
 	current_series = ''
 	
@@ -17,7 +17,7 @@ def select_series(post):
 		"series_list": series_list,
 	}
 
-@register.inclusion_tag('blog-admin/select-category.html')
+@register.inclusion_tag('blog-admin/writing/select-category.html')
 def select_category(series):
 	current = ''
 	
