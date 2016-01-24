@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from blog.models import *
-from blog.models.email_models import *
 from blog.utils import template_to_html
 from urllib.parse import unquote
 from blog.expanders import expand_content

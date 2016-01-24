@@ -1,7 +1,10 @@
 from django.db import models
 from mongoengine import *
 
-# Create your models here.
+#
+# Writing Models
+#
+###############################################################
 
 class Comment(DynamicDocument):
 	name = StringField(required=True)
@@ -37,6 +40,11 @@ class Series(DynamicDocument):
 	key_points = StringField()
 	excerpt = StringField()
 
+#
+# Admin Models
+#
+##############################################################
+
 class Secret(Document):
 	name = StringField(required=True, unique=True)
 	key = StringField()
@@ -59,3 +67,22 @@ class CommentActivity(Activity):
 class SpamCommentActivity(CommentActivity):
 	template = 'activity/spam-comment.html'
 	status = StringField(default='spam')
+
+#
+# Email Models
+#
+################################################################
+
+class Subscriber(DynamicDocument):
+	first_name = StringField(max_length=128)
+	email = StringField(max_length=254, unique=True)
+
+class Email(DynamicDocument):
+	slug = StringField(unique=True)
+	title = StringField()
+	content = StringField()
+
+class EmailList(DynamicDocument):
+	slug = StringField(unique=True)
+	title = StringField()
+	subscribers = ListField(ReferenceField('Subscriber'))

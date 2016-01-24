@@ -3,7 +3,6 @@ from django.http import Http404
 
 from urllib.parse import quote, unquote
 from blog.models import *
-from blog.models.email_models import *
 from blog.utils import slugify
 from datetime import datetime
 
