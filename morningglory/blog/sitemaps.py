@@ -1,6 +1,6 @@
 from django.contrib.sitemaps import Sitemap
 from blog.models import Post
-from blog.urls.shortcuts import get_post_url_by_slug
+from blog.utils.urls import get_post_url_by_slug
 
 class BlogSitemap(Sitemap):
     changefreq = "never"

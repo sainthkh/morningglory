@@ -1,6 +1,6 @@
 from django.contrib.syndication.views import Feed
 from django.template.defaultfilters import truncatewords
-from blog.urls.shortcuts import get_post_url_by_slug
+from blog.utils.urls import get_post_url_by_slug
 from .models import Post
 
 class LatestPostsFeed(Feed):

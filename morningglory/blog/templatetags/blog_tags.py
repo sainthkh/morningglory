@@ -4,7 +4,7 @@ from urllib.parse import quote, unquote
 import mistune
 import math
 
-from blog.urls.shortcuts import get_post_url_by_slug
+from blog.utils.urls import get_post_url_by_slug
 from blog.models import *
 
 register = template.Library()
