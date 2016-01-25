@@ -1,7 +1,10 @@
-{% extends 'blog-admin/writing/base.html' %}
+{% extends 'admin/base/write.html' %}
 {% load admin_tags %}
 
 {% block write_action %}{% url 'blog:save-category' %}{% endblock %}
+
+{% block extra %}
+{% endblock %}
 
 {% block write_sidebar %}
 <div class="panel panel-default wfb-files-preview">
@@ -10,3 +13,4 @@
 	</div>
 </div>
 {% endblock %}
+

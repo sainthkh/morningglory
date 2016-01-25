@@ -1,0 +1,21 @@
+{% extends 'admin/layout.html' %}
+
+{% block content %}
+{% block add_new %}{% endblock %}
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Title</th>
+			{% block header_others %}{% endblock %}
+		</tr>
+	</thead>
+	<tbody>
+		{% for w in writings %}
+		<tr>
+			<td><a href="{% url url_name slug=w.slug %}">{{ w.title }}</a></td>
+			{% block data_others %}{% endblock %}
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>	
+{% endblock %}

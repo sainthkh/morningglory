@@ -1,5 +1,7 @@
+from django.conf.urls import url
 from django.conf import settings
 from django.http import Http404
+from django.shortcuts import render, redirect
 
 from urllib.parse import quote, unquote
 from blog.models import *
@@ -64,13 +66,94 @@ def create_slug(writing_type, title):
 	return final_slug	
 
 def setup_basic_content(writing, POST):
-	writing.title = POST['title']
-	writing.content = POST['content']
+	if POST['title'].strip():
+		writing.title = POST['title']
+		
+	if POST['content'].strip():
+		writing.content = POST['content']
+	
+	if POST['excerpt'].strip():
+		writing.excerpt = POST['excerpt']
+	
+	if POST['key-points'].strip():
+		writing.key_points = POST['key-points']			
 
-def setup_extra_fields(writing, POST):
-	writing.excerpt = POST['excerpt']
-	writing.key_points = POST['key-points']
+#
+# Admin class
+#
+###################################################################
 
+class Admin:	
+	def __init__(self, writing, name):
+		self.writing = writing
+		self.name = name
+		slug = name.lower().replace(' ', '-')
+		
+		self.__setup_paths(slug)
+	
+	def __setup_paths(self, slug):
+		self.t = {} # short for templates
+		
+		# list 
+		self.t['list-url'] = r"^admin/{0}$"
+		self.t['list-file-path'] = 'admin/{0}/list.html'
+		self.t['list-name'] = "admin-{0}"
+		
+		# add-new & edit
+		self.t['add-new-url'] = r"^admin/add-new-{0}$"
+		self.t['write-file-path'] = 'admin/{0}/write.html'
+		self.t['add-new-name'] = 'add-new-{0}'
+		self.t['edit-url'] = r"^admin/edit-{0}/(?P<slug>[%-_\w]+)$"
+		self.t['edit-name'] = 'edit-{0}'
+		
+		# save
+		self.t['save-url'] = r"admin/save-{0}$"
+		self.t['save-name'] = "save-{0}"
+		self.t['save-redirect'] = 'blog:edit-{0}'
+		
+		for k, v in self.t.items():
+			self.t[k] = v.format(slug)			  
+	
+	def urls(self):
+		u = [
+			url(self.t['list-url'], self.list, name=self.t['list-name']),
+			url(self.t['add-new-url'], self.add_new, name=self.t['add-new-name']),
+			url(self.t['edit-url'], self.edit, name=self.t['edit-name']),
+			url(self.t['save-url'], self.save, name=self.t['save-name']),
+		]
+		
+		return u
+		
+	def list(self, request):
+		writings = self.writing.objects
+		
+		return render(request, self.t['list-file-path'], {
+			"writings": writings,
+			"url_name": 'blog:{0}'.format(self.t['edit-name']),
+		})
+		
+	def add_new(self, request):
+		return render(request, self.t['write-file-path'], {
+			"page_title" : "Add New " + self.name,
+		})
+	
+	def edit(self, request, slug):
+		writing = get_writing(self.writing, slug)
+
+		return render(request, self.t['write-file-path'], {
+			"writing": writing,
+			"page_title": "Edit {0} : {1}".format(self.name, writing.title),
+		})
+	
+	def save(self, request):
+		writing = setup_writing_for_save(self.writing, request)
+		self.save_others(writing, request.POST)
+		writing.save()
+		
+		return redirect(self.t['save-redirect'], slug=unquote(writing.slug))
+	
+	def save_others(self, writing, POST):
+		pass
 #
 # Comment Savers. 
 #

@@ -3,7 +3,9 @@ from django.contrib.sitemaps.views import sitemap
 from blog.sitemaps import BlogSitemap
 import blog.views as views
 from blog.views import admin_views
+from blog.views.admin_views import *
 from blog.feeds import LatestPostsFeed
+from blog.views.utils import Admin
 
 sitemaps = {
 	"blog": BlogSitemap
@@ -38,40 +40,27 @@ urlpatterns = [
 	##############################################################
 	url(r'^admin$', admin_views.dashboard, name='admin-dashboard'),
 	
-	# posts
-	url(r'^admin/posts', admin_views.post_list, name='admin-posts'),
-	url(r'^admin/write-new-post', admin_views.write_new_post, name='write-new-post'),
-	url(r'^admin/edit-post/(?P<slug>[%-_\w]+)', admin_views.edit_post, name='edit-post'),
-	url(r'^admin/save-post', admin_views.save_post, name='save-post'),
-	
-	# series
-	url(r'^admin/series', admin_views.series_list, name='admin-series'),
-	url(r'^admin/write-new-series', admin_views.write_new_series, name='write-new-series'),
-	url(r'^admin/edit-series/(?P<slug>[%-_\w]+)', admin_views.edit_series, name='edit-series'),
-	url(r'^admin/save-series', admin_views.save_series, name='save-series'),
-	
-	# categories	
-	url(r'^admin/categories', admin_views.category_list, name='admin-categories'),
-	url(r'^admin/write-new-category', admin_views.write_new_category, name='write-new-category'),
-	url(r'^admin/edit-category/(?P<slug>[%-_\w]+)', admin_views.edit_category, name='edit-category'),
-	url(r'^admin/save-category', admin_views.save_category, name='save-category'),
-	
+]
+
+post = PostAdmin()
+urlpatterns += post.urls()
+
+series = SeriesAdmin()
+urlpatterns += series.urls()
+
+category = CategoryAdmin()
+urlpatterns += category.urls()
+
+email = EmailAdmin()
+urlpatterns += email.urls()
+
+emaillist = EmailListAdmin()
+urlpatterns += emaillist.urls()
+
+urlpatterns = urlpatterns + [
 	# activities
 	url(r'^admin/activities$', admin_views.activities, name='admin-activities'),
 	url(r'^admin/comments/approve/(?P<pos>[0-9]+)$', admin_views.approve_comment, name='admin-approve-comment'),
-	
-	# emails
-	url(r'^admin/emails$', admin_views.emails, name='admin-emails'),
-	url(r'^admin/write-new-email$', admin_views.write_new_email, name="write-new-email"),
-	url(r'^admin/edit-email/(?P<slug>[%-_\w]+)$', admin_views.edit_email, name='edit-email'),
-	url(r'^admin/save-email$', admin_views.save_email, name='save-email'),
-	
-	# email lists
-	url(r'^admin/email-lists$', admin_views.email_lists, name='admin-email-lists'),
-	url(r'^admin/email-list/(?P<slug>[%-_\w]+)$', admin_views.email_list_detail, name='admin-email-list'),
-	url(r'^admin/add-new-email-list$', admin_views.add_new_email_list, name="add-new-email-list"),
-	url(r'^admin/edit-email-list/(?P<slug>[%-_\w]+)$', admin_views.edit_email_list, name='edit-email-list'),
-	url(r'^admin/save-email-list$', admin_views.save_email_list, name='save-email-list'),
 	
 	# settings
 	url(r'^admin/settings', admin_views.settings, name='admin-settings'),

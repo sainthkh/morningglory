@@ -1,17 +1,17 @@
-{% extends 'blog-admin/writing/base.html' %}
+{% extends 'admin/base/write.html' %}
 {% load admin_tags %}
 
-{% block write_action %}{% url 'blog:save-series' %}{% endblock %}
+{% block write_action %}{% url 'blog:save-post' %}{% endblock %}
 
 {% block write_sidebar %}
-<div class="panel panel-default wfb-category-select">
-	<div class="panel-heading">Category</div>
+<div class="panel panel-default wfb-series-select">
+	<div class="panel-heading">Series</div>
 	<div class="panel-body">
-		{% select_category writing %}
+		{% select_series writing %}
 	</div>
 </div>
 <div class="panel panel-default wfb-splash">
-	<div class="panel-heading">Thumbnail Image</div>
+	<div class="panel-heading">Splash Image</div>
 	<div class="panel-body">
 		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#file-uploader">Upload Files</button>
 	</div>

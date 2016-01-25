@@ -8,98 +8,38 @@ from .utils import *
 
 # Create your views here.
 def dashboard(request):
-	return render(request, 'blog-admin/dashboard.html', {
+	return render(request, 'admin/dashboard.html', {
 	})
 
 #
-# Post Views
+# Writing Views
 #
 ###########################################################
 
-def post_list(request):
-	pass
-
-def write_new_post(request):
-	return render(request, 'blog-admin/writing/write-post.html', {
-		"page_title" : "Add New Post"
-	})
-
-def edit_post(request, slug):
-	post = get_writing(Post, slug)
-
-	return render(request, 'blog-admin/writing/write-post.html', {
-		"writing": post,
-		"page_title": "Edit Post : " + post.title
-	})
-
-def save_post(request):
-	post = setup_writing_for_save(Post, request)
-	setup_extra_fields(post, request)
-	post.compiled_content = expand_content(post.content)
-	post.post_type = 'post'
-	post.series_slug = request.POST['series']
-	post.save()
+class PostAdmin(Admin):
+	def __init__(self):
+		Admin.__init__(self, Post, 'Post')
 	
-	return redirect('blog:edit-post', slug=unquote(post.slug))
+	def save_others(self, writing, POST):
+		writing.compiled_content = expand_content(writing.content)
+		writing.post_type = 'post'
+		writing.series_slug = POST['series']
 
-#
-# Series Views
-#
-################################################################
+class SeriesAdmin(Admin):
+	def __init__(self):
+		Admin.__init__(self, Series, 'Series')
 
-def series_list(request):
-	return render(request, 'blog-admin/writing/series.html', {
-		
-	})
+class CategoryAdmin(Admin):
+	def __init__(self):
+		Admin.__init__(self, Category, 'Category')
 
-def write_new_series(request):
-	return render(request, 'blog-admin/writing/write-series.html', {
-		"page_title": "Add New Series",
-	})
+class EmailAdmin(Admin):
+	def __init__(self):
+		Admin.__init__(self, Email, 'Email')
 
-def edit_series(request, slug):
-	series = get_writing(Series, slug)
-	return render(request, 'blog-admin/writing/write-series.html', {
-		"writing": series, 
-		"page_title": "Edit Series: " + series.title,
-	})
-	
-def save_series(request):
-	series = setup_writing_for_save(Series, request)
-	setup_extra_fields(series, request)
-	series.save()
-
-	return redirect('blog:edit-series', slug=unquote(series.slug))
-
-#
-# Category Views
-#
-##############################################################
-
-def category_list(request):
-	return render(request, 'blog-admin/writing/category.html', {
-		
-	})
-
-def write_new_category(request):
-	return render(request, 'blog-admin/writing/write-category.html', {
-		"page_title": "Add New Category",
-		"hide_extra": True, 
-	})
-
-def edit_category(request, slug):
-	category = get_writing(Category, slug)
-	return render(request, 'blog-admin/writing/write-category.html', {
-		"writing": category, 
-		"page_title": "Edit Category: " + category.title,
-		"hide_extra": True,
-	})
-	
-def save_category(request):
-	category = setup_writing_for_save(Category, request)
-	category.save()
-
-	return redirect('blog:edit-category', slug=unquote(category.slug))
+class EmailListAdmin(Admin):
+	def __init__(self):
+		Admin.__init__(self, EmailList, 'Email List')
 
 #
 # Activity Views
@@ -108,7 +48,7 @@ def save_category(request):
 
 def activities(request):
 	activities = Activity.objects
-	return render(request, 'blog-admin/activities.html', {
+	return render(request, 'admin/activities.html', {
 		"activities": activities,
 	})
 
@@ -135,7 +75,7 @@ def settings(request):
 	else:
 		akismet_key = ''
 		
-	return render(request, 'blog-admin/settings.html', {
+	return render(request, 'admin/settings.html', {
 		"akismet_key": akismet_key,
 	})
 	
@@ -150,57 +90,6 @@ def save_settings(request):
 	secret.save()
 	
 	return redirect('blog:admin-settings')
-
-#
-# Email Views
-#
-#################################################################
-
-def emails(request):
-	emails = Email.objects
-	return render(request, "blog-admin/email/emails.html", {
-		"emails": emails,
-	})
-
-def write_new_email(request):
-	return render(request, "blog-admin/email/write-email.html", {
-		"page_title": "Write New Email",
-	})
-
-def edit_email(request, slug):
-	email = get_writing(Email, slug)
-	return render(request, "blog-admin/email/write-email.html", {
-		"page_title": "Edit Email: " + email.title,
-		"writing": email,
-	})
-
-def save_email(request):
-	email = setup_writing_for_save(Email, request)
-	email.save()
-	return redirect('blog:edit-email', slug=email.slug)
-
-#
-# Email List Views
-#
-#################################################################
-
-def email_lists(request):
-	email_lists = EmailList.objects
-	return render(request, "blog-admin/email/email-lists.html", {
-		"email_lists": email_lists,
-	})
-
-def email_list_detail(request):
-	pass
-
-def add_new_email_list(request):
-	pass
-	
-def edit_email_list(request):
-	pass
-	
-def save_email_list(request):
-	pass
 
 #
 # Save Comments

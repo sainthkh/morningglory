@@ -1,4 +1,4 @@
-{% extends 'blog-admin/base.html' %}
+{% extends 'admin/layout.html' %}
 
 {% load staticfiles %}
 
@@ -14,7 +14,16 @@
 		</div>
 		<input id="write-content" type="hidden" name="content" value="{{ writing.content }}" />
 		<div id="epiceditor" style="height:500px"></div>
-		{% block extra %}{% endblock %}
+		{% block extra %}
+			<div class="form-group">
+				<label for="post-excerpt">Excerpt</label>
+				<textarea class="form-control" id="post-excerpt" name="excerpt" placeholder="Excerpt">{{ writing.excerpt }}</textarea>
+			</div>
+			<div class="form-group">
+				<label for="post-key-points">Key Points</label>
+				<textarea class="form-control" id="post-key-points" name="key-points" placeholder="Key Points">{{ writing.key_points }}</textarea>
+			</div>
+		{% endblock %}
 	</div>
 	<div class="col-md-4">
 		<div class="panel panel-default wfb-publish">
@@ -39,5 +48,5 @@ $(document).ready(function(){
     })
 })
 </script>
-{% include 'blog-admin/file-uploader.html' %}
+{% include 'admin/file-uploader.html' %}
 {% endblock %}
