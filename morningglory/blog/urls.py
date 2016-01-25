@@ -2,10 +2,7 @@ from django.conf.urls import url
 from django.contrib.sitemaps.views import sitemap
 from blog.sitemaps import BlogSitemap
 import blog.views as views
-from blog.views import admin_views
-from blog.views.admin_views import *
 from blog.feeds import LatestPostsFeed
-from blog.views.utils import Admin
 
 sitemaps = {
 	"blog": BlogSitemap
@@ -38,37 +35,36 @@ urlpatterns = [
 	# Admin Pages.
 	#
 	##############################################################
-	url(r'^admin$', admin_views.dashboard, name='admin-dashboard'),
-	
+	url(r'^admin$', views.dashboard, name='admin-dashboard'),
 ]
 
-post = PostAdmin()
+post = views.PostAdmin()
 urlpatterns += post.urls()
 
-series = SeriesAdmin()
+series = views.SeriesAdmin()
 urlpatterns += series.urls()
 
-category = CategoryAdmin()
+category = views.CategoryAdmin()
 urlpatterns += category.urls()
 
-email = EmailAdmin()
+email = views.EmailAdmin()
 urlpatterns += email.urls()
 
-emaillist = EmailListAdmin()
+emaillist = views.EmailListAdmin()
 urlpatterns += emaillist.urls()
 
 urlpatterns = urlpatterns + [
 	# activities
-	url(r'^admin/activities$', admin_views.activities, name='admin-activities'),
-	url(r'^admin/comments/approve/(?P<pos>[0-9]+)$', admin_views.approve_comment, name='admin-approve-comment'),
+	url(r'^admin/activities$', views.activities, name='admin-activities'),
+	url(r'^admin/comments/approve/(?P<pos>[0-9]+)$', views.approve_comment, name='admin-approve-comment'),
 	
 	# settings
-	url(r'^admin/settings', admin_views.settings, name='admin-settings'),
-	url(r'^admin/save-settings', admin_views.save_settings, name='admin-save-settings'),
+	url(r'^admin/settings', views.settings, name='admin-settings'),
+	url(r'^admin/save-settings', views.save_settings, name='admin-save-settings'),
 	
 	# save comments
-	url(r'^(?P<slug>[%-_\w]+)/comment$', admin_views.save_comment, name='save-comment'),
-	url(r'^(?P<slug>[%-_\w]+)/comment/ajax$', admin_views.save_comment_ajax, name='save-comment'),
+	url(r'^(?P<slug>[%-_\w]+)/comment$', views.save_comment, name='save-comment'),
+	url(r'^(?P<slug>[%-_\w]+)/comment/ajax$', views.save_comment_ajax, name='save-comment'),
 	
 	#
 	# post distributor.
