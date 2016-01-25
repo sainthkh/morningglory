@@ -8,10 +8,12 @@
 		</div>
 		<div class="introduction">
 			<div class="series-title">
+				<a href="{% url 'blog:series-list' slug=s.slug %}">{{ s.title }}</a>
 			</div>
 			<div class="series-excerpt">
 			</div>
 		</div>
+	</div>
 	{% endfor %}
 </div>
 {% endblock %}
