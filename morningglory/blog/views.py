@@ -95,6 +95,9 @@ class PostAdmin(Admin):
 class SeriesAdmin(Admin):
 	def __init__(self):
 		Admin.__init__(self, Series, 'Series')
+	
+	def save_others(self, writing, POST):
+		writing.category_slug = POST['category']
 
 class CategoryAdmin(Admin):
 	def __init__(self):
