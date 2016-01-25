@@ -1,19 +1,21 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-<div class="category">
+<div class="category-list col-md-offset-2 col-md-8">
+<div class="series-links">
 	{% for s in series_list %}
 	<div class="series">
 		<div class="thumbnail">
 		</div>
 		<div class="introduction">
 			<div class="series-title">
-				<a href="{% url 'blog:series-list' slug=s.slug %}">{{ s.title }}</a>
+				<h3><a href="{% url 'blog:series-list' slug=s.slug %}">{{ s.title }}</a></h3>
 			</div>
 			<div class="series-excerpt">
 			</div>
 		</div>
 	</div>
 	{% endfor %}
+</div>
 </div>
 {% endblock %}

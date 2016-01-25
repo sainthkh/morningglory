@@ -219,7 +219,7 @@ $youtube-color: #e62117;
 	border: 1px solid $post-border-color;
 	border-radius: 3px;
 	margin: 15px 0;
-	background-color: lighten($brand-primary, 57%);
+	background-color: lighten($brand-primary, 70%);
 	
 	h2, h3, h4 {
 		margin-top: 0;
@@ -235,13 +235,28 @@ $youtube-color: #e62117;
 	
 	.series-toc-title {
 		margin-bottom: 15px;
-		border-bottom: 1px dotted lighten($brand-primary, 40%);
+		border-bottom: 1px dotted lighten($brand-primary, 60%);
 	}
 	
 	.series-toc-key-points {
 		background-color: #fff3c5;
 		padding: 15px;
 		border-radius: 5px;
+	}
+}
+
+.category-list {
+	.series {
+		padding: 15px;
+		border-bottom: 1px dotted lighten($brand-primary, 60%);
+		
+		a {
+			color: #000b1a;
+		}
+		
+		&:last-child {
+			border-bottom: none;
+		}
 	}
 }
 
