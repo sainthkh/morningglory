@@ -2,6 +2,7 @@ from django.conf.urls import url
 from django.conf import settings
 from django.http import Http404
 from django.shortcuts import render, redirect
+from django.core.mail import EmailMessage
 
 from urllib.parse import quote, unquote
 from blog.models import *
@@ -215,7 +216,7 @@ def is_spam(content, author):
 ###################################################################
 
 def send_mail(slug, addr):
-    e = Email.objects(slug=slug)
+    e = get_writing(Email, slug)
     message = EmailMessage(e.title, e.content, "WiseInit <info@wiseinit.com>",
             [addr], [], reply_to=['sainthkh@gmail.com'])
     message.content_subtype = "html"
