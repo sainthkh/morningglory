@@ -24,6 +24,7 @@ urlpatterns = [
 	url(r'^rss$', LatestPostsFeed(), name='post-rss'),
 	url(r'^feed$', LatestPostsFeed(), name='post-feed'),
 	url(r'^susbscribe$', views.subscribe, name="subscribe"),
+	url(r'^test-landing-page$', views.test_landing_page, name="test-landing-page"),
 	
 	#
 	# sitemap

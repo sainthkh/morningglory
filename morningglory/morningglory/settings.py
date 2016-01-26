@@ -131,3 +131,6 @@ STATICFILES_DIRS = [
 
 
 TEST_RUNNER = 'morningglory.testing.NoDbTestRunner'
+
+if DEBUG:
+	EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
