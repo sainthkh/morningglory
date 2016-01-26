@@ -1,0 +1,11 @@
+<form action="{% url 'blog:subscribe' %}" method="POST">
+	{% csrf_token %}
+	<input type="hidden" name="slug" value="{{ slug }}" />
+	<div class="form-group">
+		<input type="text" class="form-control" id="first-name" name="first-name" placeholder="First Name">
+	</div>
+	<div class="form-group">
+		<input type="email" class="form-control" id="email" name="email" placeholder="your@email.com">
+	</div>
+	<button type="submit" class="btn btn-default">Get it RIGHT NOW</button>
+</form>

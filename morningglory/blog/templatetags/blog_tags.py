@@ -56,3 +56,15 @@ def pagination(context, slug, page):
 	
 	pager["range"] = page_range
 	return pager
+
+
+@register.inclusion_tag('blog/email-modal.html')
+def email_modal(slug, popup_button="Download Now", title="Free Offer", 
+	message="", submit="Give me RIGHT NOW"):
+	pass
+
+@register.inclusion_tag('blog/email-form.html')
+def email_form(slug):
+	return {
+		"slug": slug,
+	}
