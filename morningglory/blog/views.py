@@ -84,9 +84,8 @@ def subscribe(request):
 		user.email = user_email
 		user.save()
 		
-		send_mail('welcome', user.email)
+		send_mail('welcome', user.email, request)
 		
-	
 	# get email list
 	emaillist = get_writing(EmailList, request.POST['slug'])
 	
@@ -96,7 +95,7 @@ def subscribe(request):
 		user.save()
 	
 	# send lead magnet
-	send_mail(emaillist.lead_magnet_slug, user.email)
+	send_mail(emaillist.lead_magnet_slug, user.email, request)
 	
 	return redirect('blog:distribute-post', emaillist.thankyou_page)
 	

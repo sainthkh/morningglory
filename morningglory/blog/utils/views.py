@@ -8,6 +8,7 @@ from urllib.parse import quote, unquote
 from blog.models import *
 from blog.utils import slugify
 from datetime import datetime
+from blog.expanders import template_to_html
 
 def normalize_slug(slug):
 	if "%" not in slug:
@@ -215,9 +216,14 @@ def is_spam(content, author):
 #
 ###################################################################
 
-def send_mail(slug, addr):
-    e = get_writing(Email, slug)
-    message = EmailMessage(e.title, e.content, "WiseInit <info@wiseinit.com>",
-            [addr], [], reply_to=['sainthkh@gmail.com'])
-    message.content_subtype = "html"
-    message.send()
+def send_mail(slug, addr, request):
+	e = get_writing(Email, slug)
+	content = template_to_html("blog/email-template.html", {
+		"content": e.content,
+		"email": addr,
+		"request": request,
+	})
+	message = EmailMessage(e.title, content, "WiseInit <info@wiseinit.com>",
+			[addr], [], reply_to=['sainthkh@gmail.com'])
+	message.content_subtype = "html"
+	message.send()

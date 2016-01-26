@@ -1,5 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
+from django.core.urlresolvers import reverse
+
 from urllib.parse import quote, unquote
 import mistune
 import math
