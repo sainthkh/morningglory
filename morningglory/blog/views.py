@@ -75,19 +75,19 @@ def subscribe(request):
 	user_email = request.POST['email']
 	first_name = request.POST['first-name']
 	
+	# get email list
+	emaillist = get_writing(EmailList, request.POST['slug'])
+	
 	# get user
-	try:
+	if User.objects(email=user_email).count() > 0:
 		user = User.objects(email=user_email)[0]
-	except IndexError: # if user doesn't exist, add new user
+	else:
 		user = User()
 		user.first_name = first_name
 		user.email = user_email
 		user.save()
 		
-		send_mail('welcome', user.email, request)
-		
-	# get email list
-	emaillist = get_writing(EmailList, request.POST['slug'])
+		send_mail('welcome', user.email, request, emaillist.slug)	
 	
 	# add list to subscriber
 	if not emaillist.slug in user.subscribed_lists:
@@ -95,10 +95,31 @@ def subscribe(request):
 		user.save()
 	
 	# send lead magnet
-	send_mail(emaillist.lead_magnet_slug, user.email, request)
+	send_mail(emaillist.lead_magnet_slug, user.email, request, emaillist.slug)
 	
 	return redirect('blog:distribute-post', emaillist.thankyou_page)
+
+def unsubscribe(request):
+	if 'email' in request.GET:
+		email = request.GET['email']
+	else:
+		email = ''
 	
+	if 'list-slug' in request.GET:
+		list_slug = request.GET['list-slug']
+	else:
+		list_slug = ''
+	
+	return render(request, "blog/unsubscribe.html", {
+		"email": email,
+		"list_slug": list_slug,
+	})
+
+def unsubscribe_this(request):
+	pass
+	
+def unsubscribe_all(request):
+	pass	
 
 def test_landing_page(request):
 	return render(request, "test/email-subscribe.html", {

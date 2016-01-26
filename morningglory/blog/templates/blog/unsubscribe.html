@@ -1,0 +1,15 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<form class="unsubscribe-form" action="{% url 'blog:unsubscribe-this' %}" method="POST">
+	{% csrf_token %}
+	<input type="hidden" name="list-slug" value="{{ list_slug }}" />
+	<input type="hidden" name="email" value="{{ email }}"/>
+	<button type="submit" class="btn btn-default btn-lg">Unsubscribe This List Only</button>
+</form>
+<form class="unsubscribe-form" action="{% url 'blog:unsubscribe-all' %}" method="POST">
+	{% csrf_token %}
+	<input type="hidden" name="email" value="{{ email }}"/>
+	<button type="submit" class="btn btn-default btn-lg">Unsubscribe All List</button>
+</form>
+{% endblock %}

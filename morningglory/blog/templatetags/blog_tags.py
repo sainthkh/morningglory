@@ -70,3 +70,9 @@ def email_form(slug):
 	return {
 		"slug": slug,
 	}
+
+@register.simple_tag(takes_context=True)
+def unsubscribe_url(context, email, list_slug):
+	request = context['request']
+	url = request.build_absolute_uri(reverse('blog:unsubscribe'))
+	return "{0}?email={1}&list-slug={2}".format(url, quote(email), quote(list_slug))

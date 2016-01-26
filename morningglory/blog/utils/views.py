@@ -216,11 +216,12 @@ def is_spam(content, author):
 #
 ###################################################################
 
-def send_mail(slug, addr, request):
+def send_mail(slug, addr, request, list_slug):
 	e = get_writing(Email, slug)
 	content = template_to_html("blog/email-template.html", {
 		"content": e.content,
 		"email": addr,
+		"list_slug": list_slug,
 		"request": request,
 	})
 	message = EmailMessage(e.title, content, "WiseInit <info@wiseinit.com>",

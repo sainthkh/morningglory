@@ -260,4 +260,12 @@ $youtube-color: #e62117;
 	}
 }
 
+.unsubscribe-form {
+	margin: 20px;
+	
+	button {
+		width: 350px;
+	}
+}
+
 @import "expanders.scss";
