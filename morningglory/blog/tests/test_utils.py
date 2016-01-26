@@ -41,6 +41,6 @@ class UtilTest(TestCase):
 	######################################################
 	
 	def test__template_to_html__correct_file__correct_text(self):
-		r = template_to_html('unittest/simple.html', {"content": "Hello" })
+		r = template_to_html('test/simple.html', {"content": "Hello" })
 		
 		self.assertEqual(r, "<div>Hello</div>")
