@@ -66,16 +66,16 @@ def create_slug(writing_type, title):
 	return final_slug	
 
 def setup_basic_content(writing, POST):
-	if POST['title'].strip():
+	if 'title' in POST and POST['title'].strip():
 		writing.title = POST['title']
-		
-	if POST['content'].strip():
+
+	if 'content' in POST and POST['content'].strip():
 		writing.content = POST['content']
-	
-	if POST['excerpt'].strip():
+
+	if 'excerpt' in POST and POST['excerpt'].strip():
 		writing.excerpt = POST['excerpt']
-	
-	if POST['key-points'].strip():
+
+	if 'key-points' in POST and POST['key-points'].strip():
 		writing.key_points = POST['key-points']			
 
 #

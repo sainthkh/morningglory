@@ -85,4 +85,6 @@ class Email(DynamicDocument):
 class EmailList(DynamicDocument):
 	slug = StringField(unique=True)
 	title = StringField()
-	subscribers = ListField(ReferenceField('Subscriber'))
+	subscribers = ListField(EmbeddedDocumentField('Subscriber'))
+	lead_magnet_slug = StringField()
+	thankyou_page = StringField()
