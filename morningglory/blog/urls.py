@@ -23,7 +23,7 @@ urlpatterns = [
 	url(r'^series/(?P<slug>[%-_\w]+)$', views.series, name='series'),
 	url(r'^rss$', LatestPostsFeed(), name='post-rss'),
 	url(r'^feed$', LatestPostsFeed(), name='post-feed'),
-	url(r'^email/signup$', views.email_signup, name="signup"),
+	url(r'^susbscribe$', views.subscribe, name="subscribe"),
 	
 	#
 	# sitemap

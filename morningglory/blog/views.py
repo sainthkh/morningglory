@@ -57,9 +57,6 @@ def series_list(request, slug, page=None):
 		"page" : page,
 	})
 
-def email_signup(request):
-	pass
-	
 def distribute_post(request, slug):
 	post = get_writing(Post, slug)
 	
@@ -72,6 +69,42 @@ def __view_single(request, post):
 			'post': post,
 		})
 
+# Email subscription
+
+def subscribe(request):
+	user_email = request.POST['email']
+	first_name = request.POST['first-name']
+	
+	# get user
+	try:
+		user = User.objects(email=user_email)[0]
+	except IndexError: # if user doesn't exist, add new user
+		user = User()
+		user.first_name = first_name
+		user.email = user_email
+		user.save()
+		
+		send_mail('welcome', user.email)
+		
+	
+	# get email list
+	emaillist = get_writing(EmailList, request.POST['slug'])
+	
+	# add list to subscriber
+	if not emaillist.slug in user.subscribed_lists:
+		user.subscribed_lists.append(emaillist.slug)
+		user.save()
+	
+	# send lead magnet
+	send_mail(emaillist.lead_magnet_slug, user.email)
+	
+	return redirect('blog:distribute-post', emaillist.thankyou_page)
+	
+
+def test_landing_page(request):
+	return render(request, "test/email-subscribe.html", {
+		"slug": "test",
+	})	
 # Admin Views
 
 def dashboard(request):
@@ -110,6 +143,10 @@ class EmailAdmin(Admin):
 class EmailListAdmin(Admin):
 	def __init__(self):
 		Admin.__init__(self, EmailList, 'Email List')
+	
+	def save_others(self, writing, POST):
+		writing.lead_magnet_slug = POST['lead-magnet-slug']
+		writing.thankyou_page = POST['thankyou-page']
 
 #
 # Activity Views

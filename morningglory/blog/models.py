@@ -69,14 +69,19 @@ class SpamCommentActivity(CommentActivity):
 	status = StringField(default='spam')
 
 #
+# Membership Models
+#
+##############################################################
+class User(DynamicDocument):
+	email = StringField(max_length=254, unique=True)
+	first_name = StringField()
+	family_name = StringField()
+	subscribed_lists = ListField(StringField())
+
+#
 # Email Models
 #
 ################################################################
-
-class Subscriber(DynamicDocument):
-	first_name = StringField(max_length=128)
-	email = StringField(max_length=254, unique=True)
-
 class Email(DynamicDocument):
 	slug = StringField(unique=True)
 	title = StringField()
@@ -85,6 +90,5 @@ class Email(DynamicDocument):
 class EmailList(DynamicDocument):
 	slug = StringField(unique=True)
 	title = StringField()
-	subscribers = ListField(EmbeddedDocumentField('Subscriber'))
 	lead_magnet_slug = StringField()
 	thankyou_page = StringField()
