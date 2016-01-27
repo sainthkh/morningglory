@@ -116,17 +116,52 @@ def unsubscribe(request):
 	})
 
 def unsubscribe_this(request):
-	pass
+	email = request.POST['email']
+	list_slug = request.POST['list-slug']
+		
+	try:
+		user = User.objects(email=email)[0]
+	except IndexError:
+		return render(request, "blog/error-page.html", {
+			"error_message": "User doesn't exist."
+		})
+	
+	try:
+		user.subscribed_lists.remove(list_slug)
+	except ValueError:
+		pass
+		
+	user.save()
+	
+	return render(request, "blog/unsubscribed-successfully.html", {
+		
+	})
 	
 def unsubscribe_all(request):
-	pass	
-
+	email = request.POST['email']
+	
+	try:
+		user = User.objects(email=email)[0]
+	except IndexError:
+		return render(request, "blog/error-page.html", {
+			"error_message": "User doesn't exist."
+		})
+	
+	user.subscribed_lists = []
+	user.save()
+	
+	return render(request, "blog/unsubscribed-successfully.html", {
+		
+	})
+		
 def test_landing_page(request):
 	return render(request, "test/email-subscribe.html", {
 		"slug": "test",
 	})	
+#
 # Admin Views
-
+#
+####################################################################
 def dashboard(request):
 	return render(request, 'admin/dashboard.html', {
 	})

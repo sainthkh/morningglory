@@ -23,8 +23,12 @@ urlpatterns = [
 	url(r'^series/(?P<slug>[%-_\w]+)$', views.series, name='series'),
 	url(r'^rss$', LatestPostsFeed(), name='post-rss'),
 	url(r'^feed$', LatestPostsFeed(), name='post-feed'),
+	
+	# email 
 	url(r'^susbscribe$', views.subscribe, name="subscribe"),
 	url(r'^unsubscribe$', views.unsubscribe, name="unsubscribe"),
+	url(r'^unsubscribe-this$', views.unsubscribe_this, name="unsubscribe-this"),
+	url(r'^unsubscribe-all$', views.unsubscribe_all, name="unsubscribe-all"),
 	url(r'^test-landing-page$', views.test_landing_page, name="test-landing-page"),
 	
 	#
