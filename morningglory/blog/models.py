@@ -40,6 +40,10 @@ class Series(DynamicDocument):
 	key_points = StringField()
 	excerpt = StringField()
 
+class Link(DynamicDocument):
+	slug = StringField(unique=True)
+	url = StringField()
+
 #
 # Admin Models
 #

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import Http404
 from blog.models import *
 from datetime import datetime
 from blog.utils import slugify, template_to_html
@@ -58,11 +59,17 @@ def series_list(request, slug, page=None):
 	})
 
 def distribute_post(request, slug):
-	post = get_writing(Post, slug)
+	post_queryset = Post.objects(slug=slug)
+	if post_queryset.count() > 0:
+		post = post_queryset[0]
+		return __view_single(request, post) 
 	
-	if(post.post_type == "link"):
-		return redirect(post.redirect_link)
-	return __view_single(request, post)
+	link_queryset = Link.objects(slug=slug)
+	if link_queryset.count() > 0:
+		link = link_queryset[0]
+		return redirect(link.url)
+	
+	raise Http404 
 	
 def __view_single(request, post):
 	return render(request, 'blog/single-post.html', {
@@ -202,6 +209,31 @@ class EmailListAdmin(Admin):
 	def save_others(self, writing, POST):
 		writing.lead_magnet_slug = POST['lead-magnet-slug']
 		writing.thankyou_page = POST['thankyou-page']
+
+class LinkAdmin(Admin):
+	def __init__(self):
+		Admin.__init__(self, Link, 'Link')
+	
+	def edit_context(self, request):
+		return {
+			"page_title": "Edit Link",
+		}
+	
+	def save(self, request):
+		slug = request.POST['slug']
+		if Link.objects(slug=slug).count() > 0:
+			link = Link.objects(slug=slug)[0]
+		else:
+			link = Link()
+			link.slug = create_slug(Link, create_slug(Post, slug))
+		
+		url = request.POST['url']
+		if not re.match("https?://.*", url):
+			url = "http://" + url
+		link.url = url
+		link.save()
+		
+		return redirect(self.t['save-redirect'], slug=unquote(link.slug))
 
 #
 # Activity Views

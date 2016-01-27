@@ -59,6 +59,9 @@ urlpatterns += email.urls()
 emaillist = views.EmailListAdmin()
 urlpatterns += emaillist.urls()
 
+link = views.LinkAdmin()
+urlpatterns += link.urls()
+
 urlpatterns = urlpatterns + [
 	# activities
 	url(r'^admin/activities$', views.activities, name='admin-activities'),

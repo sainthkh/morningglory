@@ -6,6 +6,7 @@
 
 {% block content %}
 <form id="write-form" action="{% block write_action %}{% endblock %}" method="POST">
+	<input type="hidden" name="add-new" value="{{add_new}}">
 	<div class="col-md-8">
 		{% csrf_token %}
 		<input type="hidden" name="slug" value="{{ writing.slug }}" />

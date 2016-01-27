@@ -1,0 +1,22 @@
+{% extends 'admin/base/list.html' %}
+
+{% block page_title %}Links{% endblock %}
+
+{% block content %}
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>slug</th>
+			<th>url</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for w in writings %}
+		<tr>
+			<td>{{w.slug}}</td>
+			<td><a href="{{ w.url }}">{{ w.url }}</a></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>	
+{% endblock %}

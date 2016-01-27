@@ -24,32 +24,33 @@ def normalize_slug(slug):
 ##############################################################
 
 def setup_writing_for_save(writing_type, request):
-	writing = get_writing(writing_type, request.POST["slug"])
-	is_edit = request.POST['slug'] != ""
-	setup_dates(writing, is_edit)
+	add_new = request.POST['add-new']
+	writing = get_writing(writing_type, request.POST["slug"], add_new)
+	setup_dates(writing, add_new)
 	
-	if not is_edit:
+	if add_new:
 		writing.slug = create_slug(writing_type, request.POST["title"]) 
 	
 	setup_basic_content(writing, request.POST)
 	
 	return writing
 
-def get_writing(writing_type, slug):
-	if slug != "":
+def get_writing(writing_type, slug, add_new=False):
+	if add_new:
+		writing = writing_type()
+	else:
 		try:
 			writing = writing_type.objects(slug=normalize_slug(slug))[0]
 		except IndexError:
 			raise Http404
-	else:
-		writing = writing_type()
+
 	return writing
 
-def setup_dates(writing, is_edit):
-	if is_edit:
-		writing.last_modified_date = datetime.now()
-	else:
+def setup_dates(writing, add_new):
+	if add_new:
 		writing.published_date = writing.last_modified_date = datetime.now()
+	else:
+		writing.last_modified_date = datetime.now()
 
 def create_slug(writing_type, title):
 	slug_base = slugify(title)
@@ -129,23 +130,35 @@ class Admin:
 	def list(self, request):
 		writings = self.writing.objects
 		
-		return render(request, self.t['list-file-path'], {
+		context = {
 			"writings": writings,
 			"url_name": 'blog:{0}'.format(self.t['edit-name']),
-		})
+		}
 		
+		context.update(self.list_context(request))
+		
+		return render(request, self.t['list-file-path'], context)
+	
 	def add_new(self, request):
-		return render(request, self.t['write-file-path'], {
+		context = {
 			"page_title" : "Add New " + self.name,
-		})
+			"add_new": True,
+		}
+		context.update(self.add_new_context(request))
+		
+		return render(request, self.t['write-file-path'], context)
 	
 	def edit(self, request, slug):
 		writing = get_writing(self.writing, slug)
-
-		return render(request, self.t['write-file-path'], {
+		
+		context = {
 			"writing": writing,
 			"page_title": "Edit {0} : {1}".format(self.name, writing.title),
-		})
+			"add_new": False,
+		}
+		context.update(self.edit_context(request))
+		
+		return render(request, self.t['write-file-path'], context)
 	
 	def save(self, request):
 		writing = setup_writing_for_save(self.writing, request)
@@ -156,6 +169,15 @@ class Admin:
 	
 	def save_others(self, writing, POST):
 		pass
+		
+	def list_context(self, request):
+		return {}
+	
+	def add_new_context(self, request):
+		return {}
+	
+	def edit_context(self, request):
+		return {}
 #
 # Comment Savers. 
 #
