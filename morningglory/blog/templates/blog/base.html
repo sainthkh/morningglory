@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load blog_tags %}
 
 <!DOCTYPE html>
 <head>
@@ -50,4 +51,7 @@
 		</nav>
 	</footer>
 </body>
+{% autoescape off %}
+{% google_analytics %}
+{% endautoescape %}
 </html>

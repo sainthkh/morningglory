@@ -1,6 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
+from django.conf import settings
 
 from urllib.parse import quote, unquote
 import mistune
@@ -8,6 +9,7 @@ import math
 
 from blog.utils.urls import get_post_url_by_slug
 from blog.models import *
+from blog.expanders import template_to_html
 
 register = template.Library()
 
@@ -76,3 +78,10 @@ def unsubscribe_url(context, email, list_slug):
 	request = context['request']
 	url = request.build_absolute_uri(reverse('blog:unsubscribe'))
 	return "{0}?email={1}&list-slug={2}".format(url, quote(email), quote(list_slug))
+
+@register.simple_tag()
+def google_analytics():
+	if settings.DEBUG:
+		return ''
+	return template_to_html('blog/google-analytics.html', {})
+		
