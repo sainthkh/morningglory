@@ -3,6 +3,7 @@
 $background-color: $body-bg;
 $border-color: darken($background-color, 10%);
 $post-border-color: #78685c;
+$main-container-color: #f5f6f7;
 
 html, 
 body {
@@ -10,7 +11,7 @@ body {
 }
 
 .site-main-container {
-	background: #f5f6f7;
+	background: $main-container-color;
 	min-height: 100%;
 }
 
@@ -266,6 +267,13 @@ $youtube-color: #e62117;
 	button {
 		width: 350px;
 	}
+}
+
+.login-panel {
+	background: lighten($background-color, 9%);
+	margin-top: 20%;
+	padding: 20px;
+	border-radius: 5px;
 }
 
 @import "expanders.scss";

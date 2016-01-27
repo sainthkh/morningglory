@@ -76,6 +76,11 @@ def __view_single(request, post):
 			'post': post,
 		})
 
+def login(request):
+	return render(request, 'blog/login.html', {
+		
+	})
+
 # Email subscription
 
 def subscribe(request):
