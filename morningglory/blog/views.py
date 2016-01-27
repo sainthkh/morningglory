@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect
 from django.http import Http404
-from blog.models import *
+from django.views.generic import View
+from django.contrib.auth import authenticate, login
+
 from datetime import datetime
-from blog.utils import slugify, template_to_html
 from urllib.parse import quote, unquote
+
+from blog.models import *
+from blog.utils import slugify, template_to_html
 from blog.expanders import expand_content
 from blog.utils.views import *
 
-from .utils import *
 import re
 
 # Create your views here.
@@ -76,10 +79,36 @@ def __view_single(request, post):
 			'post': post,
 		})
 
-def login(request):
-	return render(request, 'blog/login.html', {
+class LoginView(View):
+	def get(self, request):
+		return render(request, 'blog/login.html', {
+		})
+	
+	def post(self, request):
+		user_queryset = User.objects(email=request.POST['email'])
+		if user_queryset.count() > 0:
+			user = user_queryset[0]
+		else:
+			return render(request, 'blog/login.html', {
+				"error_message": "Email doesn't exist.",
+			})
 		
-	})
+		django_user = authenticate(username=user.id, password=request.POST['password'])
+		
+		if not django_user:
+			return render(request, 'blog/login.html', {
+				"error_message": "Password is not correct.",
+			})
+		else:
+			login(request, django_user)
+		
+		if 'next' in request.GET:
+			next = unquote(request.GET['next'])
+		else:
+			next = '/'	 
+		
+		return redirect(next)
+
 
 # Email subscription
 

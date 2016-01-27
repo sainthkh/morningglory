@@ -19,6 +19,7 @@
 				</div>
 				<div class="panel-body">
 					<form method="POST">
+						{% csrf_token %}
 						<div class="form-group">
 							<input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
 						</div>
