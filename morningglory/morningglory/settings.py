@@ -25,7 +25,10 @@ SECRET_KEY = 'aad@*hl_1%v73xbfov^6c=kj1&(hem57_$=6+=^k91yck6!ja1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+	"localhost",
+	".wiseinit.com",	
+]
 
 
 # Application definition
