@@ -24,7 +24,7 @@ def normalize_slug(slug):
 ##############################################################
 
 def setup_writing_for_save(writing_type, request):
-	add_new = request.POST['add-new']
+	add_new = request.POST['add-new'] == "True"
 	writing = get_writing(writing_type, request.POST["slug"], add_new)
 	setup_dates(writing, add_new)
 	
