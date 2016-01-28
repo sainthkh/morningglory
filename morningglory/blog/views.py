@@ -1,19 +1,17 @@
 from django.shortcuts import render, redirect
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.views.generic import View
 from django.contrib.auth import authenticate, login
 
 from datetime import datetime
 from urllib.parse import quote, unquote
+import re
+import os
 
 from blog.models import *
 from blog.utils import slugify, template_to_html
 from blog.expanders import expand_content
 from blog.utils.views import *
-
-import re
-
-# Create your views here.
 
 def index(request):
 	dummy = {
@@ -78,6 +76,32 @@ def __view_single(request, post):
 	return render(request, 'blog/single-post.html', {
 			'post': post,
 		})
+
+def upload_file(request): 
+	for f in request.FILES.getlist('files'):
+		upload_folder = r"D:\uploads\\" 
+		final_path = upload_folder + f.name
+		
+		if os.path.isfile(final_path):
+			name, ext = os.path.splitext(f.name)
+			num = 1
+			
+			while True:
+				name_candidate = name + '-' + str(num) + ext
+				
+				if not os.path.isfile(upload_folder + name_candidate):
+					break
+				
+				num = num + 1
+			final_path = upload_folder + name_candidate
+
+		with open(final_path, 'wb+') as dest:
+			for chunk in f.chunks():
+				dest.write(chunk)
+	
+	data = {}
+	data['success'] = 'test'
+	return JsonResponse(data)
 
 class LoginView(View):
 	def get(self, request):
