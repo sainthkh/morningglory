@@ -64,6 +64,7 @@ def create_slug(writing_type, title):
 			exist = writing_type.objects(slug=slug_candidate).count() != 0
 			if not exist:
 				break
+			num = num + 1
 		final_slug = slug_candidate
 	
 	return final_slug	
