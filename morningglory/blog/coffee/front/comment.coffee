@@ -22,7 +22,6 @@ jQuery(document).ready ($) ->
 		
 	$('.comment-form').submit (e) ->
 		e.preventDefault()
-		u = $('.comment-form').attr('action')
 		$.ajax(
 			method: "post"
 			url: $('.comment-form').attr('action') + '/ajax'
