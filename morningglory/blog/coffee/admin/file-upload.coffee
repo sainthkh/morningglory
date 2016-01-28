@@ -37,7 +37,10 @@ jQuery(document).ready ($) ->
 			processData: false # Don't process the files
 			contentType: false # Set content type to false as jQuery will tell the server its a query string request
 			success: (data, textStatus, jqXHR) ->
-				console.log('' + data.success)
-				
+				caretPos = document.getElementById("write-content").selectionStart
+				textAreaTxt = $("#write-content").val()
+				txtToAdd = data.filetext
+				$("#write-content").val(textAreaTxt.substring(0, caretPos) + txtToAdd + textAreaTxt.substring(caretPos) );
+						
 			error: (jqXHR, textStatus, errorThrown) ->
-				console.log('ERRORS: ' + textStatus) # STOP LOADING SPINNER
+				console.log('ERRORS: ' + textStatus)

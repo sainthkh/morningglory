@@ -77,7 +77,8 @@ def __view_single(request, post):
 			'post': post,
 		})
 
-def upload_file(request): 
+def upload_file(request):
+	filetext = '' 
 	for f in request.FILES.getlist('files'):
 		upload_folder = r"D:\uploads\\" 
 		final_path = upload_folder + f.name
@@ -98,9 +99,12 @@ def upload_file(request):
 		with open(final_path, 'wb+') as dest:
 			for chunk in f.chunks():
 				dest.write(chunk)
+		
+		filetext = filetext + "($ {0} $)".format(f.name)
 	
 	data = {}
-	data['success'] = 'test'
+	data['success'] = True
+	data['filetext'] = filetext
 	return JsonResponse(data)
 
 class LoginView(View):
