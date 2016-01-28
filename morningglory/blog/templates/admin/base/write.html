@@ -13,8 +13,10 @@
 		<div class="title-wrap">
 			<input type="text" class="form-control" name="title" value="{{ writing.title }}" placeholder="Title" />
 		</div>
-		<input id="write-content" type="hidden" name="content" value="{{ writing.content }}" />
-		<div id="epiceditor" style="height:500px"></div>
+		<div class="form-group">
+			<label for="write-content">Content</label>
+			<textarea id="write-content" class="form-control" style="height:500px;" type="hidden" name="content" rows="15">{{ writing.content }}</textarea>
+		</div>
 		{% block extra %}
 			<div class="form-group">
 				<label for="post-excerpt">Excerpt</label>
@@ -39,15 +41,5 @@
 {% endblock %}
 
 {% block script_at_bottom %}
-<script src="{% static 'epiceditor/js/epiceditor.min.js' %}"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-    var editor = new EpicEditor({basePath: '{% static "epiceditor" %}'}).load();
-    editor.importFile('', $('#write-content').val() )
-    $('#write-form').submit(function(){
-        $('#write-content').val(editor.exportFile())
-    })
-})
-</script>
 {% include 'admin/file-uploader.html' %}
 {% endblock %}
