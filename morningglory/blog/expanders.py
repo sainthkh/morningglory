@@ -1,4 +1,5 @@
 import re
+import os
 from django.template.context import Context
 from blog.utils import template_to_html
 
@@ -31,3 +32,11 @@ def eye_catch_template(content):
 
 add_custom_tag("example", example_template)
 add_custom_tag("eye-catch", eye_catch_template)
+
+def expand_image_tags(content):
+	return re.sub(r"(\$(.*?)\$)", expand_image, content, flags=re.M|re.S)
+	
+def expand_image(m):
+	file = m.group(1)
+	filename = os.path.splitext(file)
+	return '<img src="{0}" alt="{1}" >'.format(file, filename)

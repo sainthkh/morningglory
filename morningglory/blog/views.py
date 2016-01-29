@@ -10,7 +10,7 @@ import os
 
 from blog.models import *
 from blog.utils import slugify, template_to_html
-from blog.expanders import expand_content
+from blog.expanders import expand_content, expand_image_tags
 from blog.utils.views import *
 
 def index(request):
@@ -75,6 +75,7 @@ def distribute_post(request, slug):
 def __view_single(request, post):
 	return render(request, 'blog/single-post.html', {
 			'post': post,
+			'content': expand_image_tags(expand_content(post.content)),
 		})
 
 def upload_file(request):
@@ -245,7 +246,6 @@ class PostAdmin(Admin):
 		Admin.__init__(self, Post, 'Post')
 	
 	def save_others(self, writing, POST):
-		writing.compiled_content = expand_content(writing.content)
 		writing.series_slug = POST['series']
 
 class SeriesAdmin(Admin):
