@@ -16,7 +16,6 @@ class Command(BaseCommand):
 		
 		post = Post()
 		post.slug = '1234'
-		post.post_type = 'post'
 		post.published_date = datetime.now()
 		post.last_modified_date = datetime.now()
 		post.title = "용어, 기간, 임기, 텀, 학기, 이용 약관 – Korean Words vs. Words S2 #11"

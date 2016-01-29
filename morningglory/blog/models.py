@@ -15,7 +15,6 @@ class Comment(DynamicDocument):
 
 class Post(DynamicDocument):
 	slug = StringField(unique=True)
-	post_type = StringField()
 	published_date = DateTimeField()
 	last_modified_date = DateTimeField()
 	series_slug = StringField()

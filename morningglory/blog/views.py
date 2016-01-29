@@ -246,7 +246,6 @@ class PostAdmin(Admin):
 	
 	def save_others(self, writing, POST):
 		writing.compiled_content = expand_content(writing.content)
-		writing.post_type = 'post'
 		writing.series_slug = POST['series']
 
 class SeriesAdmin(Admin):
