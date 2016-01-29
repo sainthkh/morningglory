@@ -42,6 +42,13 @@ class Link(DynamicDocument):
 	slug = StringField(unique=True)
 	url = StringField()
 
+class Product(DynamicDocument):
+	slug = StringField(unique=True)
+	title = StringField()
+	content = StringField()
+	price = FloatField()
+	files = ListField(StringField())
+
 #
 # Admin Models
 #

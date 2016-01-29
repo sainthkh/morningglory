@@ -1,0 +1,25 @@
+{% extends 'admin/base/write.html' %}
+{% load admin_tags %}
+
+{% block write_action %}{% url 'blog:save-product' %}{% endblock %}
+
+{% block extra %}
+<div class="form-group">
+	<label for="excerpt">Excerpt</label>
+	<textarea class="form-control" id="excerpt" name="excerpt" placeholder="Excerpt">{{ writing.excerpt }}</textarea>
+</div>
+<div class="form-group">
+	<label for="price">Price</label>
+	<input class="form-control" id="price" name="price" value="{{ writing.price }}" />
+</div>
+<div class="form-group">
+	<label>Files</label>
+	{% for file in writing.files %}
+		<input class="form-control" id="price" name="file-{{ forloop.counter0 }}" value="{{ file }}" />
+	{% endfor %}
+</div>
+{% endblock %}
+
+{% block write_sidebar %}
+{% endblock %}
+

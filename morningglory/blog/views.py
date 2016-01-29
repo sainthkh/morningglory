@@ -296,6 +296,10 @@ class LinkAdmin(Admin):
 		
 		return redirect(self.t['save-redirect'], slug=unquote(link.slug))
 
+class ProductAdmin(Admin):
+	def __init__(self):
+		Admin.__init__(self, Product, 'Product')
+
 #
 # Activity Views
 #
