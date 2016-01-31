@@ -12,7 +12,7 @@
 	<title>{% block title %}WiseInit Korean Admin {% endblock %}</title>
 	<link rel="profile" href="http://gmpg.org/xfn/11">
 	<link rel='stylesheet' id='bootstrap-css'  href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css?ver=4.4' type='text/css' media='all' />
-	<link rel='stylesheet' id='font-awesome-css'  href='//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css?ver=4.4' type='text/css' media='all' />
+	<link rel='stylesheet' id='font-awesome-css'  href='//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css?ver=4.4' type='text/css' media='all' />
 	<link rel='stylesheet' id='wiseinit-style' href="{% static 'blog/admin-style.css' %}" type="text/css" media='all' />
 	<link rel='stylesheet' id='metisMenu-style' href="{% static 'blog/metisMenu.min.css' %}" type="text/css" media='all' />
 	
@@ -154,17 +154,38 @@
 							<!-- /input-group -->
 						</li>
 						<li>
-							<a href="{% url 'blog:admin-dashboard' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+							<a href="{% url 'blog:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a>
 						</li>
 						<li>
-							<a href="{% url 'blog:admin-post' %}"><i class="fa fa-sticky-note"></i>Posts<span class="fa arrow"></span></a>
+							<a href="{% url 'blog:admin-post' %}"><i class="fa fa-sticky-note"></i> Posts<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<li><a href="{% url 'blog:admin-post' %}">All Posts</a></li>
 								<li><a href="{% url 'blog:add-new-post' %}">Add New Post</a></li>
 								<li><a href="{% url 'blog:admin-series' %}">Series</a></li>
 								<li><a href="{% url 'blog:admin-category' %}">Categories</a></li>
 							</ul>
-							<!-- /.nav-second-level -->
+						</li>
+						<li>
+							<a href="{% url 'blog:admin-email' %}"><i class="fa fa-envelope"></i> Emails<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+								<li><a href="{% url 'blog:admin-email' %}">All Emails</a></li>
+								<li><a href="{% url 'blog:add-new-email' %}">Add New Email</a></li>
+								<li><a href="{% url 'blog:admin-email-list' %}">Email Lists</a></li>
+							</ul>
+						</li>
+						<li>
+							<a href="{% url 'blog:admin-link' %}"><i class="fa fa-link"></i> Links<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+								<li><a href="{% url 'blog:admin-link' %}">All Links</a></li>
+								<li><a href="{% url 'blog:add-new-link' %}">Add New Link</a></li>
+							</ul>
+						</li>
+						<li>
+							<a href="{% url 'blog:admin-product' %}"><i class="fa fa-shopping-bag"></i> Store<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+								<li><a href="{% url 'blog:admin-product' %}">All Products</a></li>
+								<li><a href="{% url 'blog:add-new-product' %}">Add New Product</a></li>
+							</ul>
 						</li>
 						<li>
 							<a href="{% url 'blog:admin-settings' %}"><i class="fa fa-cog fa-fw"></i> Settings</a>
