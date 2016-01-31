@@ -25,6 +25,7 @@ urlpatterns = [
 	url(r'^rss$', LatestPostsFeed(), name='post-rss'),
 	url(r'^feed$', LatestPostsFeed(), name='post-feed'),
 	url(r'^login$', views.LoginView.as_view(), name='login'),
+	url(r'^store/(?P<slug>[%-_\w]+)$', views.product, name='product'),
 	
 	# email 
 	url(r'^susbscribe$', views.subscribe, name="subscribe"),

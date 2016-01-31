@@ -138,6 +138,12 @@ class LoginView(View):
 		
 		return redirect(next)
 
+def product(request, slug):
+	product = get_writing(Product, slug)
+	return render(request, "blog/single-post.html", {
+		'post': product,
+		'content': expand_image_tags(expand_content(post.content)),
+	})
 
 # Email subscription
 
