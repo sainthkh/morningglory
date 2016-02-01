@@ -137,5 +137,14 @@ TEST_RUNNER = 'morningglory.testing.NoDbTestRunner'
 
 LOGIN_URL = '/login'
 
+b = os.path.dirname
+
+ENV_ROOT = b(b(b(__file__)))
+
+MEDIA_ROOT = ENV_ROOT + '/uploads'
+
+with open(SECRET_ROOT + '/secret.txt', 'rt', encoding='utf-8') as f:
+	SECRET = f.read()	
+
 if DEBUG:
 	EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
