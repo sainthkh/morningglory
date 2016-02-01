@@ -3,6 +3,7 @@ from django.http import Http404, JsonResponse
 from django.views.generic import View
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 
 from datetime import datetime
 from urllib.parse import quote, unquote
@@ -82,7 +83,7 @@ def __view_single(request, post):
 def upload_file(request):
 	filetext = '' 
 	for f in request.FILES.getlist('files'):
-		upload_folder = r"D:\uploads\\" 
+		upload_folder = settings.MEDIA_ROOT
 		final_path = upload_folder + f.name
 		
 		if os.path.isfile(final_path):
