@@ -114,6 +114,9 @@ class LoginView(View):
 		})
 	
 	def post(self, request):
+		'''
+		Temporary Code
+		
 		user_queryset = User.objects(email=request.POST['email'])
 		if user_queryset.count() > 0:
 			user = user_queryset[0]
@@ -121,8 +124,10 @@ class LoginView(View):
 			return render(request, 'blog/login.html', {
 				"error_message": "Email doesn't exist.",
 			})
-		
+			
 		django_user = authenticate(username=user.id, password=request.POST['password'])
+		'''
+		django_user = authenticate(username=request.POST['email'], password=request.POST['password'])
 		
 		if not django_user:
 			return render(request, 'blog/login.html', {
