@@ -135,5 +135,7 @@ STATICFILES_DIRS = [
 
 TEST_RUNNER = 'morningglory.testing.NoDbTestRunner'
 
+LOGIN_URL = '/login'
+
 if DEBUG:
 	EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

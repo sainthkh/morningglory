@@ -3,6 +3,7 @@ from django.conf import settings
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.core.mail import EmailMessage
+from django.contrib.auth.decorators import login_required
 
 from urllib.parse import quote, unquote
 from blog.models import *
@@ -120,10 +121,10 @@ class Admin:
 	
 	def urls(self):
 		u = [
-			url(self.t['list-url'], self.list, name=self.t['list-name']),
-			url(self.t['add-new-url'], self.add_new, name=self.t['add-new-name']),
-			url(self.t['edit-url'], self.edit, name=self.t['edit-name']),
-			url(self.t['save-url'], self.save, name=self.t['save-name']),
+			url(self.t['list-url'], login_required(self.list), name=self.t['list-name']),
+			url(self.t['add-new-url'], login_required(self.add_new), name=self.t['add-new-name']),
+			url(self.t['edit-url'], login_required(self.edit), name=self.t['edit-name']),
+			url(self.t['save-url'], login_required(self.save), name=self.t['save-name']),
 		]
 		
 		return u

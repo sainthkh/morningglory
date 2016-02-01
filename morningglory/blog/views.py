@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import Http404, JsonResponse
 from django.views.generic import View
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
 from datetime import datetime
 from urllib.parse import quote, unquote
@@ -243,6 +244,7 @@ def test_landing_page(request):
 # Admin Views
 #
 ####################################################################
+@login_required
 def dashboard(request):
 	return render(request, 'admin/dashboard.html', {
 	})
@@ -315,13 +317,14 @@ class ProductAdmin(Admin):
 # Activity Views
 #
 ##############################################################
-
+@login_required
 def activities(request):
 	activities = Activity.objects
 	return render(request, 'admin/activities.html', {
 		"activities": activities,
 	})
 
+@login_required
 def approve_comment(request, pos):
 	activity = Activity.objects[int(pos)]
 	
@@ -338,7 +341,8 @@ def approve_comment(request, pos):
 # Setting Views
 #
 ###############################################################
-	
+
+@login_required
 def settings(request):
 	if len(Secret.objects(name='akismet')) > 0:
 		akismet_key = (Secret.objects(name='akismet')[0]).key
@@ -348,7 +352,8 @@ def settings(request):
 	return render(request, 'admin/settings.html', {
 		"akismet_key": akismet_key,
 	})
-	
+
+@login_required	
 def save_settings(request):
 	if len(Secret.objects(name='akismet')) > 0:
 		secret = Secret.objects(name='akismet')[0]
