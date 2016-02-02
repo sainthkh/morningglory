@@ -34,7 +34,7 @@ add_custom_tag("example", example_template)
 add_custom_tag("eye-catch", eye_catch_template)
 
 def expand_image_tags(content):
-	return re.sub(r"(\$(.*?)\$)", expand_image, content, flags=re.M|re.S)
+	return re.sub(r"\(\$(.*?)\$\)", expand_image, content, flags=re.M|re.S)
 	
 def expand_image(m):
 	file = m.group(1)
