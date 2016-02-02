@@ -1,6 +1,9 @@
 from django.test import TestCase
 
+import mistune
+
 from blog.utils import *
+from blog.utils.views import *
 
 class UtilTest(TestCase):
 	def test__quote(self):
@@ -44,3 +47,23 @@ class UtilTest(TestCase):
 		r = template_to_html('test/simple.html', {"content": "Hello" })
 		
 		self.assertEqual(r, "<div>Hello</div>")
+	
+	def test__process_content__newline__correct_br(self):
+		test_set = [
+			("Hi\n\nWorld", "Hi\n\nWorld"),
+			("Hi\nWorld\n\nI am C.", "Hi  \nWorld\n\nI am C."),
+			("Hi   \nWorld\n  \t\nI am C.", "Hi  \nWorld\n\nI am C."),
+			("한글이 있다.\nThere is Hangeul.\n\n한글이 또 있다.\nThere is another Hangeul.",
+				"한글이 있다.  \nThere is Hangeul.\n\n한글이 또 있다.  \nThere is another Hangeul."),
+		]
+		
+		self.run_tests(test_set, process_content)
+	
+	def test__mistune_markdown(self):
+		test_set = [
+			("Hi   \nWorld\n  \t\nI am C.", "<p>Hi<br>\nWorld</p>\n<p>I am C.</p>\n"),
+		]
+		
+		r = mistune.Renderer(escape=False)
+		markdown = mistune.Markdown(renderer=r)
+		self.run_tests(test_set, markdown)

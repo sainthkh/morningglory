@@ -13,7 +13,6 @@ import os
 
 from blog.models import *
 from blog.utils import slugify, template_to_html
-from blog.expanders import expand_content, expand_image_tags
 from blog.utils.views import *
 
 def index(request):
@@ -67,7 +66,7 @@ def distribute_post(request, slug):
 		post = post_queryset[0]
 		return render(request, 'blog/single-post.html', {
 			'post': post,
-			'content': expand_image_tags(expand_content(post.content)),
+			'content': process_content(post.content),
 		}) 
 	
 	link_queryset = Link.objects(slug=slug)
@@ -146,7 +145,7 @@ def product(request, slug):
 	product = get_writing(Product, slug)
 	return render(request, "blog/single-post.html", {
 		'post': product,
-		'content': expand_image_tags(expand_content(post.content)),
+		'content': process_content(post.content),
 	})
 
 # Email subscription

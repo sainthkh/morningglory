@@ -5,11 +5,13 @@ from django.shortcuts import render, redirect
 from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
 
+import re
+
 from urllib.parse import quote, unquote
 from blog.models import *
 from blog.utils import slugify
 from datetime import datetime
-from blog.expanders import template_to_html
+from blog.expanders import template_to_html, expand_content, expand_image_tags
 
 def normalize_slug(slug):
 	if "%" not in slug:
@@ -86,6 +88,13 @@ def setup_basic_content(writing, POST):
 	if 'key-points' in POST and POST['key-points'].strip():
 		writing.key_points = POST['key-points']			
 
+def process_content(text):
+	text = text.replace("\r\n", "\n")
+	text = re.sub(r"[\t ]*\n[\t ]*\n", r"$$newline$$", text, re.M|re.S)
+	text = re.sub(r"[\t ]*\n", r"  \n", text, re.M|re.S)
+	text = re.sub(r"\$\$newline\$\$", r"\n\n", text, re.M|re.S)
+	text = expand_image_tags(expand_content(text))
+	return text
 #
 # Admin class
 #
