@@ -59,6 +59,10 @@ class Product(DynamicDocument):
 	price = FloatField()
 	files = ListField(StringField())
 
+# slug list for Post, Page, Link
+class PrimarySlug(Document):
+	slug = StringField(unique=True)
+
 #
 # Admin Models
 #

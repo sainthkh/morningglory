@@ -71,8 +71,7 @@ def create_slug(writing_type, title):
 	return final_slug	
 
 def primary_level_slug(candidate):
-	c = create_slug
-	return c(Link, c(Page, c(Post, candidate)))
+	return create_slug(PrimarySlug, candidate)
 
 def setup_basic_content(writing, POST):
 	if 'title' in POST and POST['title'].strip():
