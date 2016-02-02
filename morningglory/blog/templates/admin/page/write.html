@@ -1,0 +1,21 @@
+{% extends 'admin/base/write.html' %}
+{% load admin_tags %}
+
+{% block write_action %}{% url 'blog:save-page' %}{% endblock %}
+
+{% block write_sidebar %}
+<div class="panel panel-default wfb-splash">
+	<div class="panel-heading">Splash Image</div>
+	<div class="panel-body">
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#file-uploader">Upload Files</button>
+	</div>
+</div>
+<div class="panel panel-default files-preview">
+	<div class="panel-heading">Layout</div>
+	<div class="panel-body">
+		<div class="form-group">
+			<input class="form-control" type="text" name="layout" value="{{ writing.layout }}">
+		</div>
+	</div>
+</div>
+{% endblock %}

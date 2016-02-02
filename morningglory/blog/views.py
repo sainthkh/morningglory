@@ -260,7 +260,20 @@ class PostAdmin(Admin):
 		Admin.__init__(self, Post, 'Post')
 	
 	def save_others(self, writing, POST):
+		if POST['add-new'] == 'True':
+			writing.slug = primary_level_slug(POST['slug'])
+			
 		writing.series_slug = POST['series']
+
+class PageAdmin(Admin):
+	def __init__(self):
+		Admin.__init__(self, Page, 'Page')
+	
+	def save_others(self, writing, POST):
+		if POST['add-new'] == 'True':
+			writing.slug = primary_level_slug(POST['slug'])
+
+		writing.layout = POST['layout']
 
 class SeriesAdmin(Admin):
 	def __init__(self):

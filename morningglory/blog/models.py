@@ -25,6 +25,16 @@ class Post(DynamicDocument):
 	splash_image_path = StringField()
 	comments = ListField(EmbeddedDocumentField('Comment'))
 
+class Page(DynamicDocument):
+	slug = StringField(unique=True)
+	published_date = DateTimeField()
+	last_modified_date = DateTimeField()
+	title = StringField()
+	content = StringField()
+	splash_image_path = StringField()
+	comments = ListField(EmbeddedDocumentField('Comment'))
+	layout = StringField()
+
 class Category(DynamicDocument):
 	slug = StringField(unique=True)
 	title = StringField()

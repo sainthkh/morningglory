@@ -47,26 +47,19 @@ urlpatterns = [
 	url(r'^admin$', views.dashboard, name='admin-dashboard'),
 ]
 
-post = views.PostAdmin()
-urlpatterns += post.urls()
+admin_views = [
+	views.PostAdmin(),
+	views.PageAdmin(),
+	views.SeriesAdmin(),
+	views.CategoryAdmin(),
+	views.EmailAdmin(),
+	views.EmailListAdmin(),
+	views.LinkAdmin(),
+	views.ProductAdmin(),
+]
 
-series = views.SeriesAdmin()
-urlpatterns += series.urls()
-
-category = views.CategoryAdmin()
-urlpatterns += category.urls()
-
-email = views.EmailAdmin()
-urlpatterns += email.urls()
-
-emaillist = views.EmailListAdmin()
-urlpatterns += emaillist.urls()
-
-link = views.LinkAdmin()
-urlpatterns += link.urls()
-
-product = views.ProductAdmin()
-urlpatterns += product.urls()
+for admin_view in admin_views:
+	urlpatterns += admin_view.urls()
 
 urlpatterns = urlpatterns + [
 	# activities

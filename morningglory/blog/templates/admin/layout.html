@@ -166,6 +166,13 @@
 							</ul>
 						</li>
 						<li>
+							<a href="{% url 'blog:admin-page' %}"><i class="fa fa-bookmark"></i> Pages<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+								<li><a href="{% url 'blog:admin-page' %}">All Pages</a></li>
+								<li><a href="{% url 'blog:add-new-page' %}">Add New Page</a></li>
+							</ul>
+						</li>
+						<li>
 							<a href="{% url 'blog:admin-email' %}"><i class="fa fa-envelope"></i> Emails<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<li><a href="{% url 'blog:admin-email' %}">All Emails</a></li>
