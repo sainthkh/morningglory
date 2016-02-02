@@ -294,21 +294,14 @@ class LinkAdmin(Admin):
 			"page_title": "Edit Link",
 		}
 	
-	def save(self, request):
-		slug = request.POST['slug']
-		if Link.objects(slug=slug).count() > 0:
-			link = Link.objects(slug=slug)[0]
-		else:
-			link = Link()
-			link.slug = create_slug(Link, create_slug(Post, slug))
+	def save_others(self, writing, POST):
+		if POST['add-new'] == 'True':
+			writing.slug = primary_level_slug(POST['slug'])
 		
-		url = request.POST['url']
+		url = POST['url']
 		if not re.match("https?://.*", url):
 			url = "http://" + url
-		link.url = url
-		link.save()
-		
-		return redirect(self.t['save-redirect'], slug=unquote(link.slug))
+		writing.url = url
 
 class ProductAdmin(Admin):
 	def __init__(self):

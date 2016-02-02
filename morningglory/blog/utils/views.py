@@ -29,7 +29,7 @@ def setup_writing_for_save(writing_type, request):
 	writing = get_writing(writing_type, request.POST["slug"], add_new)
 	setup_dates(writing, add_new)
 	
-	if add_new:
+	if add_new and not 'slug' in request.POST:
 		writing.slug = create_slug(writing_type, request.POST["title"]) 
 	
 	setup_basic_content(writing, request.POST)
@@ -69,6 +69,10 @@ def create_slug(writing_type, title):
 		final_slug = slug_candidate
 	
 	return final_slug	
+
+def primary_level_slug(candidate):
+	c = create_slug
+	return c(Link, c(Page, c(Post, candidate)))
 
 def setup_basic_content(writing, POST):
 	if 'title' in POST and POST['title'].strip():
@@ -155,9 +159,12 @@ class Admin:
 		
 		context = {
 			"writing": writing,
-			"page_title": "Edit {0} : {1}".format(self.name, writing.title),
 			"add_new": False,
 		}
+		
+		if 'title' in writing:
+			context["page_title"] = "Edit {0} : {1}".format(self.name, writing.title) 
+		
 		context.update(self.edit_context(request))
 		
 		return render(request, self.t['write-file-path'], context)
