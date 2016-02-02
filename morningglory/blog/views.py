@@ -257,7 +257,7 @@ class PostAdmin(Admin):
 	
 	def save_others(self, writing, POST):
 		if POST['add-new'] == 'True':
-			writing.slug = primary_level_slug(POST['slug'])
+			writing.slug = primary_level_slug(POST['title'])
 			
 		writing.series_slug = POST['series']
 
@@ -267,7 +267,7 @@ class PageAdmin(Admin):
 	
 	def save_others(self, writing, POST):
 		if POST['add-new'] == 'True':
-			writing.slug = primary_level_slug(POST['slug'])
+			writing.slug = primary_level_slug(POST['title'])
 
 		writing.layout = POST['layout']
 
