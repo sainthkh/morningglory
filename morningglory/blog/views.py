@@ -4,6 +4,7 @@ from django.views.generic import View
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from django.template.response import TemplateResponse
 
 from datetime import datetime
 from urllib.parse import quote, unquote
@@ -237,6 +238,38 @@ def test_landing_page(request):
 	return render(request, "test/email-subscribe.html", {
 		"slug": "test",
 	})	
+
+def sitemap(request, type_string=None):
+	if not type_string:
+		types = [Post, Page]
+		last_mod_dates = []
+		
+		for t in types:
+			writing = t.objects().order_by("-last_modified_date")[0:0]
+			last_mod = writing[0].last_modified_date
+			
+			last_mod_dates.append(last_mod)
+			
+		return TemplateResponse(request, 'sitemap/main.xml', {
+			"post_last_mod": last_mod_dates[0],
+			"page_last_mod": last_mod_dates[1],
+		}, content_type='application/xml')
+	elif type_string == "legacy":
+		return TemplateResponse(request, 'sitemap/legacy.xml', {
+		}, content_type='application/xml')
+	else:
+		types = {
+			"post": { "class": Post, "url_name": 'blog:distribute-post'},
+			"page": { "class": Page, "url_name": 'blog:distribute-post'},
+		}
+		
+		return TemplateResponse(request, 'sitemap/type.xml', {
+			"writings": types[type_string]["class"].objects.order_by("-last_modified_date").only("slug", "last_modified_date"),
+			"url_name": types[type_string]["url_name"],
+			"changefreq": "monthly",
+			"priority": "0.2",
+		}, content_type='application/xml')
+
 #
 # Admin Views
 #

@@ -1,12 +1,6 @@
 from django.conf.urls import url
-from django.contrib.sitemaps.views import sitemap
-from blog.sitemaps import BlogSitemap
 import blog.views as views
 from blog.feeds import LatestPostsFeed
-
-sitemaps = {
-	"blog": BlogSitemap
-}
 
 app_name = 'blog'
 urlpatterns = [
@@ -38,7 +32,7 @@ urlpatterns = [
 	# sitemap
 	#
 	############################################################
-	url(r'^sitemap.xml$', sitemap, { "sitemaps": sitemaps }, name='django.contrib.sitemaps.views.sitemap'),
+	url(r'^sitemap(?:\-(?P<type_string>[a-z]+))\.xml$', views.sitemap, name='sitemap'),
 	
 	#
 	# Admin Pages.

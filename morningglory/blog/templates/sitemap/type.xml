@@ -1,0 +1,13 @@
+{% spaceless %}
+{% load blog_tags %}
+{% endspaceless %}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{% for w in writings %}
+<url>
+	<loc>{% absolute_url_reverse url_name w.slug %}</loc>
+	<lastmod>{{ w.last_modified_date|date:"Y-m-d" }}</lastmod>
+	<changefreq>{{ changefreq }}</changefreq>
+	<priority>{{ priority }}</priority>
+</url>
+{% endfor %}
+</urlset>

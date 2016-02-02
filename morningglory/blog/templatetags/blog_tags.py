@@ -84,4 +84,11 @@ def google_analytics():
 	if settings.DEBUG:
 		return ''
 	return template_to_html('blog/google-analytics.html', {})
-		
+
+@register.simple_tag(takes_context=True)
+def absolute_url(context, url):
+	return context['request'].build_absolute_uri(url)
+	
+@register.simple_tag(takes_context=True)
+def absolute_url_reverse(context, url_name, slug):
+	return context['request'].build_absolute_uri(reverse(url_name, kwargs={"slug":slug}))
