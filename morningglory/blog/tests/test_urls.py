@@ -10,7 +10,7 @@ class UrlTest(TestCase):
 		self.run_tests(test_set)
 	
 	def test__urls__url__correct_view_path(self):
-		
+		pass
 				
 	def run_tests(self, test_set):
 		for t in test_set:
