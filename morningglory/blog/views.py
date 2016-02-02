@@ -34,8 +34,7 @@ def list_post_paged(request):
 	pass
 
 def single_post(request, year, month, date, slug):
-	post = get_writing(Post, slug)
-	return __view_single(request, post)
+	return redirect(request, slug=unquote(slug))
 
 def category(request, slug, page):
 	series_list = Series.objects(category_slug=slug)
@@ -65,20 +64,17 @@ def distribute_post(request, slug):
 	post_queryset = Post.objects(slug=slug)
 	if post_queryset.count() > 0:
 		post = post_queryset[0]
-		return __view_single(request, post) 
+		return render(request, 'blog/single-post.html', {
+			'post': post,
+			'content': expand_image_tags(expand_content(post.content)),
+		}) 
 	
 	link_queryset = Link.objects(slug=slug)
 	if link_queryset.count() > 0:
 		link = link_queryset[0]
 		return redirect(link.url)
 	
-	raise Http404 
-	
-def __view_single(request, post):
-	return render(request, 'blog/single-post.html', {
-			'post': post,
-			'content': expand_image_tags(expand_content(post.content)),
-		})
+	raise Http404  
 
 def upload_file(request):
 	filetext = '' 
