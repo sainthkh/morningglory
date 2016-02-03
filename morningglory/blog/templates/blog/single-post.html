@@ -3,6 +3,7 @@
 
 {% block content %}
 <div class="post col-md-offset-2 col-md-8">
+{% autoescape off %}
 <article>
 <div class="post-head">
 	{% if post.series != None %}
@@ -19,11 +20,10 @@
 	<img src="" />
 </div>
 <div class="writing-content">
-	{% autoescape off %}
-	{{ content|markdown}}
-	{% endautoescape %}	
+	{{ content|markdown }}	
 </div>
 </article>
+{% endautoescape %}
 {% share post %}
 <div class="lead-magnet-offer">
 </div>
