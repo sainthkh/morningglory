@@ -148,3 +148,5 @@ with open(SECRET_ROOT + '/secret.txt', 'rt', encoding='utf-8') as f:
 
 if DEBUG:
 	EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+from morningglory import wpmigration
