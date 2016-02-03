@@ -35,6 +35,18 @@ body {
 		font-family: Hevetica, AppleSDGothic, "Nanum Barun Gothic", "Malgun Gothic", sans-serif;
 		font-weight: bold;
 	}
+	
+	h1, .h1 {
+		font-size: $font-size-h1 * 0.77;
+	}
+	
+	h2, .h2 {
+		font-size: $font-size-h2 * 0.77;
+	}
+	
+	h3, .h3 {
+		font-size: $font-size-h3 * 0.77;
+	}
 }
 
 $facebook-color: #43609c;
