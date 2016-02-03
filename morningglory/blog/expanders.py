@@ -1,6 +1,7 @@
 import re
 import os
 from django.template.context import Context
+from django.conf import settings
 from blog.utils import template_to_html
 
 expanders = {}
@@ -37,6 +38,7 @@ def expand_image_tags(content):
 	return re.sub(r"\(\$(.*?)\$\)", expand_image, content, flags=re.M|re.S)
 	
 def expand_image(m):
-	file = m.group(1)
+	file = m.group(1).strip()
 	filename = os.path.splitext(file)
+	file = settings.MEDIA_URL_ROOT + file
 	return '<img src="{0}" alt="{1}" >'.format(file, filename)

@@ -141,6 +141,7 @@ b = os.path.dirname
 ENV_ROOT = b(b(b(__file__)))
 
 MEDIA_ROOT = ENV_ROOT + '/uploads'
+MEDIA_URL_ROOT = '/uploads/'
 SECRET_ROOT = ENV_ROOT + '/secrets'
 
 with open(SECRET_ROOT + '/secret.txt', 'rt', encoding='utf-8') as f:
