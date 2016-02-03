@@ -17,7 +17,7 @@ def normalize_slug(slug):
 	if "%" not in slug:
 		slug = quote(slug)
 	
-	return slug
+	return slug.lower()
 
 #
 # Writing Helpers

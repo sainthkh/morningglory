@@ -61,7 +61,7 @@ def series_list(request, slug, page=None):
 	})
 
 def distribute_post(request, slug):
-	post_queryset = Post.objects(slug=slug)
+	post_queryset = Post.objects(slug=normalize_slug(slug))
 	if post_queryset.count() > 0:
 		post = post_queryset[0]
 		return render(request, 'blog/single-post.html', {
@@ -69,7 +69,7 @@ def distribute_post(request, slug):
 			'content': process_content(post.content),
 		}) 
 	
-	link_queryset = Link.objects(slug=slug)
+	link_queryset = Link.objects(slug=normalize_slug(slug))
 	if link_queryset.count() > 0:
 		link = link_queryset[0]
 		return redirect(link.url)
