@@ -110,7 +110,7 @@ class WpPosts(models.Model):
 
 
 class WpTermRelationships(models.Model):
-    object_id = models.BigIntegerField()
+    object_id = models.BigIntegerField(primary_key=True)
     term_taxonomy_id = models.BigIntegerField()
     term_order = models.IntegerField()
 
