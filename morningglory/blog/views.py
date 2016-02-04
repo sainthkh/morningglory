@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.template.response import TemplateResponse
 
-from datetime import datetime
+from datetime import datetime, date
 from urllib.parse import quote, unquote
 import re
 import os
@@ -254,7 +254,12 @@ def sitemap(request, type_string=None):
 			"page_last_mod": last_mod_dates[1],
 		}, content_type='application/xml')
 	elif type_string == "legacy":
+		posts = Post.objects(published_date__lte=date(2016, 2, 12)).order_by("-last_modified_date").only("slug", "last_modified_date")
 		return TemplateResponse(request, 'sitemap/legacy.xml', {
+			"writings" : posts,
+			"url_name" : "blog:single-post-legacy",
+			"changefreq": "never",
+			"priority": "0.1",
 		}, content_type='application/xml')
 	else:
 		types = {

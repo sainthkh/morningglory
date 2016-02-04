@@ -92,3 +92,12 @@ def absolute_url(context, url):
 @register.simple_tag(takes_context=True)
 def absolute_url_reverse(context, url_name, slug):
 	return context['request'].build_absolute_uri(reverse(url_name, kwargs={"slug":slug}))
+	
+@register.simple_tag(takes_context=True)
+def absolute_url_legacy(context, url_name, slug, date):
+	return context['request'].build_absolute_uri(reverse(url_name, kwargs={
+		"slug": slug, 
+		"year": str(date.year),
+		"month": str(date.month),
+		"date": str(date.day), 
+		}))

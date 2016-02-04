@@ -1,3 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
+{% spaceless %}
+{% load blog_tags %}
+{% endspaceless %}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{% for w in writings %}
+<url>
+	<loc>{% absolute_url_legacy url_name w.slug w.last_modified_date %}</loc>
+	<lastmod>{{ w.last_modified_date|date:"Y-m-d" }}</lastmod>
+	<changefreq>{{ changefreq }}</changefreq>
+	<priority>{{ priority }}</priority>
+</url>
+{% endfor %}
 </urlset>
