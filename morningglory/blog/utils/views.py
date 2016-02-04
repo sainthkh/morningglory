@@ -267,3 +267,26 @@ def send_mail(slug, addr, request, list_slug):
 			[addr], [], reply_to=['sainthkh@gmail.com'])
 	message.content_subtype = "html"
 	message.send()
+
+
+#
+# Secret functions
+#
+##################################################################
+def get_secret_key(name):
+	if len(Secret.objects(name=name)) > 0:
+		key = (Secret.objects(name=name)[0]).key
+	else:
+		key = ''
+	
+	return key
+
+def save_secret_key(name, key):
+	if len(Secret.objects(name=name)) > 0:
+		secret = Secret.objects(name=name)[0]
+	else:
+		secret = Secret()
+		secret.name = name
+	
+	secret.key = key
+	secret.save()

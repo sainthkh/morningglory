@@ -384,27 +384,27 @@ def approve_comment(request, pos):
 
 @login_required
 def settings(request):
-	if len(Secret.objects(name='akismet')) > 0:
-		akismet_key = (Secret.objects(name='akismet')[0]).key
-	else:
-		akismet_key = ''
-		
+	akismet_key = get_secret_key('akismet')
+	stripe_public_key = get_secret_key('stripe-public-key')
+	stripe_private_key = get_secret_key('stripe-private-key')
+	
 	return render(request, 'admin/settings.html', {
 		"akismet_key": akismet_key,
+		"stripe_public_key": stripe_public_key,
+		"stripe_private_key": stripe_private_key,
 	})
+
+
 
 @login_required	
 def save_settings(request):
-	if len(Secret.objects(name='akismet')) > 0:
-		secret = Secret.objects(name='akismet')[0]
-	else:
-		secret = Secret()
-		secret.name = 'akismet'
-	
-	secret.key = request.POST['akismet-key']
-	secret.save()
+	save_secret_key('akismet', request.POST['akismet-key'])
+	save_secret_key('stripe-private-key', request.POST['stripe-private-key'])
+	save_secret_key('stripe-public-key', request.POST['stripe-public-key'])
 	
 	return redirect('blog:admin-settings')
+
+
 
 #
 # Save Comments

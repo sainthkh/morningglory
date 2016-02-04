@@ -11,6 +11,18 @@
 		<input type="text" class="form-control" id="akismet-key" name="akismet-key" value="{{ akismet_key }}" />
 	</div>
 </div>
+<div class="form-group">
+	<label for="stripe-public-key" class="col-sm-2 control-label">Stripe Public Key</label>
+	<div class="col-sm-10">
+		<input type="text" class="form-control" id="stripe-public-key" name="stripe-public-key" value="{{ stripe_public_key }}" />
+	</div>
+</div>
+<div class="form-group">
+	<label for="stripe-private-key" class="col-sm-2 control-label">Stripe Private Key</label>
+	<div class="col-sm-10">
+		<input type="text" class="form-control" id="stripe-private-key" name="stripe-private-key" value="{{ stripe_private_key }}" />
+	</div>
+</div>
 <div class="form-group settings-save-button-wrap">
 	<button type="submit" class="btn btn-primary">Save</button>
 </div>
