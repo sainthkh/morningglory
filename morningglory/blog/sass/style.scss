@@ -145,24 +145,28 @@ $youtube-color: #e62117;
 .bottom-nav {
 	background-color: #000b1a;
 	padding: 20px 0;
-	
-	ul {
-		margin: 0 auto;
-		width: 720px;
-	}
-	
+		
 	li {
 		list-style: none;
-		display: inline-block;
-		padding: 0 15px;
+		margin: 8px;
 		
 		a {
 			color: $background-color;
-			
 		}
 	}
-	
-	
+}
+
+@media(min-width:992px) {
+	.bottom-nav {
+		ul {
+			margin: 0 auto;	
+		}
+		
+		li {
+			display: inline-block;
+			padding: 0 15px;
+		}
+	}
 }
 
 @mixin wrap-base() {
