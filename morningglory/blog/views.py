@@ -145,7 +145,7 @@ def product(request, slug):
 	product = get_writing(Product, slug)
 	return render(request, "blog/single-post.html", {
 		'post': product,
-		'content': process_content(post.content),
+		'content': process_content(product.content),
 	})
 
 def thank_you(request, slug):
