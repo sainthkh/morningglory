@@ -2,7 +2,9 @@ import re
 import os
 from django.template.context import Context
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from blog.utils import template_to_html
+
 
 expanders = {}
 
@@ -31,8 +33,14 @@ def example_template(content):
 def eye_catch_template(content):
 	return template_to_html('expander/eye-catch.html', {"content": content})
 
+def buy_button(content):
+	return '<a href="{0}" class="btn btn-buy btn-lg"><i class="fa fa-shopping-cart"></i>  Buy Now</a>'.format(
+			reverse('blog:payment', kwargs={"slug": content })
+		)
+
 add_custom_tag("example", example_template)
 add_custom_tag("eye-catch", eye_catch_template)
+add_custom_tag("buy", buy_button)
 
 def expand_image_tags(content):
 	return re.sub(r"\(\$(.*?)\$\)", expand_image, content, flags=re.M|re.S)

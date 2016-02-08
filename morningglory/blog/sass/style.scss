@@ -306,4 +306,8 @@ $youtube-color: #e62117;
 	}
 }
 
+.btn-buy {
+	@include button-variant(white, #f64f24, #a82f0f);
+}
+
 @import "expanders.scss";
