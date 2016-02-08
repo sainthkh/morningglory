@@ -144,6 +144,7 @@ class Command(BaseCommand):
 		series = Series()
 		series.slug = 'etc'
 		series.title = 'etc'
+		series.save()
 		
 		Post.objects(series_slug='').update(series_slug='etc')
 		
