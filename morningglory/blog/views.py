@@ -158,7 +158,7 @@ def thank_you(request, slug):
 def special_offer(request, slug):
 	product = get_writing(Product, slug)
 	return render(request, "blog/special-offer.html", {
-		"produdct": product,
+		"product": product,
 		"content": process_content(product.special_offer),
 	})
 
