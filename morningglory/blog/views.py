@@ -162,6 +162,12 @@ def special_offer(request, slug):
 		"content": process_content(product.special_offer),
 	})
 
+def payment(request, slug):
+	product = get_writing(Product, slug)
+	return render(request, "blog/payment.html", {
+		"product": product,
+	})
+	
 # Email subscription
 
 def subscribe(request):
