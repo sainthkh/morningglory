@@ -28,7 +28,12 @@ def normalize_slug(slug):
 
 def setup_writing_for_save(writing_type, request):
 	add_new = request.POST['add-new'] == "True"
-	writing = get_writing(writing_type, request.POST["slug"], add_new)
+	
+	if add_new:
+		writing = writing_type()
+	else:
+		writing = get_writing(writing_type, request.POST["slug"])
+	
 	setup_dates(writing, add_new)
 	
 	if add_new and not 'slug' in request.POST:
@@ -38,14 +43,11 @@ def setup_writing_for_save(writing_type, request):
 	
 	return writing
 
-def get_writing(writing_type, slug, add_new=False):
-	if add_new:
-		writing = writing_type()
-	else:
-		try:
-			writing = writing_type.objects(slug=normalize_slug(slug))[0]
-		except IndexError:
-			raise Http404
+def get_writing(writing_type, slug):
+	try:
+		writing = writing_type.objects(slug=normalize_slug(slug))[0]
+	except IndexError:
+		raise Http404
 
 	return writing
 
