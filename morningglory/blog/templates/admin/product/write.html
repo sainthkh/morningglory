@@ -3,6 +3,23 @@
 
 {% block write_action %}{% url 'blog:save-product' %}{% endblock %}
 
+{% block input_content %}
+<ul class="nav nav-tabs">
+	<li role="presentation" class="active"><a href="#writing-content-page" data-toggle="tab">Content</a></li>
+	<li role="presentation"><a href="#thank-you-message-page" data-toggle="tab">Thank You</a></li>
+</ul>
+<div id="writing-tab-contents" class="tab-content">
+	<div class="tab-pane fade in active" id="writing-content-page">
+		<textarea id="writing-content" class="form-control" style="height:500px;" type="hidden" name="content" rows="15">{{ writing.content }}</textarea>
+	</div>
+	<div class="tab-pane fade" id="thank-you-message-page">
+		<div class="form-group">
+			<textarea id="thank-you-message" class="form-control" style="height:500px;" type="hidden" name="thank-you" rows="15">{{ writing.thank_you }}</textarea>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
 {% block extra %}
 <div class="form-group">
 	<label for="excerpt">Excerpt</label>
