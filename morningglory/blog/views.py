@@ -372,6 +372,9 @@ class LinkAdmin(Admin):
 class ProductAdmin(Admin):
 	def __init__(self):
 		Admin.__init__(self, Product, 'Product')
+	
+	def save_others(self, writing, POST):
+		writing.thank_you = POST['thank-you']
 
 #
 # Activity Views
