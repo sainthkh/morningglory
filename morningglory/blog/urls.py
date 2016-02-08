@@ -24,9 +24,9 @@ urlpatterns = [
 	# Store
 	#
 	################################################################
-	url(r'^store/(?P<slug>[%-_\w]+)$', views.product, name='product'),
 	url(r'^store/(?P<slug>[%-_\w]+)/thank-you$', views.thank_you, name='thank-you'),
 	url(r'^store/(?P<slug>[%-_\w]+)/special-offer$', views.special_offer, name='special-offer'),
+	url(r'^store/(?P<slug>[%-_\w]+)$', views.product, name='product'),
 	url(r'^payment/(?P<slug>[%-_\w]+)$', views.payment, name='payment'),
 	
 	#
