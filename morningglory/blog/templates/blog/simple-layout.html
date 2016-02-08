@@ -1,0 +1,22 @@
+{% extends 'blog/base-layout.html' %}
+{% load staticfiles %}
+
+{% block body %}
+<header class="simple-head">
+	<div class="container">
+		<img src="{% static 'logo.png' %}" />
+		<a href="/">WiseInit Korean</a>
+	</div>
+</header>
+<div class="simple-content site-main-container">
+	{% block content %}{% endblock %}
+</div>
+<footer class="simple-foot">
+	<ul class="bottom-nav text-center">
+		<li><a href="/">WiseInit</a></li>
+		<li><a href="{% url 'blog:distribute-post' 'about' %}">About</a></li>
+		<li><a href="{% url 'blog:distribute-post' 'privacy-policy' %}">Privacy Policy</a></li>
+		<li><a href="{% url 'blog:distribute-post' 'contact' %}">Contact</a></li>
+	</ul>
+</footer>
+{% endblock %}
