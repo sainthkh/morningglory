@@ -148,6 +148,20 @@ def product(request, slug):
 		'content': process_content(post.content),
 	})
 
+def thank_you(request, slug):
+	product = get_writing(Product, slug)
+	return render(request, "blog/thank-you.html", {
+		"product": product,
+		'content': process_content(product.thank_you),
+	})
+
+def special_offer(request, slug):
+	product = get_writing(Product, slug)
+	return render(request, "blog/special-offer.html", {
+		"produdct": product,
+		"content": process_content(product.special_offer),
+	})
+
 # Email subscription
 
 def subscribe(request):

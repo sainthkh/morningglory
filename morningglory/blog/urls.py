@@ -19,9 +19,19 @@ urlpatterns = [
 	url(r'^rss$', LatestPostsFeed(), name='post-rss'),
 	url(r'^feed$', LatestPostsFeed(), name='post-feed'),
 	url(r'^login$', views.LoginView.as_view(), name='login'),
-	url(r'^store/(?P<slug>[%-_\w]+)$', views.product, name='product'),
 	
-	# email 
+	#
+	# Store
+	#
+	################################################################
+	url(r'^store/(?P<slug>[%-_\w]+)$', views.product, name='product'),
+	url(r'^store/(?P<slug>[%-_\w]+)/thank-you$', views.thank_you, name='thank-you'),
+	url(r'^store/(?P<slug>[%-_\w]+)/special-offer$', views.special_offer, name='special-offer'),
+	
+	#
+	# email
+	#
+	################################################################# 
 	url(r'^susbscribe$', views.subscribe, name="subscribe"),
 	url(r'^unsubscribe$', views.unsubscribe, name="unsubscribe"),
 	url(r'^unsubscribe-this$', views.unsubscribe_this, name="unsubscribe-this"),

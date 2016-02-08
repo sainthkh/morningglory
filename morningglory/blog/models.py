@@ -56,6 +56,8 @@ class Product(DynamicDocument):
 	slug = StringField(unique=True)
 	title = StringField()
 	content = StringField()
+	thank_you = StringField()
+	special_offer = StringField()
 	price = FloatField()
 	files = ListField(StringField())
 
