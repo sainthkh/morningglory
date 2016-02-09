@@ -65,6 +65,15 @@ class Product(DynamicDocument):
 class PrimarySlug(Document):
 	slug = StringField(unique=True)
 
+class Order(DynamicDocument):
+	id = SequenceField()
+	date = DateTimeField()
+	email = StringField()
+	payment_method = StringField()
+	product_slug = StringField()
+	product_name = StringField()
+	status = StringField()
+	
 #
 # Admin Models
 #
