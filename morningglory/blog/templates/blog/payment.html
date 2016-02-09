@@ -1,0 +1,61 @@
+{% extends 'blog/simple-layout.html' %}
+{% load blog_tags %}
+
+{% block content %}
+<div class="payment">
+<div class="container">
+	<div class="row">
+		<h1>Product</h1>
+		<div class="col-md-4">
+			<img src="" class="product-img" alt="{{ product.title }} thumbnail image" />
+		</div>
+		<div class="col-md-8">
+			<h3>Name: {{product.title}}</h3>
+			<h3>Price: ${{product.price}}</h3>
+		</div>
+	</div>
+	<div class="row">
+		<ul class="nav nav-tabs">
+			<li role="presentation" class="active"><a href="#paypal-payment" data-toggle="tab">Paypal</a></li>
+			<li role="presentation"><a href="#credit-card-payment" data-toggle="tab">Credit Card</a></li>
+		</ul>
+		<div id="payment-tab-contents" class="tab-content">
+			<div class="tab-pane fade in active" id="paypal-payment">
+				<div class="tab-page">
+				<form class="form-horizontal" action="{% url 'blog:paypal-payment' %}" method="POST">
+					{% csrf_token %}
+					<input type="hidden" name="slug" value="{{ product.slug }}" />
+					<div class="form-group">
+						<label for="email-for-paypal" class="col-sm-2 control-label">Email</label>
+						<div class="col-sm-10">
+							<input id="email-for-paypal" class="form-control" type="email" name="email" />
+						</div>
+					</div>
+					<div class="pull-right">
+						<button class="btn btn-primary" type="submit">Go on to Paypal</button>
+					</div>
+				</form>
+				</div>
+			</div>
+			<div class="tab-pane fade" id="credit-card-payment">
+				<div class="tab-page">
+				<form class="form-horizontal" action="{% url 'blog:credit-card-payment' %}" method="POST">
+					{% csrf_token %}
+					<input type="hidden" name="slug" value="{{ product.slug }}" />
+					<div class="form-group">
+						<label for="email-for-credit-card" class="col-sm-2 control-label">Email</label>
+						<div class="col-sm-10">
+							<input id="email-for-credit-card" class="form-control" type="email" name="email" />
+						</div>
+					</div>
+					<div class="pull-right">
+						<button class="btn btn-primary" type="submit">Buy Now</button>
+					</div>
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+{% endblock %}
