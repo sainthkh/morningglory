@@ -170,10 +170,10 @@ def payment(request, slug):
 		"stripe_pub_key": stripe_pub_key,
 	})
 	
-def paypal_payment(request, slug):
+def paypal_payment(request):
 	pass
 
-def credit_card_payment(request, slug):
+def credit_card_payment(request):
 	pass
 	
 # Email subscription
