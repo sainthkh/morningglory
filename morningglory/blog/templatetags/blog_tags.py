@@ -101,3 +101,7 @@ def absolute_url_legacy(context, url_name, slug, date):
 		"month": str(date.month),
 		"date": str(date.day), 
 		}))
+
+@register.simple_tag
+def uploads(filename):
+	return '/uploads/' + filename
