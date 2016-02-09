@@ -310,4 +310,13 @@ $youtube-color: #e62117;
 	@include button-variant(white, #f64f24, #a82f0f);
 }
 
+.tab-page {
+	padding: 15px;
+}
+
+.payment {
+	.product-img {
+		margin-top: 22px;
+	}
+}
 @import "expanders.scss";
