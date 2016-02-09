@@ -27,7 +27,10 @@ urlpatterns = [
 	url(r'^store/(?P<slug>[%-_\w]+)/thank-you$', views.thank_you, name='thank-you'),
 	url(r'^store/(?P<slug>[%-_\w]+)/special-offer$', views.special_offer, name='special-offer'),
 	url(r'^store/(?P<slug>[%-_\w]+)$', views.product, name='product'),
+	url(r'^payment/m/paypal$', views.paypal_payment, name='paypal-payment'),
+	url(r'^payment/m/credit-card$', views.credit_card_payment, name='credit-card-payment'),	
 	url(r'^payment/(?P<slug>[%-_\w]+)$', views.payment, name='payment'),
+
 	
 	#
 	# email

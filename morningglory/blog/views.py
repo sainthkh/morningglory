@@ -168,6 +168,12 @@ def payment(request, slug):
 		"product": product,
 	})
 	
+def paypal_payment(request, slug):
+	pass
+
+def credit_card_payment(request, slug):
+	pass
+	
 # Email subscription
 
 def subscribe(request):
