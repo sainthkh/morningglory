@@ -318,5 +318,9 @@ $youtube-color: #e62117;
 	.product-img {
 		margin-top: 22px;
 	}
+	
+	.payment-errors {
+		display: none;
+	}
 }
 @import "expanders.scss";

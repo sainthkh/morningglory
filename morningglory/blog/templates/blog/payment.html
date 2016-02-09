@@ -39,13 +39,35 @@
 			</div>
 			<div class="tab-pane fade" id="credit-card-payment">
 				<div class="tab-page">
-				<form class="form-horizontal" action="{% url 'blog:credit-card-payment' %}" method="POST">
+				<form id="credit-card-payment-form" class="form-horizontal" action="{% url 'blog:credit-card-payment' %}" method="POST">
+					<div class="alert alert-danger payment-errors"></div>
 					{% csrf_token %}
 					<input type="hidden" name="slug" value="{{ product.slug }}" />
 					<div class="form-group">
 						<label for="email-for-credit-card" class="col-sm-2 control-label">Email</label>
 						<div class="col-sm-10">
 							<input id="email-for-credit-card" class="form-control" type="email" name="email" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="card-number" class="col-sm-2 control-label">Card Number</label>
+						<div class="col-sm-6">
+							<input id="card-number" class="form-control" type="text" size="20" data-stripe="number" placeholder="Card Number without dash(-)" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="cvc" class="col-sm-2 control-label">CVC</label>
+						<div class="col-sm-4">
+							<input id="cvc" class="form-control" type="text" size="4" data-stripe="cvc" placeholder="CVC"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="expiration" class="col-sm-2 control-label">Expiration (MM/YYYY)</label>
+						<div class="col-sm-2">
+							<input id="expiration" class="form-control" type="text" size="2" data-stripe="exp-month" placeholder="Month(MM)"/>
+						</div>
+						<div class="col-sm-2">
+							<input class="form-control" type="text" size="4" data-stripe="exp-year" placeholder="Year(YYYY)"/>
 						</div>
 					</div>
 					<div class="pull-right">
@@ -58,4 +80,41 @@
 	</div>
 </div>
 </div>
+{% endblock %}
+{% block script %}
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript">
+	// This identifies your website in the createToken call below
+	Stripe.setPublishableKey('{{stripe_pub_key}}');
+	jQuery(function($) {
+		$('#credit-card-payment-form').submit(function(event) {
+		var $form = $(this);
+
+		// Disable the submit button to prevent repeated clicks
+		$form.find('button').prop('disabled', true);
+
+		Stripe.card.createToken($form, stripeResponseHandler);
+
+		// Prevent the form from submitting with the default action
+		return false;
+	});
+	
+	function stripeResponseHandler(status, response) {
+		var $form = $('#credit-card-payment-form');
+
+		if (response.error) {
+			// Show the errors on the form
+			$form.find('.payment-errors').text(response.error.message).show();
+			$form.find('button').prop('disabled', false);
+		} else {
+			// response contains id and card, which contains additional card details
+			var token = response.id;
+			// Insert the token into the form so it gets submitted to the server
+			$form.append($('<input type="hidden" name="stripeToken" />').val(token));
+			// and submit
+			$form.get(0).submit();
+		}
+	};
+});
+</script>
 {% endblock %}
