@@ -435,7 +435,15 @@ def save_settings(request):
 	
 	return redirect('blog:admin-settings')
 
-
+#
+# Order
+#
+################################################################
+def admin_order(request):
+	orders = Order.objects.order_by("-date")
+	return render(request, "admin/order/list.html", {
+		"orders": orders,
+	})
 
 #
 # Save Comments

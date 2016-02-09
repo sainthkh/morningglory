@@ -78,6 +78,9 @@ urlpatterns = urlpatterns + [
 	url(r'^admin/settings', views.settings, name='admin-settings'),
 	url(r'^admin/save-settings', views.save_settings, name='admin-save-settings'),
 	
+	# order
+	url(r'^admin/order', views.admin_order, name='admin-order'),
+	
 	# save comments
 	url(r'^(?P<slug>[%-_\w]+)/comment$', views.save_comment, name='save-comment'),
 	url(r'^(?P<slug>[%-_\w]+)/comment/ajax$', views.save_comment_ajax, name='save-comment'),
