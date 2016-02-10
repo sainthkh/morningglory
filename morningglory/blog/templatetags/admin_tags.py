@@ -1,4 +1,5 @@
 from django import template
+from django.core.urlresolvers import reverse
 from blog.models import *
 from blog.utils import random_string
 
@@ -33,10 +34,16 @@ def select_category(series):
 	}
 
 @register.inclusion_tag('admin/upload-button.html')
-def upload_button(name, folder='uploads', multiple=True):
+def upload_button(name, folder='uploads', multiple=True, text_target="writing-content"):
+	target_urls = {
+		"uploads": reverse('blog:upload-file'),
+		"restricted": reverse('blog:upload-to-restricted'),
+	}
+	
 	return {
 		"id": random_string(16),
-		"folder": folder,
+		"target_url": target_urls[folder],
+		"text_target": text_target,
 		"multiple": multiple,
 		"name": name,
 	}
