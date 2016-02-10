@@ -3,7 +3,7 @@ from django.http import Http404, JsonResponse
 from django.views.generic import View
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.conf import settings
+from django.conf import settings as django_setting
 from django.template.response import TemplateResponse
 
 from datetime import datetime, date
@@ -79,8 +79,8 @@ def distribute_post(request, slug):
 def upload_file(request):
 	filetext = '' 
 	for f in request.FILES.getlist('files'):
-		upload_folder = settings.MEDIA_ROOT
-		final_path = upload_folder + f.name
+		upload_folder = django_setting.MEDIA_ROOT
+		final_path = upload_folder + '/' + f.name
 		
 		if os.path.isfile(final_path):
 			name, ext = os.path.splitext(f.name)
@@ -94,8 +94,10 @@ def upload_file(request):
 				
 				num = num + 1
 			final_path = upload_folder + name_candidate
+		
+		final_path = final_path.replace(' ', '-')
 
-		with open(final_path, 'wb+') as dest:
+		with open(final_path, 'wb') as dest:
 			for chunk in f.chunks():
 				dest.write(chunk)
 		
