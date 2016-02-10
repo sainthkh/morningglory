@@ -383,8 +383,22 @@ class ProductAdmin(Admin):
 	def __init__(self):
 		Admin.__init__(self, Product, 'Product')
 	
+	def add_new_context(self, request):
+		writing = {
+			"files": ['', '', '', '', ''],
+		}
+		
+		return {
+			"writing": writing,
+		}
+	
 	def save_others(self, writing, POST):
 		writing.thank_you = POST['thank-you']
+		
+		writing.files = []
+		for i in range(0, 5):
+			filename = request.POST['filename-' + str(i)].strip()
+			writing.files.append(filename)
 
 #
 # Activity Views
