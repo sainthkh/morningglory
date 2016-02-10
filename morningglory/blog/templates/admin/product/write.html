@@ -33,12 +33,14 @@
 	<label>Files</label>
 	{% for file in writing.files %}
 	<div class="form-group">
+		{% with "filename-{0}"|simpleformat:forloop.counter0 as filename %}
 		<div class="col-sm-10">
-			<input class="form-control" name="filename-{{ forloop.counter0 }}" value="{{ file }}" />
+			<input class="form-control" id="{{ filename }}" name="{{ filename }}" value="{{ file }}" />
 		</div>
 		<div class="col-sm-2">
-			{% upload_button 'Upload' folder='restricted' multiple=False %}
+			{% upload_button 'Upload' folder='restricted' multiple=False text_target=filename %}
 		</div>
+		{% endwith %}
 	</div>
 	{% endfor %}
 </div>
