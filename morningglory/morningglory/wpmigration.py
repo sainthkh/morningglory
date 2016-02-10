@@ -3,7 +3,7 @@ from django.conf import settings
 import configparser
 
 config = configparser.ConfigParser()
-config.read(settings.SECRET_ROOT + '/wp.conf', encoding='utf-8')
+config.read(settings.SECRET_ROOT + 'wp.conf', encoding='utf-8')
 
 settings.DATABASES['wpdb'] = {
 	'ENGINE': 'mysql.connector.django',
