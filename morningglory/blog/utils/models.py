@@ -17,6 +17,9 @@ def create_order(email, payment_method, product, status='complete'):
 	order.save()
 
 def get_order(id):
+	if not isinstance(id, int):
+		id = int(id)
+
 	try:
 		order = Order.objects.get(id=id)
 	except:
