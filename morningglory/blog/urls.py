@@ -30,7 +30,7 @@ urlpatterns = [
 	url(r'^payment/m/paypal$', views.paypal_payment, name='paypal-payment'),
 	url(r'^payment/m/credit-card$', views.credit_card_payment, name='credit-card-payment'),	
 	url(r'^payment/(?P<slug>[%-_\w]+)$', views.payment, name='payment'),
-
+	url(r'^upload-to-restricted$', views.upload_to_restricted, name='upload-to-restricted'),
 	
 	#
 	# email

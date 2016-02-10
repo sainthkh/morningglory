@@ -77,10 +77,28 @@ def distribute_post(request, slug):
 	raise Http404  
 
 def upload_file(request):
-	filetext = '' 
-	for f in request.FILES.getlist('files'):
-		upload_folder = django_setting.MEDIA_ROOT
-		final_path = upload_folder + '/' + f.name
+	files = upload_files(django_setting.MEDIA_ROOT, request.FILES)
+	filetext = ' '.join("($ {0} $)".format(f) for f in files)
+
+	data = {}
+	data['success'] = True
+	data['filetext'] = filetext
+	return JsonResponse(data)
+
+def upload_to_restricted(request):
+	files = upload_files(django_setting.RESTRICTED_ROOT, request.FILES)
+	filetext = ''.join("{0}".format(f) for f in files)
+	
+	data = {}
+	data['success'] = True
+	data['filetext'] = filetext
+	return JsonResponse(data)
+	
+def upload_files(upload_folder, FILES):
+	files = []
+	
+	for f in FILES.getlist('files'):
+		final_path = upload_folder + f.name
 		
 		if os.path.isfile(final_path):
 			name, ext = os.path.splitext(f.name)
@@ -93,20 +111,19 @@ def upload_file(request):
 					break
 				
 				num = num + 1
-			final_path = upload_folder + name_candidate
-		
-		final_path = final_path.replace(' ', '-')
+				
+			final_file_name = name_candidate
+			final_path = upload_folder + final_file_name
+		else:
+			final_file_name = f.name 
 
 		with open(final_path, 'wb') as dest:
 			for chunk in f.chunks():
 				dest.write(chunk)
 		
-		filetext = filetext + "($ {0} $)".format(f.name)
+		files.append(final_file_name)
 	
-	data = {}
-	data['success'] = True
-	data['filetext'] = filetext
-	return JsonResponse(data)
+	return files
 
 class LoginView(View):
 	def get(self, request):

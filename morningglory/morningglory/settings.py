@@ -141,6 +141,7 @@ b = os.path.dirname
 ENV_ROOT = b(b(b(__file__)))
 
 MEDIA_ROOT = ENV_ROOT + '/uploads/'
+RESTRICTED_ROOT = ENV_ROOT + '/restricted/'
 MEDIA_URL_ROOT = '/uploads/'
 SECRET_ROOT = ENV_ROOT + '/secrets/'
 
