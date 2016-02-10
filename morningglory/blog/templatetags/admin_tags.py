@@ -47,3 +47,7 @@ def upload_button(name, folder='uploads', multiple=True, text_target="writing-co
 		"multiple": multiple,
 		"name": name,
 	}
+
+@register.filter
+def simpleformat(value, arg):
+	return value.format(arg)
