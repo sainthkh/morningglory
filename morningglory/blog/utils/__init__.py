@@ -1,5 +1,6 @@
 import re
 import unicodedata
+import random
 from urllib.parse import quote, unquote
 from django.utils.html import strip_tags
 from django.template.loader import get_template 
@@ -36,3 +37,7 @@ def remove_non_letters_and_normalize(string):
 def template_to_html(file, context):
 	t = get_template(file)
 	return t.render(context)
+
+def random_string(length):
+	valid_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+	return ''.join(random.choice(valid_chars) for i in range(length))
