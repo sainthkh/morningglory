@@ -1,5 +1,6 @@
 from django import template
 from blog.models import *
+from blog.utils import random_string
 
 register = template.Library()
 
@@ -29,4 +30,13 @@ def select_category(series):
 	return {
 		"current_series": current,
 		"category_list": series_list,
+	}
+
+@register.inclusion_tag('admin/upload-button.html')
+def upload_button(name, folder='uploads', multiple=True):
+	return {
+		"id": random_string(16),
+		"folder": folder,
+		"multiple": multiple,
+		"name": name,
 	}
