@@ -257,7 +257,7 @@ def is_spam(content, author):
 #
 ###################################################################
 
-def send_mail(slug, addr, request, list_slug):
+def send_to_subscriber(address, email_slug, list_slug, request):
 	e = get_writing(Email, slug)
 	content = template_to_html("blog/email-template.html", {
 		"content": e.content,
@@ -265,11 +265,14 @@ def send_mail(slug, addr, request, list_slug):
 		"list_slug": list_slug,
 		"request": request,
 	})
-	message = EmailMessage(e.title, content, "WiseInit <info@wiseinit.com>",
-			[addr], [], reply_to=['sainthkh@gmail.com'])
+	
+	send_mail(address, e.title, content) 
+
+def send_mail(address, title, content):
+	message = EmailMessage(title, content, "WiseInit <info@wiseinit.com>",
+			[address], [], reply_to=['sainthkh@gmail.com'])
 	message.content_subtype = "html"
 	message.send()
-
 
 #
 # Secret functions

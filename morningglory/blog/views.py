@@ -213,7 +213,7 @@ def subscribe(request):
 		user.email = user_email
 		user.save()
 		
-		send_mail('welcome', user.email, request, emaillist.slug)	
+		send_to_subscriber(user.email, 'welcome', emaillist.slug, request)	
 	
 	# add list to subscriber
 	if not emaillist.slug in user.subscribed_lists:
@@ -221,7 +221,7 @@ def subscribe(request):
 		user.save()
 	
 	# send lead magnet
-	send_mail(emaillist.lead_magnet_slug, user.email, request, emaillist.slug)
+	send_to_subscriber(user.email,  emaillist.lead_magnet_slug, emaillist.slug, request)
 	
 	return redirect('blog:distribute-post', emaillist.thankyou_page)
 
