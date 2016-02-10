@@ -145,7 +145,7 @@ MEDIA_URL_ROOT = '/uploads/'
 SECRET_ROOT = ENV_ROOT + '/secrets'
 
 with open(SECRET_ROOT + '/secret.txt', 'rt', encoding='utf-8') as f:
-	SECRET = f.read()	
+	SECRET_KEY = f.read()	
 
 if DEBUG:
 	EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
