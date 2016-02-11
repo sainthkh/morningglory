@@ -243,7 +243,7 @@ def is_spam(content, author):
 	a = Akismet(blog_url="http://wiseinit.com",
 				user_agent="WiseInit System/0.0.1")
 
-	a.api_key= Secret.objects(name='akismet')[0].key
+	a.api_key= get_setting('akismet')
 	
 	return a.check({'user_ip': os.environ['REMOTE_ADDR'],
 			'user_agent': os.environ['HTTP_USER_AGENT'],
@@ -275,23 +275,23 @@ def send_mail(address, title, content):
 	message.send()
 
 #
-# Secret functions
+# Setting functions
 #
 ##################################################################
-def get_secret_key(name):
-	if len(Secret.objects(name=name)) > 0:
-		key = (Secret.objects(name=name)[0]).key
+def get_setting(name):
+	if len(Setting.objects(name=name)) > 0:
+		value = (Setting.objects(name=name)[0]).value
 	else:
-		key = ''
+		value = ''
 	
-	return key
+	return value
 
-def save_secret_key(name, key):
-	if len(Secret.objects(name=name)) > 0:
-		secret = Secret.objects(name=name)[0]
+def save_setting(name, value):
+	if len(Setting.objects(name=name)) > 0:
+		setting = Setting.objects(name=name)[0]
 	else:
-		secret = Secret()
-		secret.name = name
+		setting = Setting()
+		setting.name = name
 	
-	secret.key = key
-	secret.save()
+	setting.value = value
+	setting.save()

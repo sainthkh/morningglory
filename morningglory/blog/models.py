@@ -79,9 +79,9 @@ class Order(DynamicDocument):
 #
 ##############################################################
 
-class Secret(Document):
+class Setting(Document):
 	name = StringField(required=True, unique=True)
-	key = StringField()
+	value = StringField()
 
 class Activity(DynamicDocument):
 	date = DateTimeField()

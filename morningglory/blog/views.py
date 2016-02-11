@@ -448,9 +448,9 @@ def approve_comment(request, pos):
 
 @login_required
 def settings(request):
-	akismet_key = get_secret_key('akismet')
-	stripe_public_key = get_secret_key('stripe-public-key')
-	stripe_private_key = get_secret_key('stripe-private-key')
+	akismet_key = get_setting('akismet')
+	stripe_public_key = get_setting('stripe-public-key')
+	stripe_private_key = get_setting('stripe-private-key')
 	
 	return render(request, 'admin/settings.html', {
 		"akismet_key": akismet_key,
@@ -462,9 +462,9 @@ def settings(request):
 
 @login_required	
 def save_settings(request):
-	save_secret_key('akismet', request.POST['akismet-key'])
-	save_secret_key('stripe-private-key', request.POST['stripe-private-key'])
-	save_secret_key('stripe-public-key', request.POST['stripe-public-key'])
+	save_setting('akismet', request.POST['akismet-key'])
+	save_setting('stripe-private-key', request.POST['stripe-private-key'])
+	save_setting('stripe-public-key', request.POST['stripe-public-key'])
 	
 	return redirect('blog:admin-settings')
 
