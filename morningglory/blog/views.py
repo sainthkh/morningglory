@@ -451,11 +451,15 @@ def settings(request):
 	akismet_key = get_setting('akismet')
 	stripe_public_key = get_setting('stripe-public-key')
 	stripe_private_key = get_setting('stripe-private-key')
+	paypal_client_id = get_setting('paypal-client-id')
+	paypal_client_secret = get_setting('paypal-client-secret')
 	
 	return render(request, 'admin/settings.html', {
 		"akismet_key": akismet_key,
 		"stripe_public_key": stripe_public_key,
 		"stripe_private_key": stripe_private_key,
+		"paypal_client_id": paypal_client_id,
+		"paypal_client_secret": paypal_client_secret,
 	})
 
 
@@ -465,6 +469,8 @@ def save_settings(request):
 	save_setting('akismet', request.POST['akismet-key'])
 	save_setting('stripe-private-key', request.POST['stripe-private-key'])
 	save_setting('stripe-public-key', request.POST['stripe-public-key'])
+	save_setting('paypal-client-id', request.POST['paypal-client-id'])
+	save_setting('paypal-client-secret', request.POST['paypal-client-secret'])
 	
 	return redirect('blog:admin-settings')
 
