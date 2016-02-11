@@ -24,7 +24,7 @@ def get_order(id):
 		id = int(id)
 
 	try:
-		order = Order.objects.get(id=id)
+		order = Order.objects.get(number=id)
 	except:
 		raise Http404
 	
