@@ -453,6 +453,7 @@ def settings(request):
 	stripe_private_key = get_setting('stripe-private-key')
 	paypal_client_id = get_setting('paypal-client-id')
 	paypal_client_secret = get_setting('paypal-client-secret')
+	paypal_mode = get_setting('paypal-mode')
 	
 	return render(request, 'admin/settings.html', {
 		"akismet_key": akismet_key,
@@ -460,6 +461,7 @@ def settings(request):
 		"stripe_private_key": stripe_private_key,
 		"paypal_client_id": paypal_client_id,
 		"paypal_client_secret": paypal_client_secret,
+		"paypal_mode": paypal_mode,
 	})
 
 
@@ -471,6 +473,7 @@ def save_settings(request):
 	save_setting('stripe-public-key', request.POST['stripe-public-key'])
 	save_setting('paypal-client-id', request.POST['paypal-client-id'])
 	save_setting('paypal-client-secret', request.POST['paypal-client-secret'])
+	save_setting('paypal-mode', request.POST['paypal-mode'])
 	
 	return redirect('blog:admin-settings')
 
