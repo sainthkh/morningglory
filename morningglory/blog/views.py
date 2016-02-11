@@ -12,6 +12,7 @@ from urllib.parse import quote, unquote
 import re
 import os
 import paypalrestsdk
+import stripe
 
 from blog.models import *
 from blog.utils import slugify, template_to_html
@@ -271,7 +272,23 @@ def paypal_cancel(request, order_id):
 	return redirect('/')
 
 def credit_card_payment(request):
-	pass
+	stripe.api_key = get_setting('stripe-private-key')
+
+	product = get_writing(Product, request.POST['slug'])
+	
+	order = create_order(request.POST['email'], 'credit-card', product)
+	
+	try:
+		charge = stripe.Charge.create(
+			amount=int(product.price * 100), 
+			currency="usd",
+			source=request.POST['stripeToken'],
+			description="Thank you for your purchase"
+		)
+	except stripe.error.CardError as e:
+		pass
+	
+	return redirect(reverse("blog:thank-you", kwargs={ "slug": order.product_slug}))
 	
 # Email subscription
 
