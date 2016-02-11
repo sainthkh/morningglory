@@ -183,7 +183,7 @@ def special_offer(request, slug):
 
 def payment(request, slug):
 	product = get_writing(Product, slug)
-	stripe_pub_key = get_secret_key('stripe-public-key')
+	stripe_pub_key = get_setting('stripe-public-key')
 	return render(request, "blog/payment.html", {
 		"product": product,
 		"stripe_pub_key": stripe_pub_key,
