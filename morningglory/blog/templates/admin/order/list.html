@@ -17,7 +17,7 @@
 	<tbody>
 		{% for o in orders %}
 		<tr>
-			<td>{{o.id}}</td>
+			<td>{{o.number}}</td>
 			<td>{{o.date}}</td>
 			<td>{{o.email}}</td>
 			<td><a href="{% url 'blog:edit-product' slug=o.product_slug %}">{{ o.product_name }}</a></td>

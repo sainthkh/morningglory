@@ -15,6 +15,9 @@ def create_order(email, payment_method, product, status='complete'):
 	order.status = status
 	
 	order.save()
+	order.reload()
+	
+	return order
 
 def get_order(id):
 	if not isinstance(id, int):

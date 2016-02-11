@@ -5,11 +5,13 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.conf import settings as django_setting
 from django.template.response import TemplateResponse
+from django.core.urlresolvers import reverse
 
 from datetime import datetime, date
 from urllib.parse import quote, unquote
 import re
 import os
+import paypalrestsdk
 
 from blog.models import *
 from blog.utils import slugify, template_to_html
@@ -188,9 +190,85 @@ def payment(request, slug):
 		"product": product,
 		"stripe_pub_key": stripe_pub_key,
 	})
-	
+
+def configure_paypal_api():
+	paypalrestsdk.configure({
+		"mode": get_setting('paypal-mode'),
+		"client_id": get_setting('paypal-client-id'),
+		"client_secret": get_setting('paypal-client-secret'),
+	})
+
 def paypal_payment(request):
-	pass
+	configure_paypal_api()
+
+	product = get_writing(Product, request.POST['slug'])
+	
+	order = create_order(request.POST['email'], 'paypal', product, status='pending')
+	
+	price = "{0}".format(product.price)
+	payment = paypalrestsdk.Payment({
+		"intent": "sale",
+		"payer": {
+			"payment_method": "paypal",
+		},
+		"transactions": [
+			{
+				"item_list": {
+					"items": [
+						{
+							"name": product.title,
+							"sku": product.slug,
+							"price": price,
+							"currency": "USD",
+							"quantity": 1
+						}
+					]
+				},
+				"amount": {
+					"total": price,
+					"currency": "USD",
+				},
+				"description": "Thank you for your purchase"
+			}
+		],
+		"redirect_urls": {
+			"return_url": request.build_absolute_uri(reverse("blog:paypal-execute", kwargs={"order_id":str(order.number)})),
+			"cancel_url": request.build_absolute_uri(reverse("blog:paypal-cancel", kwargs={"order_id":str(order.number)})),
+		},
+	})
+	
+	payment.create()
+	
+	for link in payment['links']:
+		if link['rel'] == 'approval_url':
+			url = link['href']
+			break;
+	
+	order.paypal_payment_id = payment.id
+	order.save()
+	
+	return redirect(url)
+
+def paypal_execute(request, order_id):
+	configure_paypal_api()
+
+	order = Order.objects.get(paypal_payment_id=request.GET['paymentId'])
+	order.status = 'complete'
+	order.save()
+
+	payment = paypalrestsdk.Payment.find(request.GET['paymentId'])
+	payment.execute({"payer_id": request.GET['PayerID']})
+	
+	return redirect(reverse("blog:thank-you", kwargs={ "slug":order.product_slug }))
+	
+def paypal_cancel(request, order_id):
+	configure_paypal_api()
+
+	order = get_order(request.GET['paymentId'])
+	order.status = 'cancel'
+	order.save()
+	
+	return redirect('/')
 
 def credit_card_payment(request):
 	pass
