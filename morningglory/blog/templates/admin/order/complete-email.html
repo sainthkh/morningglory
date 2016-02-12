@@ -1,0 +1,16 @@
+<div>
+	<h1>Thank you for your purchase! Your order is complete. </h1>
+</div>
+<div>
+	<h2>Download Links</h2>
+	<ul>
+	{% for link in file_links %}
+		<li><a href="{{link.link}}" title="{{link.name}}">{{link.name}}</a></li>
+	{% endfor %}
+	</ul>
+</div>
+<div>
+	<h2>Order #{{order.number}}</h2>
+	<p><b>Product Name:</b> {{product.title}}</p>
+	<p><b>Price:</b> ${{product.price}}</p>
+</div>

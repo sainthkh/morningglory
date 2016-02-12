@@ -17,6 +17,7 @@ import stripe
 from blog.models import *
 from blog.utils import slugify, template_to_html
 from blog.utils.views import *
+from blog.utils.models import *
 
 def index(request):
 	dummy = {
@@ -260,6 +261,8 @@ def paypal_execute(request, order_id):
 	payment = paypalrestsdk.Payment.find(request.GET['paymentId'])
 	payment.execute({"payer_id": request.GET['PayerID']})
 	
+	send_receipt(order, request)
+	
 	return redirect(reverse("blog:thank-you", kwargs={ "slug":order.product_slug }))
 	
 def paypal_cancel(request, order_id):
@@ -287,6 +290,8 @@ def credit_card_payment(request):
 		)
 	except stripe.error.CardError as e:
 		pass
+	
+	send_receipt(order, request)
 	
 	return redirect(reverse("blog:thank-you", kwargs={ "slug": order.product_slug}))
 	

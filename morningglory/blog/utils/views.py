@@ -6,6 +6,7 @@ from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
 
 import re
+import hashlib
 
 from urllib.parse import quote, unquote
 from blog.models import *
@@ -267,6 +268,40 @@ def send_to_subscriber(address, email_slug, list_slug, request):
 	})
 	
 	send_mail(address, e.title, content) 
+
+def send_receipt(order, request):
+	product = get_writing(Product, order.product_slug)
+	
+	file_links = []
+	for file in product.files:
+		filename = quote(file)
+		url = "{0}?order-id={1}&secret={2}".format(
+				request.build_absolute_uri(reverse("blog:download-product", kwargs={"slug": filename })),
+				order.number,
+				create_download_secret(order.number, file)
+			)
+		link = {
+			"name": file,
+			"url": url,
+		}
+		file_links.append(link)
+	
+	content = template_to_html("admin/order/complete-email.html", {
+		"product": product,
+		"order": order,
+		"file_links": file_links,
+	})
+	
+	send_mail(order.email, 'Your Order is Complete' ,content)
+
+def create_download_secret(order_id, filename):
+	md5 = hashlib.md5()
+	md5.update(settings.SECRET_KEY)
+	md5.update(order_id)
+	md5.update(filename)
+	md5.update('download')
+	
+	return md5.hexdigest()
 
 def send_mail(address, title, content):
 	message = EmailMessage(title, content, "WiseInit <info@wiseinit.com>",
