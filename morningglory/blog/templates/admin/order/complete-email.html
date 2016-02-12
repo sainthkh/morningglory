@@ -5,7 +5,7 @@
 	<h2>Download Links</h2>
 	<ul>
 	{% for link in file_links %}
-		<li><a href="{{link.link}}" title="{{link.name}}">{{link.name}}</a></li>
+		<li><a href="{{ link.url }}" title="{{link.name}}">{{link.name}}</a></li>
 	{% endfor %}
 	</ul>
 </div>

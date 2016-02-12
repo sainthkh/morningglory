@@ -4,6 +4,7 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 
 import re
 import hashlib
@@ -274,9 +275,12 @@ def send_receipt(order, request):
 	
 	file_links = []
 	for file in product.files:
+		if not file.strip():
+			continue
+		
 		filename = quote(file)
 		url = "{0}?order-id={1}&secret={2}".format(
-				request.build_absolute_uri(reverse("blog:download-product", kwargs={"slug": filename })),
+				request.build_absolute_uri(reverse("blog:download-product", kwargs={"filename": filename })),
 				order.number,
 				create_download_secret(order.number, file)
 			)
@@ -296,10 +300,10 @@ def send_receipt(order, request):
 
 def create_download_secret(order_id, filename):
 	md5 = hashlib.md5()
-	md5.update(settings.SECRET_KEY)
-	md5.update(order_id)
-	md5.update(filename)
-	md5.update('download')
+	md5.update(settings.SECRET_KEY.encode('utf-8'))
+	md5.update(str(order_id).encode('utf-8'))
+	md5.update(filename.encode('utf-8'))
+	md5.update('download'.encode('utf-8'))
 	
 	return md5.hexdigest()
 
