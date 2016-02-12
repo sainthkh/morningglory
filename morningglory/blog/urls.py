@@ -33,6 +33,8 @@ urlpatterns = [
 	url(r'^payment/m/credit-card$', views.credit_card_payment, name='credit-card-payment'),	
 	url(r'^payment/(?P<slug>[%-_\w]+)$', views.payment, name='payment'),
 	url(r'^upload-to-restricted$', views.upload_to_restricted, name='upload-to-restricted'),
+	url(r'^download/(?P<filename>[%-_.\w]+)$', views.download_product, name='download-product'),
+	
 	
 	#
 	# email

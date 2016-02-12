@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse, HttpResponse
 from django.views.generic import View
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -294,6 +294,31 @@ def credit_card_payment(request):
 	send_receipt(order, request)
 	
 	return redirect(reverse("blog:thank-you", kwargs={ "slug": order.product_slug}))
+
+def download_product(request, filename):
+	if not "order-id" in request.GET or not "secret" in request.GET:
+		raise Http404
+	
+	if Order.objects(number=request.GET['order-id']).count() < 0:
+		raise Http404
+	
+	secret = request.GET['secret']
+	correct_secret = create_download_secret(request.GET['order-id'], filename)
+	if secret != correct_secret:
+		raise Http404
+	
+	with open(django_setting.RESTRICTED_ROOT + filename, "rb") as f:
+		name, ext = os.path.splitext(filename)
+		content_types = {
+			".mobi": "application/x-mobipocket-ebook",
+			".epub": "application/epub+zip",
+			".pdf": "application/PDF",
+			".png": "image/png",
+		}
+		response = HttpResponse(f, content_type=content_types[ext.lower()])
+		response['Content-Disposition'] = 'attachment; filename="{0}"'.format(filename)
+	
+	return response
 	
 # Email subscription
 
