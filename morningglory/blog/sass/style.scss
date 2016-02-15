@@ -323,4 +323,17 @@ $youtube-color: #e62117;
 		display: none;
 	}
 }
+
+.site-header {
+	padding: 15px 0;
+}
+
+.navbar-wrap {
+	padding: 0;
+	margin-bottom: 0;
+	
+	.navbar {
+		margin-bottom: 0;
+	}
+}
 @import "expanders.scss";

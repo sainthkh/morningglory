@@ -20,15 +20,12 @@ from blog.utils.views import *
 from blog.utils.models import *
 
 def index(request):
-	dummy = {
-		"category" : [
-			{"link" : '/', "name" : 'RM Words' }
-		],
-		"link" : '/',
-		"title" : '5 Words in RM 3000',
-	}
+	posts = Post.objects.order_by("-published_date")[0:5]
+	products = Product.objects
+	
 	return render(request, 'blog/index.html', {
-		"post" : dummy,
+		"posts": posts,
+		"products": products,
 	})
 
 def list_post(request):

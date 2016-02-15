@@ -1,8 +1,14 @@
 {% extends 'blog/base-layout.html' %}
+{% load staticfiles %}
+{% load blog_tags %}
 
 {% block body %}
 <header class="site-header">
+	<div class="text-center">
+		<a href="/" title="logo"><img src="{% static 'logo.png' %}" alt="logo" /></a>
+	</div>
 </header>
+{% blog_categories %}
 <div class="container site-main-container">
 	{% block content %}{% endblock %}
 </div>
