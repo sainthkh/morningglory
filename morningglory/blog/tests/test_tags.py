@@ -15,7 +15,7 @@ class TagTest(TestCase):
 			("Hi   \nWorld\n  \t\nI am C.", "<p>Hi<br>\nWorld</p>\n<p>I am C.</p>\n"),
 			# iframe test
 			('<iframe id="audio_iframe" src="http://test.com"></iframe>\r\n\r\n# Hello\r\n\r\n<iframe id="audio_iframe" src="http://test2.com"></iframe>', 
-				'<iframe id="audio_iframe" src="http://test.com"></iframe>\r\n\r\n<h1>Hello</h1>\r\n\r\n<iframe id="audio_iframe" src="http://test2.com"></iframe>'),
+				'<p><iframe id="audio_iframe" src="http://test.com"></iframe></p>\n<h1>Hello</h1>\n<p><iframe id="audio_iframe" src="http://test2.com"></iframe></p>\n'),
 			('# Hello World\n\nThis is your world', '<h1>Hello World</h1>\n<p>This is your world</p>\n'),
 			('# Hello\r\n\r\n<iframe id="audio_iframe" src="http://test2.com"></iframe>',
 				'<h1>Hello</h1>\n<p><iframe id="audio_iframe" src="http://test2.com"></iframe></p>\n',)
