@@ -20,20 +20,19 @@ from blog.utils.views import *
 from blog.utils.models import *
 
 def index(request):
-	posts = Post.objects.order_by("-published_date")[0:5]
+	return blog_main(request, 1)	
+
+def blog_main(request, page):
+	page = int(page)
+	posts = Post.objects.order_by("-published_date")[(page-1)*5:page*5]
 	products = Product.objects
 	
 	return render(request, 'blog/index.html', {
 		"posts": posts,
 		"products": products,
+		"page": page,
 	})
-
-def list_post(request):
-	pass
-   
-def list_post_paged(request):
-	pass
-
+	
 def single_post(request, year, month, date, slug):
 	return redirect(request, slug=unquote(slug))
 
