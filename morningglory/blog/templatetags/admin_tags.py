@@ -26,13 +26,13 @@ def select_category(series):
 	if isinstance(series, Series):
 		current = series.category_slug
 		
-	series_list = Category.objects.only("title", "slug")
+	category_list = Category.objects.only("title", "slug")
 	
 	return {
-		"current_series": current,
-		"category_list": series_list,
+		"current": current,
+		"category_list": category_list,
 	}
-
+	
 @register.inclusion_tag('admin/upload-button.html')
 def upload_button(name, folder='uploads', multiple=True, text_target="writing-content"):
 	target_urls = {
