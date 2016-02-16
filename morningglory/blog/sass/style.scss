@@ -338,6 +338,42 @@ $youtube-color: #e62117;
 	
 	.navbar {
 		margin-bottom: 0;
+		
+		.navbar-nav > li > a {
+			color: lighten($brand-primary, 65%);
+		}
 	}
 }
+
+.newsletter {
+	padding: 20px;
+	margin: 15px 0;
+	background: $brand-info;
+	border-radius: 5px;
+	
+	h3 {
+		margin-top: 0;
+		color: white;
+	}
+}
+
+.products {
+	.product-title {
+		border-bottom: 1px dotted $brand-primary;
+		margin-bottom: 8px;
+	}
+	
+	.product-list {
+		padding: 8px 0;
+	}
+	
+	.product {
+		border-bottom: 1px solid lightgray;
+		
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+}
+
 @import "expanders.scss";
