@@ -58,12 +58,3 @@ class UtilTest(TestCase):
 		]
 		
 		self.run_tests(test_set, process_content)
-	
-	def test__mistune_markdown(self):
-		test_set = [
-			("Hi   \nWorld\n  \t\nI am C.", "<p>Hi<br>\nWorld</p>\n<p>I am C.</p>\n"),
-		]
-		
-		r = mistune.Renderer(escape=False)
-		markdown = mistune.Markdown(renderer=r)
-		self.run_tests(test_set, markdown)
