@@ -80,16 +80,16 @@ def primary_level_slug(candidate):
 	return create_slug(PrimarySlug, candidate)
 
 def setup_basic_content(writing, POST):
-	if 'title' in POST and POST['title'].strip():
+	if 'title' in POST:
 		writing.title = POST['title']
 
-	if 'content' in POST and POST['content'].strip():
+	if 'content' in POST:
 		writing.content = POST['content']
 
-	if 'excerpt' in POST and POST['excerpt'].strip():
+	if 'excerpt' in POST:
 		writing.excerpt = POST['excerpt']
 
-	if 'key-points' in POST and POST['key-points'].strip():
+	if 'key-points' in POST:
 		writing.key_points = POST['key-points']			
 
 def process_content(text):
