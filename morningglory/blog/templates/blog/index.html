@@ -1,4 +1,12 @@
 {% extends "blog/base.html" %}
+{% load blog_tags %}
 
 {% block content %}
+<div class="posts col-md-8">
+	{% autoescape off %}
+	{% for post in posts %}
+		{% writing_summary post %}
+	{% endfor %}
+	{% endautoescape %}
+</div>
 {% endblock %}

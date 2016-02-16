@@ -120,3 +120,25 @@ def blog_categories():
 	return {
 		"categories": category_list,
 	}
+
+@register.inclusion_tag('blog/writing-summary.html')
+def writing_summary(writing):
+	return {
+		"writing": writing,
+	}
+
+@register.filter
+def remove_tags(content):
+	content = re.sub(r"<.*?>", r"", content)
+	content = re.sub(r"\(\$.*?\$\)", '', content)
+	return content
+
+@register.filter
+def remove_audio_headline(content):
+	content = re.sub(r"# Korean Only", r'', content)
+	content = re.sub(r"# With English( Translations)?", r'', content)
+	return content
+
+@register.filter
+def simpleformat(value, arg):
+	return value.format(arg)
