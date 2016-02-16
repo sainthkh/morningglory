@@ -136,9 +136,7 @@ TEST_RUNNER = 'morningglory.testing.NoDbTestRunner'
 
 LOGIN_URL = '/login'
 
-b = os.path.dirname
-
-ENV_ROOT = b(b(b(__file__)))
+ENV_ROOT = os.path.dirname(BASE_DIR)
 
 MEDIA_ROOT = ENV_ROOT + '/uploads/'
 RESTRICTED_ROOT = ENV_ROOT + '/restricted/'
