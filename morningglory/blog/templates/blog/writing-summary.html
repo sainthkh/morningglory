@@ -1,0 +1,29 @@
+{% load blog_tags %}
+<div class="post-summary">
+	<div class="post-summary-title">
+		<h2><a href="{% url 'blog:distribute-post' writing.slug %}">{{ writing.title }}</a></h2>
+	</div>
+	{% if writing.splash_image %}
+	<div class="post-summary-img">
+		<img src="{% uploads splash_image %}" alt="{{writing.title}} splash image" />
+	</div>
+	{% endif %}
+	{% if writing.key_points %}
+	<div class="post-summary-key-points">
+		<div class="key-points-title">
+			<h4><i class="fa fa-arrow-right"></i> Key Points</h4>
+		</div>
+		<div class="key-points-content">
+			{{ post.key_points }}
+		</div>
+	</div>
+	{% endif %}
+	<div class="post-summary-excerpt">
+		{% if writing.excerpt %}
+			{{ post.excerpt }}
+		{% else %}
+			{{ writing.content|remove_tags|remove_audio_headline|markdown|truncatewords_html:60 }}
+		{% endif %}
+		<a class="btn btn-info" href="{% url 'blog:distribute-post' writing.slug %}">Read More</a>
+	</div>
+</div>
