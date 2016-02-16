@@ -74,34 +74,41 @@ class Command(BaseCommand):
 		
 		print("Started migrating categories...")
 		
-		wp_categories = WpTermTaxonomy.objects.using('wpdb').filter(taxonomy='category', parent=0)
+		wp_categories = WpTermTaxonomy.objects.using('wpdb').filter(taxonomy='category')
 		category_slugs = {}
 		
 		for wp_category in wp_categories:
 			wp_term = WpTerms.objects.using('wpdb').get(term_id=wp_category.term_id)
-			category = Category()
-			category.slug = wp_term.slug
-			category.title = wp_term.name
-			category.save()
 			
-			category_slugs[wp_term.term_id] = category.slug
+			if wp_term.slug in ["5%eb%b6%84-%ed%95%9c%ea%b5%ad%ec%96%b4", "words", "grammar"]:
+				category = Category()
+				category.slug = wp_term.slug
+				category.title = wp_term.name
+				category.save()
+				
+				category_slugs[wp_term.term_id] = category.slug
 		
 		print("Ended migrating categories.")
 		
 		print("Started migrating series...")
 		
-		wp_series_list = WpTermTaxonomy.objects.using('wpdb').filter(taxonomy='category').exclude(parent=0)
+		wp_series_list = wp_categories
 		series_slugs = {}
 		
 		for wp_series in wp_series_list:
 			wp_term = WpTerms.objects.using('wpdb').get(term_id=wp_series.term_id)
-			series = Series()
-			series.slug = wp_term.slug
-			series.title = wp_term.name
-			series.category_slug = category_slugs[wp_series.parent]
-			series.save()
 			
-			series_slugs[wp_term.term_id] = series.slug
+			if not wp_term.slug in ["5%eb%b6%84-%ed%95%9c%ea%b5%ad%ec%96%b4", "words", "grammar"]:
+				series = Series()
+				series.slug = wp_term.slug
+				series.title = wp_term.name
+				if wp_series.parent != 0:
+					series.category_slug = category_slugs[wp_series.parent]
+				else:
+					series.category_slug = "other"
+				series.save()
+				
+				series_slugs[wp_term.term_id] = series.slug
 		
 		print("Ended migrating series.")
 		
