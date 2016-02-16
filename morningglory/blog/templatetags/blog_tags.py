@@ -4,11 +4,11 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 
 from urllib.parse import quote, unquote
-import mistune
 import math
 import re
 
 from blog.utils.urls import get_post_url_by_slug
+from blog.utils.markdown import *
 from blog.models import *
 from blog.expanders import template_to_html
 
@@ -16,8 +16,8 @@ register = template.Library()
 
 @register.filter(name='markdown')
 def markdown_format(text):
-	r = mistune.Renderer(escape=False)
-	markdown = mistune.Markdown(renderer=r)
+	r = Renderer(escape=False)
+	markdown = Markdown(renderer=r)
 	return markdown(text)
 
 @register.inclusion_tag('blog/share.html', name="share", takes_context=True)
