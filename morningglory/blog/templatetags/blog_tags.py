@@ -120,13 +120,18 @@ def uploads(filename):
 	
 @register.inclusion_tag('blog/blog-categories.html')
 def blog_categories():
-	categories = Category.objects(slug__in=['words', 'grammar', '5%eb%b6%84-%ed%95%9c%ea%b5%ad%ec%96%b4'])
+	categories = [
+		{'title':'Words', 'slug':'words'}, 
+		{'title':'Grammar', 'slug':'grammar'}, 
+		{'title':'5분 한국어', 'slug':'5%eb%b6%84-%ed%95%9c%ea%b5%ad%ec%96%b4'},
+		{'title':'Entertainment', 'slug':'entertainment'},
+	]
 	
 	category_list = []
 	for c in categories:
 		cat = {
 			"category": c,
-			"series": Series.objects(category_slug=c.slug), 
+			"series": Series.objects(category_slug=c['slug']), 
 		}
 		category_list.append(cat)
 	return {
