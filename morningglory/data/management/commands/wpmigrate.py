@@ -39,22 +39,6 @@ class Command(BaseCommand):
 		
 		print("Started migration posts...")
 		
-		wp_pages =  WpPosts.objects.using('wpdb').filter(post_status='publish', post_type='page')
-		
-		for wp_post in wp_posts:
-			page = Page()
-			page.slug = wp_post.post_name
-			page.published_date = wp_post.post_date
-			page.last_modified_date = wp_post.post_modified
-			page.title = wp_post.post_title
-			page.content = to_markdown(wp_post.post_content)
-			
-			page.save()
-		
-		print("Ended migrating posts.")
-		
-		print("Started migration pages...")
-		
 		wp_posts =  WpPosts.objects.using('wpdb').filter(post_status='publish', post_type='post')
 		
 		for wp_post in wp_posts:
@@ -67,7 +51,7 @@ class Command(BaseCommand):
 			
 			post.save()
 		
-		print("Ended migrating pages.")
+		print("Ended migrating posts.")
 		
 		print("Started migrating comments...")
 		
