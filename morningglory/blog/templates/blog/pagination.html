@@ -1,18 +1,19 @@
+{% load blog_tags %}
 <nav>
 	<ul class="pagination">
 	{% if previous_page %}
 		<li>
-			<a href="#" aria-label="Previous">
+			<a href="{{ url_format|simpleformat:previous_page }}" aria-label="Previous">
 				<span aria-hidden="true">&laquo;</span>
 			</a>
 		</li>
 	{% endif %}
 	{% for i in range %}
-		<li><a href="{% url 'blog:series-list' slug=slug page=i %}">{{ i }}</a></li>
+		<li {%if i == current%}class="active"{%endif%}><a href="{{ url_format|simpleformat:i }}">{{ i }}</a></li>
 	{% endfor %}
 	{% if next_page %}
 		<li>
-			<a href="#" aria-label="Next">
+			<a href="{{ url_format|simpleformat:next_page }}" aria-label="Next">
 				<span aria-hidden="true">&raquo;</span>
 			</a>
 		</li>

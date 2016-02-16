@@ -6,6 +6,7 @@ from django.conf import settings
 from urllib.parse import quote, unquote
 import mistune
 import math
+import re
 
 from blog.utils.urls import get_post_url_by_slug
 from blog.models import *
@@ -35,9 +36,21 @@ def share_div(context, writing):
 def comment_action(context):
 	return context['request'].path + '/comment'
 
-@register.inclusion_tag('blog/pagination.html', takes_context=True)
-def pagination(context, slug, page):
+@register.inclusion_tag('blog/pagination.html')
+def series_pagination(slug, page):
 	page_count = math.ceil(Post.objects(series_slug=slug).count() / 5)
+	context = pager(page_count, slug, page)
+	context["url_format"] = "/series/{0}/list/page/{1}".format(slug, "{0}")
+	return context
+
+@register.inclusion_tag('blog/pagination.html')
+def blog_main_pagination(page):
+	page_count = math.ceil(Post.objects.count() / 5)
+	context = pager(page_count, '', page)
+	context["url_format"] = "/blog/page/{0}"
+	return context
+
+def pager(page_count, slug, page):
 	pager = {
 		"current": page,
 		"slug": slug,
@@ -60,7 +73,6 @@ def pagination(context, slug, page):
 	
 	pager["range"] = page_range
 	return pager
-
 
 @register.inclusion_tag('blog/email-modal.html')
 def email_modal(slug, popup_button="Download Now", title="Free Offer", 
