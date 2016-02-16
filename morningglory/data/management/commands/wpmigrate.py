@@ -17,11 +17,13 @@ def to_markdown(content):
 	def extract_link(m):
 		return "[{0}]({1})".format(m.group(2), m.group(1))
 
-	content = re.sub(r"<h1>(.*?)</h1>", r"\n# \1", content)
-	content = re.sub(r"<h2>(.*?)</h2>", r"\n# \1", content)
-	content = re.sub(r"<h3>(.*?)</h3>", r"\n# \1", content)
+	content = re.sub(r"<h1>(.*?)</h1>", r"\n# \1\n", content)
+	content = re.sub(r"<h2>(.*?)</h2>", r"\n# \1\n", content)
+	content = re.sub(r"<h3>(.*?)</h3>", r"\n# \1\n", content)
 	content = re.sub(r'<img(?:.*?)src="(.*?)"(?:.*?)/?>', extract_image_name, content)
 	content = re.sub(r'<a(?:.*?)href="(.*?)"(?:.*?)>(.*?)</a>', extract_link, content)
+	content = re.sub(r"</?(u|o)l>", r"", content)
+	content = re.sub(r"[ \t]*<li>(.*?)</li>", r"* \1", content)
 	
 	return content
 	
