@@ -60,6 +60,7 @@ class Product(DynamicDocument):
 	special_offer = StringField()
 	price = FloatField()
 	files = ListField(StringField())
+	thumbnail = StringField()
 
 # slug list for Post, Page, Link
 class PrimarySlug(Document):

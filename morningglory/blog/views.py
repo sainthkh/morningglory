@@ -533,6 +533,7 @@ class ProductAdmin(Admin):
 	def save_others(self, writing, POST):
 		writing.thank_you = POST['thank-you']
 		writing.price = float(POST['price'])
+		writing.thumbnail = POST['thumbnail']
 		
 		writing.files = []
 		for i in range(0, 5):

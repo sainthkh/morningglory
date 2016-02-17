@@ -47,5 +47,26 @@
 {% endblock %}
 
 {% block write_sidebar %}
+<div class="panel panel-default wfb-splash">
+	<div class="panel-heading">Thumbnail Image
+		<span class="pull-right">
+			{% upload_button "Upload" multiple=False text_target="thumbnail" %}
+		</span>
+	</div>
+	<div class="panel-body">
+		<div class="form-group">
+			<input class="form-control" id="thumbnail" name="thumbnail" value="{{writing.thumbnail}}" />
+		</div>
+	</div>
+</div>
+<div class="panel panel-default files-preview">
+	<div class="panel-heading">Preview Files 
+		<span class="pull-right">
+			{% upload_button "Choose a File" %}
+		</span>
+	</div>
+	<div class="panel-body">
+	</div>
+</div>
 {% endblock %}
 
