@@ -75,6 +75,8 @@ for admin_view in admin_views:
 	urlpatterns += admin_view.urls()
 
 urlpatterns = urlpatterns + [
+	url(r'^admin/add-new-subscriber', views.AddSubscriber.as_view(), name='add-new-subscriber'),
+	
 	# activities
 	url(r'^admin/activities$', views.activities, name='admin-activities'),
 	url(r'^admin/comments/approve/(?P<pos>[0-9]+)$', views.approve_comment, name='admin-approve-comment'),

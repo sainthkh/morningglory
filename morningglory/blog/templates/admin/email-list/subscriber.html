@@ -1,0 +1,19 @@
+{% extends 'admin/layout.html' %}
+
+{% block page_title %}Add Subscriber{% endblock %}
+
+{% block content %}
+<form method="POST">
+	{% csrf_token %}
+	<div class="form-group">
+		<input type="text" class="form-control" name="slug" value="" placeholder="Email List Slug"/>	
+	</div>
+	<div class="form-group">
+		<input type="text" class="form-control" name="first-name" value="" placeholder="First name"/>	
+	</div>
+	<div class="form-group">
+		<input type="email" class="form-control" name="email" value="" placeholder="Email" />	
+	</div>
+	<button type="submit" class="btn btn-default">Submit</button>
+</form>
+{% endblock %}

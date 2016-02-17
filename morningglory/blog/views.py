@@ -571,6 +571,34 @@ class ProductAdmin(Admin):
 			filename = POST['filename-' + str(i)].strip()
 			writing.files.append(filename)
 
+class AddSubscriber(View):
+	def get(self, request):
+		return render(request, "admin/email-list/subscriber.html", {
+		})
+	
+	def post(self, request):
+		user_email = request.POST['email']
+		first_name = request.POST['first-name']
+		
+		# get email list
+		emaillist = get_writing(EmailList, request.POST['slug'])
+		
+		# get user
+		if User.objects(email=user_email).count() > 0:
+			user = User.objects(email=user_email)[0]
+		else:
+			user = User()
+			user.first_name = first_name
+			user.email = user_email
+			user.save()	
+		
+		# add list to subscriber
+		if not emaillist.slug in user.subscribed_lists:
+			user.subscribed_lists.append(emaillist.slug)
+			user.save()
+			
+		return render(request, "admin/email-list/subscriber.html", {
+		})
 #
 # Activity Views
 #
