@@ -1,6 +1,7 @@
 from django.test import TestCase
 
 import mistune
+import re
 
 from blog.utils import *
 from blog.utils.views import *
@@ -52,9 +53,60 @@ class UtilTest(TestCase):
 		test_set = [
 			("Hi\n\nWorld", "Hi\n\nWorld"),
 			("Hi\nWorld\n\nI am C.", "Hi  \nWorld\n\nI am C."),
-			("Hi   \nWorld\n  \t\nI am C.", "Hi  \nWorld\n\nI am C."),
+			("Hi   \nWorld\n  \t\nI am C.", "Hi  \nWorld\n  \t\nI am C."),
 			("한글이 있다.\nThere is Hangeul.\n\n한글이 또 있다.\nThere is another Hangeul.",
 				"한글이 있다.  \nThere is Hangeul.\n\n한글이 또 있다.  \nThere is another Hangeul."),
+			("# What is in this Book?\n\n30 useful idioms\n90+ example sentences\n150+ Korean word definitions\n90+ practice sentences\n\n",
+				"# What is in this Book?\n\n30 useful idioms  \n90+ example sentences  \n150+ Korean word definitions  \n90+ practice sentences\n\n"),
+			("<<buy>>korean-idioms<</buy>>\n\n# What is in this Book?\n\n30 useful idioms\n90+ example sentences\n150+ Korean word definitions\n90+ practice sentences\n\n",
+				'<a href="/payment/korean-idioms" class="btn btn-buy btn-lg"><i class="fa fa-shopping-cart"></i>  Buy Now</a>\n\n# What is in this Book?\n\n30 useful idioms  \n90+ example sentences  \n150+ Korean word definitions  \n90+ practice sentences\n\n'),
 		]
 		
 		self.run_tests(test_set, process_content)
+		
+	def test__process_content__over23matches__work(self):
+		for i in range(5, 6):
+			c = []
+			r = []
+			for i in range(i-1):
+				c.append('aaaa\n')
+				r.append('aaaa  \n')
+			
+			dummy_long = ''.join(c) + 'aaaa\n'
+			dummy_long_answer = ''.join(r) + 'aaaa\n'
+
+			with self.subTest(input=i):
+				self.assertEqual(process_content(dummy_long), dummy_long_answer)
+	
+	def test__process_content_stage1__over23matches__work(self):
+		for i in range(1, 23):
+			c = []
+			r = []
+			for i in range(i):
+				c.append('aaaa \n')
+				r.append('aaaa \n')
+			
+			text = ''.join(c)
+			result = ''.join(r) 
+
+			with self.subTest(input=i):
+				text = re.sub(r" *?\n *?\n", r"$$newline$$", text, re.M|re.S)
+				self.assertEqual(text, result)
+	
+	def test__process_content_stage2__over23matches__work(self):
+		for i in range(1, 100):
+			c = []
+			r = []
+			for i in range(i):
+				c.append('aaaa \n')
+				r.append('aaaa  \n')
+			
+			text = ''.join(c)
+			result = ''.join(r) 
+
+			with self.subTest(input=i):
+				text = re.sub(r" *?\n", r"  \n", text)
+				self.assertEqual(text, result)
+	
+	
+	

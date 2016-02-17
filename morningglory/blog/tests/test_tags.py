@@ -18,7 +18,11 @@ class TagTest(TestCase):
 				'<p><iframe id="audio_iframe" src="http://test.com"></iframe></p>\n<h1>Hello</h1>\n<p><iframe id="audio_iframe" src="http://test2.com"></iframe></p>\n'),
 			('# Hello World\n\nThis is your world', '<h1>Hello World</h1>\n<p>This is your world</p>\n'),
 			('# Hello\r\n\r\n<iframe id="audio_iframe" src="http://test2.com"></iframe>',
-				'<h1>Hello</h1>\n<p><iframe id="audio_iframe" src="http://test2.com"></iframe></p>\n',)
+				'<h1>Hello</h1>\n<p><iframe id="audio_iframe" src="http://test2.com"></iframe></p>\n'),
+			("# What is in this Book?\n\n30 useful idioms  \n90+ example sentences  \n150+ Korean word definitions  \n90+ practice sentences\n\n",
+				"<h1>What is in this Book?</h1>\n<p>30 useful idioms<br>\n90+ example sentences<br>\n150+ Korean word definitions<br>\n90+ practice sentences</p>\n"),
+			('<a href="/payment/korean-idioms" class="btn btn-buy btn-lg"><i class="fa fa-shopping-cart"></i>  Buy Now</a>\n\n# What is in this Book?\n\n30 useful idioms  \n90+ example sentences  \n150+ Korean word definitions  \n90+ practice sentences\n\n',
+				'<p><a href="/payment/korean-idioms" class="btn btn-buy btn-lg"><i class="fa fa-shopping-cart"></i>  Buy Now</a></p>\n<h1>What is in this Book?</h1>\n<p>30 useful idioms<br>\n90+ example sentences<br>\n150+ Korean word definitions<br>\n90+ practice sentences</p>\n')
 		]
 		
 		self.run_tests(test_set, markdown_format)

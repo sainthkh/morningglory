@@ -94,9 +94,7 @@ def setup_basic_content(writing, POST):
 
 def process_content(text):
 	text = text.replace("\r\n", "\n")
-	text = re.sub(r"[\t ]*\n[\t ]*\n", r"$$newline$$", text, re.M|re.S)
-	text = re.sub(r"[\t ]*\n", r"  \n", text, re.M|re.S)
-	text = re.sub(r"\$\$newline\$\$", r"\n\n", text, re.M|re.S)
+	text = re.sub(r"([^\s])[ \t]*?\n[ \t]*?([^\s])", r'\1  \n\2', text)
 	text = expand_image_tags(expand_content(text))
 	return text
 #
