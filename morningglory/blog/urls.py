@@ -18,6 +18,8 @@ urlpatterns = [
 	url(r'^rss$', LatestPostsFeed(), name='post-rss'),
 	url(r'^feed$', LatestPostsFeed(), name='post-feed'),
 	url(r'^login$', views.LoginView.as_view(), name='login'),
+	url(r'^contact$', views.ContactView.as_view(), name='contact'),
+	url(r'^contact-success$', views.contact_success, name='contact-success'),
 	
 	#
 	# Store

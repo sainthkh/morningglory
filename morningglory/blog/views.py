@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings as django_setting
 from django.template.response import TemplateResponse
 from django.core.urlresolvers import reverse
+from django.core.mail import send_mail as django_send_mail
 
 from datetime import datetime, date
 from urllib.parse import quote, unquote
@@ -159,6 +160,36 @@ class LoginView(View):
 			next = '/'	 
 		
 		return redirect(next)
+
+class ContactView(View):
+	def get(self, request):
+		return render(request, "blog/contact.html", {
+		})
+	
+	def post(self, request):
+		errors = []
+		required = [
+				{'name':'title', 'error-message':'Title field should not be empty.'},
+				{'name':'content', 'error-message':'Content field should not be empty.'},
+				{'name':'email', 'error-message':'Email field should not be empty.'},
+			]
+		
+		for r in required:
+			if not request.POST[r['name']].strip():
+				errors.append(r['error-message'])
+		
+		if len(errors) > 0:
+			return render(request, "blog/contact.html", {
+				"errors": errors,
+			})
+		
+		django_send_mail(request.POST['title'], request.POST['content'], request.POST['email'], ['sainthkh@gmail.com'])
+		
+		return redirect(reverse("blog:contact-success"))
+
+def contact_success(request):
+	return render(request, "blog/contact-success.html", {
+	})	
 
 def product(request, slug):
 	product = get_writing(Product, slug)
