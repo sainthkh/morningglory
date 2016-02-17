@@ -116,7 +116,7 @@ def absolute_url_legacy(context, url_name, slug, date):
 
 @register.simple_tag
 def uploads(filename):
-	return '/uploads/' + filename
+	return '/uploads/' + quote(str(filename))
 	
 @register.inclusion_tag('blog/blog-categories.html')
 def blog_categories():
