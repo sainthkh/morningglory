@@ -422,7 +422,7 @@ def sitemap(request, type_string=None):
 			"page_last_mod": last_mod_dates[1],
 		}, content_type='application/xml')
 	elif type_string == "legacy":
-		posts = Post.objects(published_date__lte=date(2016, 2, 12)).order_by("-last_modified_date").only("slug", "last_modified_date")
+		posts = Post.objects(published_date__lte=date(2016, 2, 26)).order_by("-last_modified_date").only("slug", "last_modified_date")
 		return TemplateResponse(request, 'sitemap/legacy.xml', {
 			"writings" : posts,
 			"url_name" : "blog:single-post-legacy",
