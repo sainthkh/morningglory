@@ -162,7 +162,7 @@ class LoginView(View):
 
 def product(request, slug):
 	product = get_writing(Product, slug)
-	return render(request, "blog/single-post.html", {
+	return render(request, "blog/product.html", {
 		'post': product,
 		'content': process_content(product.content),
 	})
