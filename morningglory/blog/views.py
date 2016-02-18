@@ -373,7 +373,8 @@ def subscribe(request):
 		user.save()
 	
 	# send lead magnet
-	send_to_subscriber(user.email,  emaillist.lead_magnet_slug, emaillist.slug, request)
+	if emaillist.lead_magnet_slug.strip():
+		send_to_subscriber(user.email,  emaillist.lead_magnet_slug, emaillist.slug, request)
 	
 	return redirect('blog:distribute-post', emaillist.thankyou_page)
 
