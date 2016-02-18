@@ -1,0 +1,11 @@
+{% extends 'blog/simple-layout.html' %}
+{% load blog_tags %}
+
+{% block content %}
+<div class="col-md-offset-2 col-md-8">
+	<h1>Newsletter</h1>
+	<p>I occasionally send you newsletters to inform you of new posts, system, or free ebooks, etc.</p>
+	<p>Please fill out the form below to get these information.</p>
+	{% email_form 'default' %}
+</div>
+{% endblock %}

@@ -349,6 +349,10 @@ def download_product(request, filename):
 	
 # Email subscription
 
+def newsletter(request):
+	return render(request, "blog/newsletter.html", {
+	})
+
 def subscribe(request):
 	user_email = request.POST['email']
 	first_name = request.POST['first-name']

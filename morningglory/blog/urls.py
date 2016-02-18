@@ -41,6 +41,7 @@ urlpatterns = [
 	# email
 	#
 	################################################################# 
+	url(r'^newsletter$', views.newsletter, name='newsletter'),
 	url(r'^susbscribe$', views.subscribe, name="subscribe"),
 	url(r'^unsubscribe$', views.unsubscribe, name="unsubscribe"),
 	url(r'^unsubscribe-this$', views.unsubscribe_this, name="unsubscribe-this"),
