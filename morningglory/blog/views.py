@@ -548,10 +548,7 @@ class LinkAdmin(Admin):
 		if POST['add-new'] == 'True':
 			writing.slug = primary_level_slug(POST['slug'])
 		
-		url = POST['url']
-		if not re.match("https?://.*", url):
-			url = "http://" + url
-		writing.url = url
+		writing.url = POST['url']
 
 class ProductAdmin(Admin):
 	def __init__(self):
