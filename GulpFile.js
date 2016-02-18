@@ -37,7 +37,7 @@ gulp.task('scripts', ['coffee'], function() {
 		.pipe(concat('front.js'))
 		.pipe(gulp.dest(script_dir));
 	gulp.src('./morningglory/blog/js/admin/*.js')
-		.pipe(concat('admin.js'))
+		.pipe(concat('wiseinit-admin.js'))
 		.pipe(gulp.dest(script_dir));
 });
 
