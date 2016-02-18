@@ -52,7 +52,7 @@ urlpatterns = [
 	# sitemap
 	#
 	############################################################
-	url(r'^sitemap(?:\-(?P<type_string>[a-z]+))\.xml$', views.sitemap, name='sitemap'),
+	url(r'^sitemap(?:\-(?P<type_string>[a-z]+))?\.xml$', views.sitemap, name='sitemap'),
 	
 	#
 	# Admin Pages.

@@ -8,4 +8,8 @@
 	<loc>{% absolute_url 'sitemap-page.xml' %}</loc>
 	<lastmod>{{ page_last_mod|date:"Y-m-d" }}</lastmod>
 </sitemap>
+<sitemap>
+	<loc>{% absolute_url 'sitemap-legacy.xml' %}</loc>
+	<lastmod>2016-02-26</lastmod>
+</sitemap>
 </sitemapindex>
