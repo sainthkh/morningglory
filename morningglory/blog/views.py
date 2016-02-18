@@ -70,6 +70,14 @@ def distribute_post(request, slug):
 			'content': process_content(post.content),
 		}) 
 	
+	page_queryset = Page.objects(slug=normalize_slug(slug))
+	if page_queryset.count() > 0:
+		page = page_queryset[0]
+		return render(request, 'blog/single-post.html', {
+			'post': page,
+			'content': process_content(page.content),
+		}) 
+	
 	link_queryset = Link.objects(slug=normalize_slug(slug))
 	if link_queryset.count() > 0:
 		link = link_queryset[0]
