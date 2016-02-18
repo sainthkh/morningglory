@@ -19,7 +19,8 @@ def sanitize_title_with_dashes(title):
 	title = re.sub(r"\-\-+", '-', title) # multiple '-' with single '-'
 	title = re.sub(r"^-+", '', title) # Trim - in the front
 	title = re.sub(r"-+$", '', title) # Trim - in the back
-
+	title = title.lower()
+	
 	return title;
 	
 def remove_non_letters_and_normalize(string):

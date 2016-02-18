@@ -16,8 +16,8 @@ class UtilTest(TestCase):
 		
 	def test__slugify__correct_slug__in_any_language(self):
 		test_set = [
-			('세계 vs. 세상', '%EC%84%B8%EA%B3%84-vs-%EC%84%B8%EC%83%81'),
-			('결정, 방법', '%EA%B2%B0%EC%A0%95-%EB%B0%A9%EB%B2%95'),
+			('세계 vs. 세상', '%ec%84%b8%ea%b3%84-vs-%ec%84%b8%ec%83%81'),
+			('결정, 방법', '%ea%b2%b0%ec%a0%95-%eb%b0%a9%eb%b2%95'),
 			('Learn English #1', 'learn-english-1'),
 		]
 		
