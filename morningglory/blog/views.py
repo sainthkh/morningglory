@@ -35,7 +35,7 @@ def blog_main(request, page):
 	})
 	
 def single_post(request, year, month, date, slug):
-	return redirect(request, slug=unquote(slug))
+	return redirect(reverse('blog:distribute-post', kwargs={"slug":unquote(slug)}))
 
 def category(request, slug, page):
 	series_list = Series.objects(category_slug=slug)
