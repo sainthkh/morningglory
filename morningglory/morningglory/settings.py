@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+import configparser
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -145,6 +146,11 @@ SECRET_ROOT = ENV_ROOT + '/secrets/'
 
 with open(SECRET_ROOT + 'secret.txt', 'rt', encoding='utf-8') as f:
 	SECRET_KEY = f.read()	
+
+config = configparser.ConfigParser()
+config.read(SECRET_ROOT + 'system.conf', encoding='utf-8')
+
+DEBUG = config['SYSTEM']['DEBUG'] == 'True'
 
 if DEBUG:
 	EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
