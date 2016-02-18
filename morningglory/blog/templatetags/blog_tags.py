@@ -159,3 +159,7 @@ def remove_audio_headline(content):
 @register.filter
 def simpleformat(value, arg):
 	return value.format(arg)
+
+@register.filter(name='unquote')
+def unquote_url(value):
+	return unquote(value)

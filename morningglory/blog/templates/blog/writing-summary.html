@@ -1,7 +1,8 @@
 {% load blog_tags %}
+{% url 'blog:distribute-post' writing.slug as the_url %}
 <div class="post-summary">
 	<div class="post-summary-title">
-		<h2><a href="{% url 'blog:distribute-post' writing.slug %}">{{ writing.title }}</a></h2>
+		<h2><a href="{{ the_url|unquote }}">{{ writing.title }}</a></h2>
 	</div>
 	{% if writing.splash_image %}
 	<div class="post-summary-img">
@@ -24,6 +25,6 @@
 		{% else %}
 			{{ writing.content|remove_tags|remove_audio_headline|markdown|truncatewords_html:60 }}
 		{% endif %}
-		<a class="btn btn-info" href="{% url 'blog:distribute-post' writing.slug %}">Read More</a>
+		<a class="btn btn-info" href="{{ the_url|unquote }}">Read More</a>
 	</div>
 </div>
