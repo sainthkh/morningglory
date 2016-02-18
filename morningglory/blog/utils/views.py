@@ -213,8 +213,7 @@ def setup_comment(request):
 	comment.time = datetime.now()
 	return comment
 
-def save_comment_to_db(comment, slug):
-	spam = is_spam(comment.name, comment.content)
+def save_comment_to_db(comment, slug, spam):
 	if not spam:
 		activity = CommentActivity()
 	else:
@@ -223,7 +222,7 @@ def save_comment_to_db(comment, slug):
 	activity.comment = comment
 	activity.date = comment.time
 	
-	post = Post.objects(slug=slug)[0]
+	post = get_writing(Post, slug)
 	activity.slug = slug
 	activity.title = post.title
 	
@@ -233,10 +232,7 @@ def save_comment_to_db(comment, slug):
 		post.comments.append(comment)
 		post.save()	
 
-def is_spam(content, author):
-	if settings.DEBUG:
-		return False
-		
+def is_spam(request):
 	from pykismet3 import Akismet
 	import os
 	
@@ -245,12 +241,25 @@ def is_spam(content, author):
 
 	a.api_key= get_setting('akismet')
 	
-	return a.check({'user_ip': os.environ['REMOTE_ADDR'],
-			'user_agent': os.environ['HTTP_USER_AGENT'],
-			'referrer': os.environ.get('HTTP_REFERER', 'unknown'),
-			'comment_content': content,
-			'comment_author': author,
-		})
+	check = {
+		'user_ip': request.META['REMOTE_ADDR'],
+		'user_agent': request.META['HTTP_USER_AGENT'],
+		'referrer': request.META.get('HTTP_REFERER', 'unknown'),
+		'comment_content': request.POST['comment'],
+		'comment_author': request.POST['name'],
+	}
+	
+	if request.POST['email'].strip():
+		check['comment_author_email'] = request.POST['email']
+	
+	if request.POST['website'].strip():
+		website = request.POST['website'].strip()
+		if website and not re.match('https?://.+', website):
+			website = 'http://' + website
+			
+		check['comment_author_url'] = website
+	
+	return a.check(check)
 
 #
 # Email functions

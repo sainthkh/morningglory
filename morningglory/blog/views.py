@@ -701,7 +701,8 @@ def save_comment_ajax(request, slug):
 	else:
 		response_data['success'] = True
 		comment = setup_comment(request)
-		save_comment_to_db(comment, slug)
+		save_comment_to_db(comment, slug, is_spam(request))
+		
 		response_data['html'] = template_to_html('blog/comment.html', {
 				"comment": comment,
 			})
