@@ -258,7 +258,7 @@ def is_spam(content, author):
 ###################################################################
 
 def send_to_subscriber(address, email_slug, list_slug, request):
-	e = get_writing(Email, slug)
+	e = get_writing(Email, email_slug)
 	content = template_to_html("blog/email-template.html", {
 		"content": e.content,
 		"email": addr,
