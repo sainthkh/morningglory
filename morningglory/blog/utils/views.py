@@ -261,7 +261,7 @@ def send_to_subscriber(address, email_slug, list_slug, request):
 	e = get_writing(Email, email_slug)
 	content = template_to_html("blog/email-template.html", {
 		"content": e.content,
-		"email": addr,
+		"email": address,
 		"list_slug": list_slug,
 		"request": request,
 	})
