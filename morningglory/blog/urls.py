@@ -14,7 +14,7 @@ urlpatterns = [
 	url(r'^categories/(?P<slug>[%-_\w]+)(?:/page/(?P<page>[0-9]+))?$', views.category, name='category'),
 	url(r'^series/(?P<slug>[%-_\w]+)/list(?:/page/(?P<page>[0-9]+))?$', views.series_list, name='series-list'),
 	url(r'^series/(?P<slug>[%-_\w]+)$', views.series, name='series'),
-	url(r'^upload-file$', views.upload_file, name='upload-file'),
+	url(r'^admin/upload-file$', views.upload_file, name='upload-file'),
 	url(r'^rss$', LatestPostsFeed(), name='post-rss'),
 	url(r'^feed$', LatestPostsFeed(), name='post-feed'),
 	url(r'^login$', views.LoginView.as_view(), name='login'),
@@ -33,7 +33,7 @@ urlpatterns = [
 	url(r'^payment/m/paypal$', views.paypal_payment, name='paypal-payment'),
 	url(r'^payment/m/credit-card$', views.credit_card_payment, name='credit-card-payment'),	
 	url(r'^payment/(?P<slug>[%-_\w]+)$', views.payment, name='payment'),
-	url(r'^upload-to-restricted$', views.upload_to_restricted, name='upload-to-restricted'),
+	url(r'^admin/upload-to-restricted$', views.upload_to_restricted, name='upload-to-restricted'),
 	url(r'^download/(?P<filename>[%-_.\w]+)$', views.download_product, name='download-product'),
 	
 	
