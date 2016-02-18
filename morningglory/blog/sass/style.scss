@@ -47,6 +47,14 @@ body {
 	h3, .h3 {
 		font-size: $font-size-h3 * 0.77;
 	}
+	
+	img {
+		width: 100%;
+	}
+	
+	a {
+		color: #cd2201;
+	}
 }
 
 $facebook-color: #43609c;
@@ -372,6 +380,10 @@ $youtube-color: #e62117;
 		
 		&:last-child {
 			border-bottom: none;
+		}
+		
+		img {
+			width: 100%;
 		}
 	}
 }
