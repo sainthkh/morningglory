@@ -341,6 +341,8 @@ def download_product(request, filename):
 	correct_secret = create_download_secret(request.GET['order-id'], filename)
 	if secret != correct_secret:
 		raise Http404
+
+	filename = unquote(filename)
 	
 	with open(django_setting.RESTRICTED_ROOT + filename, "rb") as f:
 		name, ext = os.path.splitext(filename)

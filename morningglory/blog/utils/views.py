@@ -276,11 +276,11 @@ def send_receipt(order, request):
 		if not file.strip():
 			continue
 		
-		filename = quote(file)
+		quoted_filename = quote(file)
 		url = "{0}?order-id={1}&secret={2}".format(
-				request.build_absolute_uri(reverse("blog:download-product", kwargs={"filename": filename })),
+				request.build_absolute_uri(reverse("blog:download-product", kwargs={"filename": quoted_filename })),
 				order.number,
-				create_download_secret(order.number, file)
+				create_download_secret(order.number, quoted_filename)
 			)
 		link = {
 			"name": file,
