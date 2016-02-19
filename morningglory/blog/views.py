@@ -54,7 +54,7 @@ def series_list(request, slug, page=None):
 	if not page:
 		page = 1
 	page = int(page)
-	posts = Post.objects(series_slug=normalize_slug(slug)).orderby("-published_date")[(page-1)*5:page*5]
+	posts = Post.objects(series_slug=normalize_slug(slug)).order_by("-published_date")[(page-1)*5:page*5]
 	return render(request, "blog/series-list.html", {
 		"posts": posts,
 		"slug" : slug,
