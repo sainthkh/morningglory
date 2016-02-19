@@ -151,7 +151,7 @@ class Admin:
 			"url_name": 'blog:{0}'.format(self.t['edit-name']),
 		}
 		
-		context.update(self.list_context(request))
+		context.update(self.list_context(request, context))
 		
 		return render(request, self.t['list-file-path'], context)
 	
@@ -189,7 +189,7 @@ class Admin:
 	def save_others(self, writing, POST):
 		pass
 		
-	def list_context(self, request):
+	def list_context(self, request, context):
 		return {}
 	
 	def add_new_context(self, request):
