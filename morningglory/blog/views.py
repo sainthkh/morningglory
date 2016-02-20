@@ -73,7 +73,7 @@ def distribute_post(request, slug):
 	page_queryset = Page.objects(slug=normalize_slug(slug))
 	if page_queryset.count() > 0:
 		page = page_queryset[0]
-		return render(request, 'blog/single-post.html', {
+		return render(request, 'blog/page.html', {
 			'post': page,
 			'content': process_content(page.content),
 		}) 

@@ -1,0 +1,30 @@
+{% extends 'blog/base.html' %}
+{% load blog_tags %}
+
+{% block title %}{{ post.title }} | WiseInit Korean {% endblock %}
+
+{% block content %}
+<div class="post col-md-offset-2 col-md-8">
+{% autoescape off %}
+<article>
+<div class="post-head">
+	{% if post.series != None %}
+	<div class="series">
+		<a class="category" href="">{{ post.category.name }}</a>
+		<a class="series" href="">{{ post.series.name }}</a>
+	</div>
+	{% endif %}
+	<div class="writing-title">
+		<h1>{{ post.title }}</h1>
+	</div>
+</div>
+<div class="post-img">
+	<img src="" />
+</div>
+<div class="writing-content">
+	{{ content|markdown }}	
+</div>
+</article>
+{% endautoescape %}
+</div>
+{% endblock %}
