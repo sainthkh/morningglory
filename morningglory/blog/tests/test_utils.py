@@ -60,6 +60,7 @@ class UtilTest(TestCase):
 				"# What is in this Book?\n\n30 useful idioms  \n90+ example sentences  \n150+ Korean word definitions  \n90+ practice sentences\n\n"),
 			("<<buy>>korean-idioms<</buy>>\n\n# What is in this Book?\n\n30 useful idioms\n90+ example sentences\n150+ Korean word definitions\n90+ practice sentences\n\n",
 				'<a href="/payment/korean-idioms" class="btn btn-buy btn-lg"><i class="fa fa-shopping-cart"></i>  Buy Now</a>\n\n# What is in this Book?\n\n30 useful idioms  \n90+ example sentences  \n150+ Korean word definitions  \n90+ practice sentences\n\n'),
+			("* number 1\n * number 2\n", "* number 1\n * number 2\n"),
 		]
 		
 		self.run_tests(test_set, process_content)
