@@ -368,14 +368,10 @@ $youtube-color: #e62117;
 .products {
 	.product-title {
 		border-bottom: 1px dotted $brand-primary;
-		margin-bottom: 8px;
-	}
-	
-	.product-list {
-		padding: 8px 0;
 	}
 	
 	.product {
+		padding: 12px 0;
 		border-bottom: 1px solid lightgray;
 		
 		&:last-child {
@@ -384,6 +380,12 @@ $youtube-color: #e62117;
 		
 		img {
 			width: 100%;
+		}
+		
+		.product-name {
+			height: 120px;
+			display: flex;
+			align-items: center;
 		}
 	}
 }

@@ -27,10 +27,10 @@
 			{% for p in products %}
 			<div class="product row">
 				<a href="{% url 'blog:product' p.slug %}">
-				<div class="col-xs-6">
+				<div class="col-xs-4">
 					<img src="{% uploads p.thumbnail %}" />
 				</div>
-				<div class="col-xs-6">
+				<div class="col-xs-8 product-name">
 					{{ p.title|truncatechars:20 }}
 				</div>
 				</a>
