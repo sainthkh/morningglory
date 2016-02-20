@@ -446,6 +446,23 @@ def unsubscribe_all(request):
 	return render(request, "blog/unsubscribed-successfully.html", {
 		
 	})
+
+def send_test_mail(request):
+	send_to_subscriber(request.POST.get('email'), request.POST.get('slug'), '', request)
+	
+	return JsonResponse({
+		"message": "Success sending test email.",
+	})
+
+def send_mail_now(request):
+	users = User.objects(subscribed_lists=request.POST['list-slug'])
+	
+	for user in users:
+		send_to_subscriber(user.email, request.POST.get('slug'), request.POST['list-slug'], request)
+		
+	return JsonResponse({
+		"message": "Success sending test email.",
+	})	
 		
 def test_landing_page(request):
 	return render(request, "test/email-subscribe.html", {

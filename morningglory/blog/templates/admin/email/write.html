@@ -6,3 +6,34 @@
 
 {% block extra %}
 {% endblock %}
+
+{% block write_sidebar %}
+<div class="panel panel-default">
+	<div class="panel-heading">Send Test Email</div>
+	<div class="panel-body">
+		<div id="send-test-mail" data-action="{% url 'blog:send-test-mail' %}">
+			<div class="hidden alert"></div>
+			<div class="form-group">
+				<input type="email" class="form-control" id="test-email" value="" placeholder="email" />
+			</div>
+			<div class="pull-right">
+				<button id="send-test-mail-btn" class="btn btn-default">Send</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">Send Email to List</div>
+	<div class="panel-body">
+		<div id="send-mail-now" data-action="{% url 'blog:send-mail-now' %}">
+			<div class="hidden alert"></div>
+			<div class="form-group">
+				<input type="text" class="form-control" id="target-email-list" value="" placeholder="list" />
+			</div>
+			<div class="pull-right">
+				<button id="send-mail-now-btn" class="btn btn-default">Send</button>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
