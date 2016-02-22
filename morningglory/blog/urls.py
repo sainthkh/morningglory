@@ -1,5 +1,6 @@
 from django.conf.urls import url
 import blog.views as views
+import blog.views.admin_views as admin_views
 from blog.feeds import LatestPostsFeed
 
 app_name = 'blog'
@@ -60,36 +61,36 @@ urlpatterns = [
 	# Admin Pages.
 	#
 	##############################################################
-	url(r'^admin$', views.dashboard, name='admin-dashboard'),
+	url(r'^admin$', views.admin_views.dashboard, name='admin-dashboard'),
 ]
 
-admin_views = [
-	views.PostAdmin(),
-	views.PageAdmin(),
-	views.SeriesAdmin(),
-	views.CategoryAdmin(),
-	views.EmailAdmin(),
-	views.EmailListAdmin(),
-	views.LinkAdmin(),
-	views.ProductAdmin(),
+admin_views_classes = [
+	admin_views.PostAdmin(),
+	admin_views.PageAdmin(),
+	admin_views.SeriesAdmin(),
+	admin_views.CategoryAdmin(),
+	admin_views.EmailAdmin(),
+	admin_views.EmailListAdmin(),
+	admin_views.LinkAdmin(),
+	admin_views.ProductAdmin(),
 ]
 
-for admin_view in admin_views:
+for admin_view in admin_views_classes:
 	urlpatterns += admin_view.urls()
 
 urlpatterns = urlpatterns + [
-	url(r'^admin/add-new-subscriber', views.AddSubscriber.as_view(), name='add-new-subscriber'),
+	url(r'^admin/add-new-subscriber', admin_views.AddSubscriber.as_view(), name='add-new-subscriber'),
 	
 	# activities
-	url(r'^admin/activities$', views.activities, name='admin-activities'),
-	url(r'^admin/comments/approve/(?P<pos>[0-9]+)$', views.approve_comment, name='admin-approve-comment'),
+	url(r'^admin/activities$', admin_views.activities, name='admin-activities'),
+	url(r'^admin/comments/approve/(?P<pos>[0-9]+)$', admin_views.approve_comment, name='admin-approve-comment'),
 	
 	# settings
-	url(r'^admin/settings', views.settings, name='admin-settings'),
-	url(r'^admin/save-settings', views.save_settings, name='admin-save-settings'),
+	url(r'^admin/settings', admin_views.settings, name='admin-settings'),
+	url(r'^admin/save-settings', admin_views.save_settings, name='admin-save-settings'),
 	
 	# order
-	url(r'^admin/order', views.admin_order, name='admin-order'),
+	url(r'^admin/order', admin_views.admin_order, name='admin-order'),
 	
 	# save comments
 	url(r'^(?P<slug>[%-_\w]+)/comment$', views.save_comment, name='save-comment'),
