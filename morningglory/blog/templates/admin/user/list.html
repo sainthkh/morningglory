@@ -1,0 +1,22 @@
+{% extends 'admin/layout.html' %}
+
+{% block page_title %}Users{% endblock %}
+
+{% block content %}
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>First Name</th>
+			<th>Email</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for u in users %}
+		<tr>
+			<td><a href="{% url 'blog:edit-user' slug=u.email %}">{{u.first_name}}</td>
+			<td>{{u.email}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>	
+{% endblock %}

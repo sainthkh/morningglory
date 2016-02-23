@@ -73,6 +73,7 @@ admin_views_classes = [
 	admin_views.EmailListAdmin(),
 	admin_views.LinkAdmin(),
 	admin_views.ProductAdmin(),
+	admin_views.UserAdmin(),
 ]
 
 for admin_view in admin_views_classes:

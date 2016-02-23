@@ -92,14 +92,14 @@ class AdminViewBase:
 			return self.edit_post(request, slug)
 	
 	def trash(self, request, slug):
-		writing = self.get_writing(slug)
+		writing = self.get(slug)
 		writing.status = 'trash'
 		writing.save()
 		
 		return redirect(self.t['list-redirect'])
 		
 	def delete(self, request, slug):
-		writing = self.get_writing(slug)
+		writing = self.get(slug)
 		self.delete_or_alter_related(request, writing)
 		
 		writing.delete()
@@ -110,12 +110,12 @@ class AdminViewBase:
 			"page_title" : "Add New " + self.name,
 			"add_new": True,
 		}
-		context.update(self.add_new_context(request))
+		context.update(self.add_new_context(request, context))
 		
 		return render(request, self.t['write-file-path'], context)
 	
 	def edit_get(self, request, slug):
-		writing = self.get_writing(slug)
+		writing = self.get(slug)
 		
 		context = {
 			"writing": writing,
@@ -125,7 +125,7 @@ class AdminViewBase:
 		if hasattr(writing, 'title'):
 			context["page_title"] = "Edit {0} : {1}".format(self.name, writing.title) 
 		
-		context.update(self.edit_context(request))
+		context.update(self.edit_context(request, context))
 		
 		return render(request, self.t['write-file-path'], context)
 	
@@ -137,7 +137,7 @@ class AdminViewBase:
 	
 	def handle_post(self, request, add_new):
 		errors = self.check_errors(request)
-		writing = self.construct_writing(request)
+		writing = self.construct(request)
 		
 		if len(errors) == 0:
 			writing.save()
@@ -157,14 +157,14 @@ class AdminViewBase:
 		
 		return errors
 	
-	def construct_writing(self, request):
+	def construct(self, request):
 		add_new = request.POST['add-new'] == "True"
 	
 		if add_new:
 			writing = self.writing_type()
 			writing.published_date = writing.last_modified_date = datetime.now()
 		else:
-			writing = self.get_writing(request.POST["slug"])
+			writing = self.get(request.POST["slug"])
 
 		if add_new and not 'slug' in request.POST:
 			writing.slug = self.create_slug(request.POST["title"]) 
@@ -174,7 +174,7 @@ class AdminViewBase:
 		
 		return writing
 	
-	def get_writing(self, slug):
+	def get(self, slug):
 		return get_writing(self.writing_type, slug)
 	
 	def create_slug(self, title, writing_type=None):
@@ -222,10 +222,10 @@ class AdminViewBase:
 	def list_context(self, request, context):
 		return {}
 	
-	def add_new_context(self, request):
+	def add_new_context(self, request, context):
 		return {}
 	
-	def edit_context(self, request):
+	def edit_context(self, request, context):
 		return {}
 	
 	def delete_or_alter_related(self, request, writing):
@@ -336,6 +336,32 @@ class ProductAdmin(AdminViewBase):
 		for i in range(0, 5):
 			filename = POST['filename-' + str(i)].strip()
 			writing.files.append(filename)
+
+class UserAdmin(AdminViewBase):
+	def __init__(self):
+		AdminViewBase.__init__(self, User, 'User')
+	
+	def list_context(self, request, context):
+		return {
+			"users": context["writings"]
+		}
+	
+	def add_new_context(self, request, context):
+		return {
+			"user": context["writing"]
+		}
+		
+	def edit_context(self, request, context):
+		return {
+			"user": context["writing"]
+		}
+	
+	def get(self, email):
+		try:
+			return User.objects.get(email=unquote(email))
+		except:
+			raise Http404
+	
 
 class AddSubscriber(View):
 	def get(self, request):
