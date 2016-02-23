@@ -1,8 +1,6 @@
 {% extends 'admin/base/write.html' %}
 {% load admin_tags %}
 
-{% block write_action %}{% url 'blog:save-product' %}{% endblock %}
-
 {% block input_content %}
 <ul class="nav nav-tabs">
 	<li role="presentation" class="active"><a href="#writing-content-page" data-toggle="tab">Content</a></li>

@@ -238,57 +238,57 @@ class PostAdmin(AdminViewBase):
 			
 		writing.series_slug = POST['series']
 
-class PageAdmin(Admin):
+class PageAdmin(AdminViewBase):
 	def __init__(self):
-		Admin.__init__(self, Page, 'Page')
+		AdminViewBase.__init__(self, Page, 'Page')
 	
-	def save_others(self, writing, POST):
+	def construct_other_contents(self, writing, POST):
 		if POST['add-new'] == 'True':
-			writing.slug = primary_level_slug(POST['title'])
+			writing.slug = self.primary_level_slug(POST['title'])
 
 		writing.layout = POST['layout']
 
-class SeriesAdmin(Admin):
+class SeriesAdmin(AdminViewBase):
 	def __init__(self):
-		Admin.__init__(self, Series, 'Series')
+		AdminViewBase.__init__(self, Series, 'Series')
 	
-	def save_others(self, writing, POST):
+	def contstruct_other_contents(self, writing, POST):
 		writing.category_slug = POST['category']
 
-class CategoryAdmin(Admin):
+class CategoryAdmin(AdminViewBase):
 	def __init__(self):
-		Admin.__init__(self, Category, 'Category')
+		AdminViewBase.__init__(self, Category, 'Category')
 
-class EmailAdmin(Admin):
+class EmailAdmin(AdminViewBase):
 	def __init__(self):
-		Admin.__init__(self, Email, 'Email')
+		AdminViewBase.__init__(self, Email, 'Email')
 
-class EmailListAdmin(Admin):
+class EmailListAdmin(AdminViewBase):
 	def __init__(self):
-		Admin.__init__(self, EmailList, 'Email List')
+		AdminViewBase.__init__(self, EmailList, 'Email List')
 	
-	def save_others(self, writing, POST):
+	def contstruct_other_contents(self, writing, POST):
 		writing.lead_magnet_slug = POST['lead-magnet-slug']
 		writing.thankyou_page = POST['thankyou-page']
 
-class LinkAdmin(Admin):
+class LinkAdmin(AdminViewBase):
 	def __init__(self):
-		Admin.__init__(self, Link, 'Link')
+		AdminViewBase.__init__(self, Link, 'Link')
 	
 	def edit_context(self, request):
 		return {
 			"page_title": "Edit Link",
 		}
 	
-	def save_others(self, writing, POST):
+	def contstruct_other_contents(self, writing, POST):
 		if POST['add-new'] == 'True':
 			writing.slug = primary_level_slug(POST['slug'])
 		
 		writing.url = POST['url']
 
-class ProductAdmin(Admin):
+class ProductAdmin(AdminViewBase):
 	def __init__(self):
-		Admin.__init__(self, Product, 'Product')
+		AdminViewBase.__init__(self, Product, 'Product')
 	
 	def add_new_context(self, request):
 		writing = {
@@ -299,7 +299,7 @@ class ProductAdmin(Admin):
 			"writing": writing,
 		}
 	
-	def save_others(self, writing, POST):
+	def contstruct_other_contents(self, writing, POST):
 		writing.thank_you = POST['thank-you']
 		writing.price = float(POST['price'])
 		writing.thumbnail = POST['thumbnail']

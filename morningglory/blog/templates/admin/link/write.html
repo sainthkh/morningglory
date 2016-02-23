@@ -2,7 +2,7 @@
 {% load admin_tags %}
 
 {% block content %}
-<form action="{% url 'blog:save-link' %}" method="POST">
+<form method="POST">
 {% csrf_token %}
 <input type="hidden" name="add-new" value="{{add_new}}">
 <div class="form-group">

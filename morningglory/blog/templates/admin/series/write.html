@@ -1,8 +1,6 @@
 {% extends 'admin/base/write.html' %}
 {% load admin_tags %}
 
-{% block write_action %}{% url 'blog:save-series' %}{% endblock %}
-
 {% block write_sidebar %}
 <div class="panel panel-default wfb-category-select">
 	<div class="panel-heading">Category</div>
