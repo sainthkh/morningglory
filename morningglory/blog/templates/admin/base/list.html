@@ -1,4 +1,5 @@
 {% extends 'admin/layout.html' %}
+{% load common_tags %}
 
 {% block content %}
 {% block add_new %}{% endblock %}
@@ -17,5 +18,8 @@
 		</tr>
 		{% endfor %}
 	</tbody>
-</table>	
+</table>
+<div class="text-center">
+	{% pagination page_context %}
+</div>
 {% endblock %}

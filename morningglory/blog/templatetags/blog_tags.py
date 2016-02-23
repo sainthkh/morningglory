@@ -1,5 +1,4 @@
 from django import template
-from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
 from django.conf import settings
 
@@ -11,6 +10,7 @@ from blog.utils.urls import get_post_url_by_slug
 from blog.utils.markdown import *
 from blog.models import *
 from blog.expanders import template_to_html
+from .common_tags import pager
 
 register = template.Library()
 
@@ -35,44 +35,6 @@ def share_div(context, writing):
 @register.simple_tag(takes_context=True)
 def comment_action(context):
 	return context['request'].path + '/comment'
-
-@register.inclusion_tag('blog/pagination.html')
-def series_pagination(slug, page):
-	page_count = math.ceil(Post.objects(series_slug=slug).count() / 5)
-	context = pager(page_count, slug, page)
-	context["url_format"] = "/series/{0}/list/page/{1}".format(slug, "{0}")
-	return context
-
-@register.inclusion_tag('blog/pagination.html')
-def blog_main_pagination(page):
-	page_count = math.ceil(Post.objects.count() / 5)
-	context = pager(page_count, '', page)
-	context["url_format"] = "/blog/page/{0}"
-	return context
-
-def pager(page_count, slug, page):
-	pager = {
-		"current": page,
-		"slug": slug,
-	}
-	
-	if page_count <= 10:
-		page_range = range(1, page_count+1)
-	else:
-		if page < 6:
-			pager["next_page"] = 11
-			page_range = range(1, 11)
-		else:
-			pager["previous_page"] = page - 5
-			
-			if page_count > page + 5:
-				pager["next_page"] = page + 6
-				page_range = range(page - 4, page + 6)
-			else:
-				page_range = range(page - 4, page_count + 1)
-	
-	pager["range"] = page_range
-	return pager
 
 @register.inclusion_tag('blog/email-modal.html')
 def email_modal(slug, popup_button="Download Now", title="Free Offer", 

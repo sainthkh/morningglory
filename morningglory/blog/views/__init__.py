@@ -31,7 +31,11 @@ def blog_main(request, page):
 	return render(request, 'blog/index.html', {
 		"posts": posts,
 		"products": products,
-		"page": page,
+		"page_context": {
+			"count": Post.objects.count(),
+			"current": page,
+			"url-name": "blog:blog-main",
+		},
 	})
 	
 def single_post(request, year, month, date, slug):
@@ -58,7 +62,12 @@ def series_list(request, slug, page=None):
 	return render(request, "blog/series-list.html", {
 		"posts": posts,
 		"slug" : slug,
-		"page" : page,
+		"page_context" : {
+			"count": Post.objects(series_slug=normalize_slug(slug)).count(),
+			"current": page,
+			"url-name": "blog:series-list",
+			"slug": slug,
+		},
 	})
 
 def distribute_post(request, slug):

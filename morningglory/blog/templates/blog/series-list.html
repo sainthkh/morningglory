@@ -1,5 +1,6 @@
 {% extends 'blog/base.html' %}
 {% load blog_tags %}
+{% load common_tags %}
 
 {% block content %}
 <div class="series-toc-list col-md-offset-2 col-md-8">
@@ -11,7 +12,7 @@
 	{% endautoescape %}
 </div>
 <div class="text-center">
-{% series_pagination slug page %}
+{% pagination page_context %}
 </div>
 </div>
 {% endblock %}

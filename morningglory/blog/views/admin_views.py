@@ -24,7 +24,7 @@ class AdminViewBase:
 		self.t = {} # t is short for templates
 		
 		# list 
-		self.t['list-url'] = r"^admin/{0}$"
+		self.t['list-url'] = r"^admin/{0}(?:/page/(?P<page>[0-9]+))?$"
 		self.t['list-file-path'] = 'admin/{0}/list.html'
 		self.t['list-name'] = "admin-{0}"
 		self.t['list-redirect'] = 'blog:' + self.t['list-name']
@@ -59,12 +59,20 @@ class AdminViewBase:
 		
 		return u
 		
-	def list(self, request):
-		writings = self.writing_type.objects(status__ne='trash')
+	def list(self, request, page=1):
+		if not page:
+			page = 1
+		page = int(page)
+		writings = self.page(page)
 		
 		context = {
 			"writings": writings,
 			"url_name": 'blog:{0}'.format(self.t['edit-name']),
+			"page_context": {
+				"count": self.writing_type.objects.count(),
+				"current": page,
+				"url-name": self.t['list-redirect'],
+			},
 		}
 		
 		context.update(self.list_context(request, context))
@@ -204,6 +212,9 @@ class AdminViewBase:
 
 		if 'key-points' in POST:
 			writing.key_points = POST['key-points']		
+	
+	def page(self, page):
+		return self.writing_type.objects(status__ne='trash')[(page-1)*20:page*20]
 	
 	def construct_other_contents(self, writing, POST):
 		pass
