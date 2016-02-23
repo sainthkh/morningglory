@@ -60,7 +60,7 @@ class AdminViewBase:
 		return u
 		
 	def list(self, request):
-		writings = self.writing_type.objects
+		writings = self.writing_type.objects(status__ne='trash')
 		
 		context = {
 			"writings": writings,
@@ -84,10 +84,18 @@ class AdminViewBase:
 			return self.edit_post(request, slug)
 	
 	def trash(self, request, slug):
-		return redirect(self.t['list-redirect'], {})
+		writing = self.get_writing(slug)
+		writing.status = 'trash'
+		writing.save()
+		
+		return redirect(self.t['list-redirect'])
 		
 	def delete(self, request, slug):
-		return redirect(self.t['list-redirect'], {})
+		writing = self.get_writing(slug)
+		self.delete_or_alter_related(request, writing)
+		
+		writing.delete()
+		return redirect(self.t['list-redirect'])
 	
 	def add_new_get(self, request):
 		context = {
@@ -208,6 +216,9 @@ class AdminViewBase:
 	
 	def edit_context(self, request):
 		return {}
+	
+	def delete_or_alter_related(self, request, writing):
+		pass
 
 #
 # Admin Views
@@ -254,10 +265,16 @@ class SeriesAdmin(AdminViewBase):
 	
 	def contstruct_other_contents(self, writing, POST):
 		writing.category_slug = POST['category']
+	
+	def delete_or_alter_related(self, request, writing):
+		Post.objects(series_slug=writing.slug).update(series_slug='etc')
 
 class CategoryAdmin(AdminViewBase):
 	def __init__(self):
 		AdminViewBase.__init__(self, Category, 'Category')
+	
+	def delete_or_alter_related(self, request, writing):
+		Series.objects(category_slug=writing.slug).update(category_slug='etc')
 
 class EmailAdmin(AdminViewBase):
 	def __init__(self):

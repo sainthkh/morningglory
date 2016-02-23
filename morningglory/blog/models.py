@@ -10,6 +10,7 @@ class Comment(DynamicDocument):
 	name = StringField(required=True)
 	email = StringField()
 	website = StringField()
+	status = StringField()
 	time = DateTimeField()
 	content = StringField()
 
@@ -23,6 +24,7 @@ class Post(DynamicDocument):
 	excerpt = StringField()
 	key_points = StringField()
 	splash_image_path = StringField()
+	status = StringField()
 	comments = ListField(EmbeddedDocumentField('Comment'))
 
 class Page(DynamicDocument):
@@ -34,11 +36,13 @@ class Page(DynamicDocument):
 	splash_image_path = StringField()
 	comments = ListField(EmbeddedDocumentField('Comment'))
 	layout = StringField()
+	status = StringField()
 
 class Category(DynamicDocument):
 	slug = StringField(unique=True)
 	title = StringField()
 	content = StringField()
+	status = StringField()
 	
 class Series(DynamicDocument):
 	slug = StringField(unique=True)
@@ -47,10 +51,12 @@ class Series(DynamicDocument):
 	content = StringField()
 	key_points = StringField()
 	excerpt = StringField()
+	status = StringField()
 
 class Link(DynamicDocument):
 	slug = StringField(unique=True)
 	url = StringField()
+	status = StringField()
 
 class Product(DynamicDocument):
 	slug = StringField(unique=True)
@@ -61,6 +67,7 @@ class Product(DynamicDocument):
 	price = FloatField()
 	files = ListField(StringField())
 	thumbnail = StringField()
+	status = StringField()
 
 # slug list for Post, Page, Link
 class PrimarySlug(Document):
