@@ -4,10 +4,210 @@ from django.views.generic import View
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 
+from urllib.parse import unquote
+from datetime import datetime
+
 from blog.models import *
 from blog.utils.views import *
 from blog.utils.models import *
 
+
+class AdminViewBase:
+	def __init__(self, writing_type, name):
+		self.writing_type = writing_type
+		self.name = name
+		slug = name.lower().replace(' ', '-')
+		
+		self.__setup_paths(slug)
+	
+	def __setup_paths(self, slug):
+		self.t = {} # t is short for templates
+		
+		# list 
+		self.t['list-url'] = r"^admin/{0}$"
+		self.t['list-file-path'] = 'admin/{0}/list.html'
+		self.t['list-name'] = "admin-{0}"
+		self.t['list-redirect'] = 'blog:' + self.t['list-name']
+		
+		# add-new & edit
+		self.t['add-new-url'] = r"^admin/add-new-{0}$"
+		self.t['write-file-path'] = 'admin/{0}/write.html'
+		self.t['add-new-name'] = 'add-new-{0}'
+		self.t['edit-url'] = r"^admin/edit-{0}/(?P<slug>[%-_\w]+)$"
+		self.t['edit-name'] = 'edit-{0}'
+		self.t['save-redirect'] = 'blog:' + self.t['edit-name']
+		
+		# trash
+		self.t['trash-url'] = r"^admin/trash-{0}/(?P<slug>[%-_\w]+)$"
+		self.t['trash-name'] = 'trash-{0}'
+		
+		# delete
+		self.t['delete-url'] = r"^admin/delete-{0}/(?P<slug>[%-_\w]+)$"
+		self.t['delete-name'] = 'delete-{0}'
+			
+		for k, v in self.t.items():
+			self.t[k] = v.format(slug)			  
+	
+	def urls(self):
+		u = [
+			url(self.t['list-url'], login_required(self.list), name=self.t['list-name']),
+			url(self.t['add-new-url'], login_required(self.add_new), name=self.t['add-new-name']),
+			url(self.t['edit-url'], login_required(self.edit), name=self.t['edit-name']),
+			url(self.t['trash-url'], login_required(self.trash), name=self.t['trash-name']),
+			url(self.t['delete-url'], login_required(self.delete), name=self.t['delete-name']),
+		]
+		
+		return u
+		
+	def list(self, request):
+		writings = self.writing_type.objects
+		
+		context = {
+			"writings": writings,
+			"url_name": 'blog:{0}'.format(self.t['edit-name']),
+		}
+		
+		context.update(self.list_context(request, context))
+		
+		return render(request, self.t['list-file-path'], context)
+	
+	def add_new(self, request):
+		if request.method == "GET":
+			return self.add_new_get(request)
+		elif request.method == "POST":
+			return self.add_new_post(request)
+	
+	def edit(self, request, slug):
+		if request.method == "GET":
+			return self.edit_get(request, slug)
+		elif request.method == "POST":
+			return self.edit_post(request, slug)
+	
+	def trash(self, request, slug):
+		return redirect(self.t['list-redirect'], {})
+		
+	def delete(self, request, slug):
+		return redirect(self.t['list-redirect'], {})
+	
+	def add_new_get(self, request):
+		context = {
+			"page_title" : "Add New " + self.name,
+			"add_new": True,
+		}
+		context.update(self.add_new_context(request))
+		
+		return render(request, self.t['write-file-path'], context)
+	
+	def edit_get(self, request, slug):
+		writing = self.get_writing(slug)
+		
+		context = {
+			"writing": writing,
+			"add_new": False,
+		}
+		
+		if hasattr(writing, 'title'):
+			context["page_title"] = "Edit {0} : {1}".format(self.name, writing.title) 
+		
+		context.update(self.edit_context(request))
+		
+		return render(request, self.t['write-file-path'], context)
+	
+	def add_new_post(self, request):
+		return self.handle_post(request, add_new=True)
+	
+	def edit_post(self, request, slug):
+		return self.handle_post(request, add_new=False)
+	
+	def handle_post(self, request, add_new):
+		errors = self.check_errors(request)
+		writing = self.construct_writing(request)
+		
+		if len(errors) == 0:
+			writing.save()
+			return redirect(self.t['save-redirect'], slug=unquote(writing.slug))
+		else:
+			return render(request, self.t['write-file-path'], {
+				"errors": errors,
+				"writing": writing,
+				"add_new": add_new, 
+			})
+	
+	def check_errors(self, request):
+		errors = []
+		
+		if not request.POST['title'].strip():
+			errors.append("Title should not be empty.")
+		
+		return errors
+	
+	def construct_writing(self, request):
+		add_new = request.POST['add-new'] == "True"
+	
+		if add_new:
+			writing = self.writing_type()
+			writing.published_date = writing.last_modified_date = datetime.now()
+		else:
+			writing = self.get_writing(request.POST["slug"])
+
+		if add_new and not 'slug' in request.POST:
+			writing.slug = self.create_slug(request.POST["title"]) 
+
+		self.setup_basic_content(writing, request.POST)
+		self.construct_other_contents(writing, request.POST)
+		
+		return writing
+	
+	def get_writing(self, slug):
+		return get_writing(self.writing_type, slug)
+	
+	def create_slug(self, writing_type, title):
+		slug_base = slugify(title)
+		final_slug = slug_base
+		exist = writing_type.objects(slug=slug_base).count() != 0
+
+		if exist:
+			num = 1
+			while True:
+				slug_candidate = slug_base + '-' + str(num)
+				exist = writing_type.objects(slug=slug_candidate).count() != 0
+				if not exist:
+					break
+				num = num + 1
+			final_slug = slug_candidate
+
+		return final_slug
+	
+	def create_slug(self, title):
+		return self.create_slug(self.writing_type, title)
+	
+	def primary_level_slug(self, title):
+		return self.create_slug(PrimarySlug, title)
+	
+	def setup_basic_content(self, writing, POST):
+		if 'title' in POST:
+			writing.title = POST['title']
+
+		if 'content' in POST:
+			writing.content = POST['content']
+
+		if 'excerpt' in POST:
+			writing.excerpt = POST['excerpt']
+
+		if 'key-points' in POST:
+			writing.key_points = POST['key-points']		
+	
+	def construct_other_contents(self, writing, POST):
+		pass
+		
+	def list_context(self, request, context):
+		return {}
+	
+	def add_new_context(self, request):
+		return {}
+	
+	def edit_context(self, request):
+		return {}
 
 #
 # Admin Views
@@ -23,18 +223,18 @@ def dashboard(request):
 #
 ###########################################################
 
-class PostAdmin(Admin):
+class PostAdmin(AdminViewBase):
 	def __init__(self):
-		Admin.__init__(self, Post, 'Post')
-	
+		AdminViewBase.__init__(self, Post, 'Post')
+
 	def list_context(self, request, context):
 		return {
 			"writings": context["writings"].order_by("-published_date")
 		}
 	
-	def save_others(self, writing, POST):
+	def construct_other_contents(self, writing, POST):
 		if POST['add-new'] == 'True':
-			writing.slug = primary_level_slug(POST['title'])
+			writing.slug = self.primary_level_slug(POST['title'])
 			
 		writing.series_slug = POST['series']
 
