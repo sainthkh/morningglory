@@ -161,7 +161,10 @@ class AdminViewBase:
 	def get_writing(self, slug):
 		return get_writing(self.writing_type, slug)
 	
-	def create_slug(self, writing_type, title):
+	def create_slug(self, title, writing_type=None):
+		if not writing_type:
+			writing_type = self.writing_type 
+
 		slug_base = slugify(title)
 		final_slug = slug_base
 		exist = writing_type.objects(slug=slug_base).count() != 0
@@ -178,11 +181,8 @@ class AdminViewBase:
 
 		return final_slug
 	
-	def create_slug(self, title):
-		return self.create_slug(self.writing_type, title)
-	
 	def primary_level_slug(self, title):
-		return self.create_slug(PrimarySlug, title)
+		return self.create_slug(title, PrimarySlug)
 	
 	def setup_basic_content(self, writing, POST):
 		if 'title' in POST:
