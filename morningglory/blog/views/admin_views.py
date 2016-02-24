@@ -70,6 +70,7 @@ class AdminViewBase:
 				"count": self.writing_type.objects.count(),
 				"current": page,
 				"url-name": self.t['list-redirect'],
+				"document-per-page": 20,
 			},
 		}
 		
@@ -394,10 +395,19 @@ class AddSubscriber(View):
 #
 ##############################################################
 @login_required
-def activities(request):
-	activities = Activity.objects
+def activities(request, page):
+	page = normalize_page(page)
+	document_per_page = 50
+	
+	activities = Activity.objects.order_by("-date")[document_per_page*(page-1):document_per_page*page]
 	return render(request, 'admin/activities.html', {
 		"activities": activities,
+		"page_context": {
+			"count": Activity.objects.count(),
+			"current": page,
+			"url-name": "blog:admin-activities",
+			"document-per-page": document_per_page,
+		}
 	})
 
 @login_required

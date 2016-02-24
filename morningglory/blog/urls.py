@@ -83,7 +83,7 @@ urlpatterns = urlpatterns + [
 	url(r'^admin/add-new-subscriber', admin_views.AddSubscriber.as_view(), name='add-new-subscriber'),
 	
 	# activities
-	url(r'^admin/activities$', admin_views.activities, name='admin-activities'),
+	url(r'^admin/activities(?:/page/(?P<page>[0-9]+))?$', admin_views.activities, name='admin-activities'),
 	url(r'^admin/comments/approve/(?P<pos>[0-9]+)$', admin_views.approve_comment, name='admin-approve-comment'),
 	
 	# settings

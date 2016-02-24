@@ -1,6 +1,6 @@
 {% extends 'admin/layout.html' %}
-
 {% load staticfiles %}
+{% load common_tags %}
 
 {% block page_title %}Activities{% endblock %}
 
@@ -21,6 +21,9 @@
 		{% endfor %}
 	</tbody>
 </table>
+<div class="text-center">
+	{% pagination page_context %}
+</div>
 {% endblock %}
 
 {% block script_at_bottom %}
