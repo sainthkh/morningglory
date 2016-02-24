@@ -24,8 +24,8 @@ def index(request):
 	return blog_main(request, 1)	
 
 def blog_main(request, page):
-	page = int(page)
-	posts = Post.objects.order_by("-published_date")[(page-1)*5:page*5]
+	page = normalize_page(page)
+	posts = Post.objects(status__ne='trash').order_by("-published_date")[(page-1)*5:page*5]
 	products = Product.objects
 	
 	return render(request, 'blog/index.html', {
@@ -56,15 +56,13 @@ def series(request, slug):
 	})
 	
 def series_list(request, slug, page=None):
-	if not page:
-		page = 1
-	page = int(page)
-	posts = Post.objects(series_slug=normalize_slug(slug)).order_by("-published_date")[(page-1)*5:page*5]
+	page = normalize_page(page)
+	posts = Post.objects(series_slug=normalize_slug(slug), status__ne='trash').order_by("-published_date")[(page-1)*5:page*5]
 	return render(request, "blog/series-list.html", {
 		"posts": posts,
 		"slug" : slug,
 		"page_context" : {
-			"count": Post.objects(series_slug=normalize_slug(slug)).count(),
+			"count": Post.objects(series_slug=normalize_slug(slug), status__ne='trash').count(),
 			"current": page,
 			"url-name": "blog:series-list",
 			"slug": slug,
