@@ -7,7 +7,7 @@ register = template.Library()
 
 @register.inclusion_tag('common/pagination.html')
 def pagination(page_context):
-	page_count = math.ceil(page_context["count"] / 20)
+	page_count = math.ceil(page_context["count"] / page_context["document-per-page"])
 	context = pager(page_count, page_context["current"])
 	kwargs = {
 		"page": "1002346871238491771293841234981112430987097234189", #dummy number that might not occur

@@ -35,6 +35,7 @@ def blog_main(request, page):
 			"count": Post.objects.count(),
 			"current": page,
 			"url-name": "blog:blog-main",
+			"document-per-page": 5,
 		},
 	})
 	
@@ -67,6 +68,7 @@ def series_list(request, slug, page=None):
 			"current": page,
 			"url-name": "blog:series-list",
 			"slug": slug,
+			"document-per-page": 5,
 		},
 	})
 
