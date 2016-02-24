@@ -1,0 +1,7 @@
+<div class="content-menu-wrap">
+	<ul class="content-menu">
+		{% for m in menu_context %}
+		<li><a href="{% url m.url_name slug %}" {% if m.new %}target="_blank"{% endif %}>{{ m.name }}</a></li>
+		{% endfor %}
+	</ul>
+</div>

@@ -65,6 +65,35 @@ html, body {
 	}
 }
 
+.content-menu-wrap {
+	min-height: 30px;	
+}
+
+.content-menu {
+	display: none;
+	margin: 0;
+	padding: 5px 0;
+	
+	&:hover {
+		display: block;
+	}
+	
+	li {
+		display: inline-block;
+		list-style-type: none;
+		border-right: 1px solid lightgray; 
+		padding: 0 10px;
+		
+		a {
+			color: black;	
+		}
+		
+		&:last-child {
+			border-right: none;
+		}
+	}
+}
+
 // Admin layout
 
 $header-height: 50px;

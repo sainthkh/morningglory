@@ -19,6 +19,8 @@ class AdminViewBase:
 		slug = name.lower().replace(' ', '-')
 		
 		self.__setup_paths(slug)
+		
+		self.trash_menu = {"name": "Trash", "url_name": 'blog:' + self.t['trash-name']}
 	
 	def __setup_paths(self, slug):
 		self.t = {} # t is short for templates
@@ -72,6 +74,7 @@ class AdminViewBase:
 				"url-name": self.t['list-redirect'],
 				"document-per-page": 20,
 			},
+			"menu_context": self.menu_context(),
 		}
 		
 		context.update(self.list_context(request, context))
@@ -221,6 +224,9 @@ class AdminViewBase:
 	def list_context(self, request, context):
 		return {}
 	
+	def menu_context(self):
+		return []
+	
 	def add_new_context(self, request, context):
 		return {}
 	
@@ -253,6 +259,12 @@ class PostAdmin(AdminViewBase):
 			"writings": context["writings"].order_by("-published_date")
 		}
 	
+	def menu_context(self):
+		return [
+			self.trash_menu,
+			{"name": "View", "url_name": 'blog:distribute-post', "new":True },
+		]
+	
 	def construct_other_contents(self, writing, POST):
 		if POST['add-new'] == 'True':
 			writing.slug = self.primary_level_slug(POST['title'])
@@ -262,6 +274,12 @@ class PostAdmin(AdminViewBase):
 class PageAdmin(AdminViewBase):
 	def __init__(self):
 		AdminViewBase.__init__(self, Page, 'Page')
+	
+	def menu_context(self):
+		return [
+			self.trash_menu,
+			{"name": "View", "url_name": 'blog:distribute-post', "new":True },
+		]
 	
 	def construct_other_contents(self, writing, POST):
 		if POST['add-new'] == 'True':
@@ -273,15 +291,28 @@ class SeriesAdmin(AdminViewBase):
 	def __init__(self):
 		AdminViewBase.__init__(self, Series, 'Series')
 	
+	def menu_context(self):
+		return [
+			self.trash_menu,
+			{"name": "View", "url_name": 'blog:series-list', "new":True },
+		]
+	
 	def contstruct_other_contents(self, writing, POST):
 		writing.category_slug = POST['category']
 	
 	def delete_or_alter_related(self, request, writing):
 		Post.objects(series_slug=writing.slug).update(series_slug='etc')
+	
 
 class CategoryAdmin(AdminViewBase):
 	def __init__(self):
 		AdminViewBase.__init__(self, Category, 'Category')
+	
+	def menu_context(self):
+		return [
+			self.trash_menu,
+			{"name": "View", "url_name": 'blog:category', "new":True },
+		]
 	
 	def delete_or_alter_related(self, request, writing):
 		Series.objects(category_slug=writing.slug).update(category_slug='etc')
@@ -289,10 +320,20 @@ class CategoryAdmin(AdminViewBase):
 class EmailAdmin(AdminViewBase):
 	def __init__(self):
 		AdminViewBase.__init__(self, Email, 'Email')
+	
+	def menu_context(self):
+		return [
+			self.trash_menu,
+		]
 
 class EmailListAdmin(AdminViewBase):
 	def __init__(self):
 		AdminViewBase.__init__(self, EmailList, 'Email List')
+	
+	def menu_context(self):
+		return [
+			self.trash_menu,
+		]
 	
 	def contstruct_other_contents(self, writing, POST):
 		writing.lead_magnet_slug = POST['lead-magnet-slug']
@@ -301,6 +342,11 @@ class EmailListAdmin(AdminViewBase):
 class LinkAdmin(AdminViewBase):
 	def __init__(self):
 		AdminViewBase.__init__(self, Link, 'Link')
+	
+	def menu_context(self):
+		return [
+			self.trash_menu,
+		]
 	
 	def edit_context(self, request):
 		return {
@@ -316,6 +362,12 @@ class LinkAdmin(AdminViewBase):
 class ProductAdmin(AdminViewBase):
 	def __init__(self):
 		AdminViewBase.__init__(self, Product, 'Product')
+	
+	def menu_context(self):
+		return [
+			self.trash_menu,
+			{"name": "View", "url_name": 'blog:product', "new":True },
+		]
 	
 	def add_new_context(self, request):
 		writing = {
@@ -339,6 +391,11 @@ class ProductAdmin(AdminViewBase):
 class UserAdmin(AdminViewBase):
 	def __init__(self):
 		AdminViewBase.__init__(self, User, 'User')
+	
+	def menu_context(self):
+		return [
+			self.trash_menu,
+		]
 	
 	def list_context(self, request, context):
 		return {

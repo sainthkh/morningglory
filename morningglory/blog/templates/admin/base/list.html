@@ -1,4 +1,5 @@
 {% extends 'admin/layout.html' %}
+{% load admin_tags %}
 {% load common_tags %}
 
 {% block content %}
@@ -13,7 +14,10 @@
 	<tbody>
 		{% for w in writings %}
 		<tr>
-			<td><a href="{% url url_name slug=w.slug %}">{{ w.title }}</a></td>
+			<td>
+				<a href="{% url url_name slug=w.slug %}">{{ w.title }}</a>
+				{% content_menu menu_context w.slug %}
+			</td>
 			{% block data_others %}{% endblock %}
 		</tr>
 		{% endfor %}
