@@ -1,15 +1,9 @@
 {% load blog_tags %}
 <sitemapindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/siteindex.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{% for s in sitemaps %}
 <sitemap>
-	<loc>{% absolute_url 'sitemap-post.xml' %}</loc>
-	<lastmod>{{ post_last_mod|date:"Y-m-d" }}</lastmod>
+	<loc>{% absolute_url s.loc_name %}</loc>
+	<lastmod>{{ s.last_mod|date:"Y-m-d" }}</lastmod>
 </sitemap>
-<sitemap>
-	<loc>{% absolute_url 'sitemap-page.xml' %}</loc>
-	<lastmod>{{ page_last_mod|date:"Y-m-d" }}</lastmod>
-</sitemap>
-<sitemap>
-	<loc>{% absolute_url 'sitemap-legacy.xml' %}</loc>
-	<lastmod>2016-02-26</lastmod>
-</sitemap>
+{% endfor %}
 </sitemapindex>

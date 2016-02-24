@@ -482,18 +482,28 @@ def test_landing_page(request):
 
 def sitemap(request, type_string=None):
 	if not type_string:
-		types = [Post, Page]
-		last_mod_dates = []
+		types = [
+			{"name": "post", "obj": Post},
+			{"name": "page", "obj": Page},
+		]
+		sitemaps = []
 		
 		for t in types:
-			writing = t.objects().order_by("-last_modified_date")[0:0]
-			last_mod = writing[0].last_modified_date
-			
-			last_mod_dates.append(last_mod)
-			
+			if t["obj"].objects.count() > 0:
+				writing = t["obj"].objects().order_by("-last_modified_date")[0:0]
+				last_mod = writing[0].last_modified_date
+				
+				sitemaps.append({
+					"loc_name": "sitemap-{0}.xml".format(t["name"]),
+					"last_mod": last_mod,
+				})
+		sitemaps.append({
+			"loc_name": "sitemap-legacy.xml",
+			"last_mod": date(2016, 2, 26),
+		})
+					
 		return TemplateResponse(request, 'sitemap/main.xml', {
-			"post_last_mod": last_mod_dates[0],
-			"page_last_mod": last_mod_dates[1],
+			"sitemaps": sitemaps,
 		}, content_type='application/xml')
 	elif type_string == "legacy":
 		posts = Post.objects(published_date__lte=date(2016, 2, 26)).order_by("-last_modified_date").only("slug", "last_modified_date")
