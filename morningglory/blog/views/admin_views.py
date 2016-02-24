@@ -60,9 +60,7 @@ class AdminViewBase:
 		return u
 		
 	def list(self, request, page=1):
-		if not page:
-			page = 1
-		page = int(page)
+		page = normalize_page(page)
 		writings = self.page(page)
 		
 		context = {

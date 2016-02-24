@@ -21,6 +21,11 @@ def normalize_slug(slug):
 	
 	return slug.lower()
 
+def normalize_page(page):
+	if not page:
+		page = 1
+	return int(page)
+
 #
 # Writing Helpers
 # 
