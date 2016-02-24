@@ -284,7 +284,7 @@ class PageAdmin(AdminViewBase):
 	def construct_other_contents(self, writing, POST):
 		if POST['add-new'] == 'True':
 			writing.slug = self.primary_level_slug(POST['title'])
-
+		
 		writing.layout = POST['layout']
 
 class SeriesAdmin(AdminViewBase):

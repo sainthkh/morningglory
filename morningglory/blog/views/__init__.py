@@ -84,8 +84,14 @@ def distribute_post(request, slug):
 	page_queryset = Page.objects(slug=normalize_slug(slug))
 	if page_queryset.count() > 0:
 		page = page_queryset[0]
+		if page.layout.strip():
+			layout = page.layout
+		else:
+			layout = 'blog/base.html'
+
 		return render(request, 'blog/page.html', {
 			'post': page,
+			'layout': layout,
 			'content': process_content(page.content),
 		}) 
 	
