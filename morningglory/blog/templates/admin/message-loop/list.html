@@ -1,0 +1,11 @@
+{% extends 'admin/base/list.html' %}
+
+{% block page_title %}Messages{% endblock %}
+
+{% block header_others %}
+<th>Date</th>
+{% endblock %}
+
+{% block data_others %}
+<td>{{w.published_date}}</td>
+{% endblock %}
