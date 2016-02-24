@@ -32,176 +32,20 @@ def normalize_page(page):
 # These are common helper functions for writing types like Post, Series, Views 
 #
 ##############################################################
-
-def setup_writing_for_save(writing_type, request):
-	add_new = request.POST['add-new'] == "True"
-	
-	if add_new:
-		writing = writing_type()
-	else:
-		writing = get_writing(writing_type, request.POST["slug"])
-	
-	setup_dates(writing, add_new)
-	
-	if add_new and not 'slug' in request.POST:
-		writing.slug = create_slug(writing_type, request.POST["title"]) 
-	
-	setup_basic_content(writing, request.POST)
-	
-	return writing
-
 def get_writing(writing_type, slug):
 	try:
 		writing = writing_type.objects(slug=normalize_slug(slug))[0]
 	except IndexError:
 		raise Http404
 
-	return writing
-
-def setup_dates(writing, add_new):
-	if add_new:
-		writing.published_date = writing.last_modified_date = datetime.now()
-	else:
-		writing.last_modified_date = datetime.now()
-
-def create_slug(writing_type, title):
-	slug_base = slugify(title)
-	final_slug = slug_base
-	exist = writing_type.objects(slug=slug_base).count() != 0
-
-	if exist:
-		num = 1
-		while True:
-			slug_candidate = slug_base + '-' + str(num)
-			exist = writing_type.objects(slug=slug_candidate).count() != 0
-			if not exist:
-				break
-			num = num + 1
-		final_slug = slug_candidate
-	
-	return final_slug	
-
-def primary_level_slug(candidate):
-	return create_slug(PrimarySlug, candidate)
-
-def setup_basic_content(writing, POST):
-	if 'title' in POST:
-		writing.title = POST['title']
-
-	if 'content' in POST:
-		writing.content = POST['content']
-
-	if 'excerpt' in POST:
-		writing.excerpt = POST['excerpt']
-
-	if 'key-points' in POST:
-		writing.key_points = POST['key-points']			
+	return writing	
 
 def process_content(text):
 	text = text.replace("\r\n", "\n")
 	text = re.sub(r"([^\s])[ \t]*?\n[ \t]*?([^\s*])", r'\1  \n\2', text)
 	text = expand_image_tags(expand_content(text))
 	return text
-#
-# Admin class
-#
-###################################################################
 
-class Admin:	
-	def __init__(self, writing, name):
-		self.writing = writing
-		self.name = name
-		slug = name.lower().replace(' ', '-')
-		
-		self.__setup_paths(slug)
-	
-	def __setup_paths(self, slug):
-		self.t = {} # short for templates
-		
-		# list 
-		self.t['list-url'] = r"^admin/{0}$"
-		self.t['list-file-path'] = 'admin/{0}/list.html'
-		self.t['list-name'] = "admin-{0}"
-		
-		# add-new & edit
-		self.t['add-new-url'] = r"^admin/add-new-{0}$"
-		self.t['write-file-path'] = 'admin/{0}/write.html'
-		self.t['add-new-name'] = 'add-new-{0}'
-		self.t['edit-url'] = r"^admin/edit-{0}/(?P<slug>[%-_\w]+)$"
-		self.t['edit-name'] = 'edit-{0}'
-		
-		# save
-		self.t['save-url'] = r"admin/save-{0}$"
-		self.t['save-name'] = "save-{0}"
-		self.t['save-redirect'] = 'blog:edit-{0}'
-		
-		for k, v in self.t.items():
-			self.t[k] = v.format(slug)			  
-	
-	def urls(self):
-		u = [
-			url(self.t['list-url'], login_required(self.list), name=self.t['list-name']),
-			url(self.t['add-new-url'], login_required(self.add_new), name=self.t['add-new-name']),
-			url(self.t['edit-url'], login_required(self.edit), name=self.t['edit-name']),
-			url(self.t['save-url'], login_required(self.save), name=self.t['save-name']),
-		]
-		
-		return u
-		
-	def list(self, request):
-		writings = self.writing.objects
-		
-		context = {
-			"writings": writings,
-			"url_name": 'blog:{0}'.format(self.t['edit-name']),
-		}
-		
-		context.update(self.list_context(request, context))
-		
-		return render(request, self.t['list-file-path'], context)
-	
-	def add_new(self, request):
-		context = {
-			"page_title" : "Add New " + self.name,
-			"add_new": True,
-		}
-		context.update(self.add_new_context(request))
-		
-		return render(request, self.t['write-file-path'], context)
-	
-	def edit(self, request, slug):
-		writing = get_writing(self.writing, slug)
-		
-		context = {
-			"writing": writing,
-			"add_new": False,
-		}
-		
-		if 'title' in writing:
-			context["page_title"] = "Edit {0} : {1}".format(self.name, writing.title) 
-		
-		context.update(self.edit_context(request))
-		
-		return render(request, self.t['write-file-path'], context)
-	
-	def save(self, request):
-		writing = setup_writing_for_save(self.writing, request)
-		self.save_others(writing, request.POST)
-		writing.save()
-		
-		return redirect(self.t['save-redirect'], slug=unquote(writing.slug))
-	
-	def save_others(self, writing, POST):
-		pass
-		
-	def list_context(self, request, context):
-		return {}
-	
-	def add_new_context(self, request):
-		return {}
-	
-	def edit_context(self, request):
-		return {}
 #
 # Comment Savers. 
 #
