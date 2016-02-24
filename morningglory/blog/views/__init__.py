@@ -462,6 +462,7 @@ def unsubscribe_all(request):
 		
 	})
 
+@login_required
 def send_test_mail(request):
 	send_to_subscriber(request.POST.get('email'), request.POST.get('slug'), '', request)
 	
@@ -469,6 +470,7 @@ def send_test_mail(request):
 		"message": "Success sending test email.",
 	})
 
+@login_required
 def send_mail_now(request):
 	users = User.objects(subscribed_lists=request.POST['list-slug'])
 	

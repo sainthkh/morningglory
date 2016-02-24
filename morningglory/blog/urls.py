@@ -47,8 +47,8 @@ urlpatterns = [
 	url(r'^unsubscribe$', views.unsubscribe, name="unsubscribe"),
 	url(r'^unsubscribe-this$', views.unsubscribe_this, name="unsubscribe-this"),
 	url(r'^unsubscribe-all$', views.unsubscribe_all, name="unsubscribe-all"),
-	url(r'^send-test-mail$', views.send_test_mail, name="send-test-mail"),
-	url(r'^send-mail-now$', views.send_mail_now, name="send-mail-now"),
+	url(r'^admin/send-test-mail$', views.send_test_mail, name="send-test-mail"),
+	url(r'^admin/send-mail-now$', views.send_mail_now, name="send-mail-now"),
 	url(r'^test-landing-page$', views.test_landing_page, name="test-landing-page"),
 	
 	#
