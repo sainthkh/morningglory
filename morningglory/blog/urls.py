@@ -74,6 +74,8 @@ admin_views_classes = [
 	admin_views.LinkAdmin(),
 	admin_views.ProductAdmin(),
 	admin_views.UserAdmin(),
+	admin_views.MessageLoopAdmin(),
+	admin_views.MessageAdmin(),
 ]
 
 for admin_view in admin_views_classes:

@@ -6,7 +6,7 @@ from mongoengine import *
 #
 ###############################################################
 
-class Comment(DynamicDocument):
+class Comment(EmbeddedDocument):
 	name = StringField(required=True)
 	email = StringField()
 	website = StringField()
@@ -135,3 +135,36 @@ class EmailList(DynamicDocument):
 	title = StringField()
 	lead_magnet_slug = StringField()
 	thankyou_page = StringField()
+
+#
+# Message Models
+#
+################################################################
+class MessageLoop(DynamicDocument):
+	slug = StringField()
+	title = StringField()
+	term = IntField()
+	platform = StringField()
+	hashtags = ListField(StringField())
+	messages = ListField(ReferenceField('Message'))
+	current = IntField()
+	created_date = DateTimeField()
+	last_published_date = DateTimeField()
+
+class Message(DynamicDocument):
+	slug = StringField()
+	title = StringField()
+	current = IntField()
+	hashtags = ListField(StringField())
+	
+	meta = {
+		"allow_inheritance": True,
+	}
+
+class TweetMessage(Message):
+	class TweetText(EmbeddedDocument):
+		text = StringField()
+		images = ListField(StringField())
+	
+	messages = ListField(EmbeddedDocumentField('TweetText'))
+	

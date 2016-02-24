@@ -417,7 +417,14 @@ class UserAdmin(AdminViewBase):
 			return User.objects.get(email=unquote(email))
 		except:
 			raise Http404
-	
+
+class MessageLoopAdmin(AdminViewBase):
+	def __init__(self):
+		AdminViewBase.__init__(self, MessageLoop, 'Message Loop')	
+
+class MessageAdmin(AdminViewBase):
+	def __init__(self):
+		AdminViewBase.__init__(self, Message, 'Message')
 
 class AddSubscriber(View):
 	def get(self, request):
