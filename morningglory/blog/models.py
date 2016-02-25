@@ -156,6 +156,7 @@ class Message(DynamicDocument):
 	title = StringField()
 	current = IntField()
 	hashtags = ListField(StringField())
+	last_published_date = DateTimeField()
 	
 	meta = {
 		"allow_inheritance": True,

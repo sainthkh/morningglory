@@ -1,11 +1,29 @@
 {% extends 'admin/base/list.html' %}
+{% load admin_tags %}
 
 {% block page_title %}Messages{% endblock %}
 
-{% block header_others %}
-<th>Date</th>
-{% endblock %}
-
-{% block data_others %}
-<td>{{w.published_date}}</td>
+{% block content %}
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Current</th>
+			<th>Hash Tags</th>
+			<th>Last Published Date</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for m in messages %}
+		<tr>
+			<td>
+				<a href="{% url 'blog:edit-message' slug=m.slug %}">{{m.title}}</a>
+			</td>
+			<td>{{ m.current }}</td>
+			<td>{{ m.hashtags|comma_list }}</td>
+			<td>{{ m.last_published_date }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
 {% endblock %}
