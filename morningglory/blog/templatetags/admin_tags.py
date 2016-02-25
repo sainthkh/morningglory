@@ -54,3 +54,7 @@ def content_menu(menu_context, slug):
 		"menu_context": menu_context,
 		"slug": slug,
 	}
+
+@register.filter
+def comma_list(l):
+	return ', '.join(l)
