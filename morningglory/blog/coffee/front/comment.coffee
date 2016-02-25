@@ -22,6 +22,7 @@ jQuery(document).ready ($) ->
 		
 	$('.comment-form').submit (e) ->
 		e.preventDefault()
+		$('#post-comment').prop 'disabled', true
 		$.ajax(
 			method: "post"
 			url: $('.comment-form').attr('action') + '/ajax'
@@ -33,6 +34,11 @@ jQuery(document).ready ($) ->
 			success : (data) ->
 				if data.success
 					$('.comments').append(data.html)
+					$('#post-comment').prop 'disabled', false
+					$('#name').val ''
+					$('#email').val ''
+					$('#website').val ''
+					$('#comment').val ''
 				else 
 					$('#comment-error').text(data.msg).removeClass("hidden")
 		)
