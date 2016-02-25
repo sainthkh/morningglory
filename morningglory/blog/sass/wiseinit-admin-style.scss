@@ -2,6 +2,19 @@ html, body {
 	height: 100%;
 }
 
+table {
+	background: white;
+}
+
+$table-border: #aaa;
+.table-bordered {
+	border-color: $table-border;
+	& > thead > tr > th,
+	& > tbody > tr > td {
+		border-color: $table-border;
+	}	
+}
+
 #write-form {
 	.title-wrap {
 		margin: 10px 0;
