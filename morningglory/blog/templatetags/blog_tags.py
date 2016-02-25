@@ -55,7 +55,7 @@ def unsubscribe_url(context, email, list_slug):
 
 @register.simple_tag()
 def google_analytics():
-	if settings.DEBUG:
+	if not settings.ANALYTICS:
 		return ''
 	return template_to_html('blog/google-analytics.html', {})
 

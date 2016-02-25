@@ -151,8 +151,10 @@ config = configparser.ConfigParser()
 config.read(SECRET_ROOT + 'system.conf', encoding='utf-8')
 
 DEBUG = config['SYSTEM']['DEBUG'] == 'True'
+ANALYTICS = config['SYSTEM']['ANALYTICS'] == 'True'
+EMAIL = config['SYSTEM']['EMAIL'] == 'True'
 
-if DEBUG:
+if not EMAIL:
 	EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 from morningglory import wpmigration
