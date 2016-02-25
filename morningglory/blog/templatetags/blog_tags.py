@@ -118,10 +118,6 @@ def remove_audio_headline(content):
 	content = re.sub(r"# With English( Translations)?", r'', content)
 	return content
 
-@register.filter
-def simpleformat(value, arg):
-	return value.format(arg)
-
 @register.filter(name='unquote')
 def unquote_url(value):
 	return unquote(value)

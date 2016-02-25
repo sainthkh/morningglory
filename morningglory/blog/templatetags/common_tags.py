@@ -40,3 +40,7 @@ def pager(page_count, page):
 	
 	pager["range"] = page_range
 	return pager
+
+@register.filter
+def simpleformat(value, arg):
+	return value.format(arg)

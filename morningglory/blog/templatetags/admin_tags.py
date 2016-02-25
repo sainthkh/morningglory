@@ -48,10 +48,6 @@ def upload_button(name, folder='uploads', multiple=True, text_target="writing-co
 		"name": name,
 	}
 
-@register.filter
-def simpleformat(value, arg):
-	return value.format(arg)
-
 @register.inclusion_tag('admin/content-menu.html')
 def content_menu(menu_context, slug):
 	return {
