@@ -1,11 +1,30 @@
 {% extends 'admin/base/list.html' %}
+{% load admin_tags %}
+{% load common_tags %}
 
 {% block page_title %}Messages{% endblock %}
 
-{% block header_others %}
-<th>Date</th>
-{% endblock %}
-
-{% block data_others %}
-<td>{{w.published_date}}</td>
+{% block content %}
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Platform</th>
+			<th>Hash Tags</th>
+			<th>Last Published</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for l in loops %}
+		<tr>
+			<td>
+				<a href="{{ url_base|simpleformat:l.slug }}">{{ l.title }}</a>
+			</td>
+			<td>{{ l.platform }}</td>
+			<td>{{ l.hashtags|comma_list }}</td>
+			<td>{{ l.last_published_date|date:"P M. d, Y" }}</td>
+		</tr>
+		{% endfor%}
+	</tbody>
+</table>
 {% endblock %}

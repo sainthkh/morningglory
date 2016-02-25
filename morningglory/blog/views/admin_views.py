@@ -426,7 +426,29 @@ class UserAdmin(AdminViewBase):
 class MessageLoopAdmin(AdminViewBase):
 	def __init__(self):
 		AdminViewBase.__init__(self, MessageLoop, 'Message Loop')	
-
+	
+	def list_context(self, request, context):
+		return {
+			"url_base": reverse('blog:admin-message') + '?loop={0}',
+			"loops": context['writings'],
+		}
+	
+	def construct_other_contents(self, writing, POST):
+		writing.term = int(POST['term'])
+		writing.platform = POST['platform']
+		
+		tags = []
+		for tag in POST['hashtags'].split(','):
+			tags.append(tag.strip())
+		
+		writing.hashtags = tags
+		
+		if not POST['current'].strip():
+			writing.current = 0
+		
+		if POST['add-new'] == 'True':
+			writing.created_date = datetime.now()
+	
 class MessageAdmin(AdminViewBase):
 	def __init__(self):
 		AdminViewBase.__init__(self, Message, 'Message')
