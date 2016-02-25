@@ -46,7 +46,9 @@ class AdminViewBase:
 		# delete
 		self.t['delete-url'] = r"^admin/delete-{0}/(?P<slug>[%-_\w]+)$"
 		self.t['delete-name'] = 'delete-{0}'
-			
+		
+		self.setup_other_path(self.t)
+		
 		for k, v in self.t.items():
 			self.t[k] = v.format(slug)			  
 	
@@ -217,6 +219,9 @@ class AdminViewBase:
 	
 	def page(self, page):
 		return self.writing_type.objects(status__ne='trash')[(page-1)*20:page*20]
+	
+	def setup_other_path(self, t):
+		pass
 	
 	def construct_other_contents(self, writing, POST):
 		pass
