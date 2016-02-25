@@ -58,3 +58,14 @@ def content_menu(menu_context, slug):
 @register.filter
 def comma_list(l):
 	return ', '.join(l)
+
+@register.inclusion_tag('admin/template_tags/horizontal-input.html', name='horizontal')
+def horizontal_input(name, value, slug=''):
+	if slug == '':
+		slug = name.lower().replace(' ', '-')
+	
+	return {
+		"name": name,
+		"slug": slug,
+		"value": value,
+	}
