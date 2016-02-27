@@ -10,25 +10,25 @@
 	<div class="col-md-8">
 		{% csrf_token %}
 		{% if not add_new %}
-		<input type="hidden" name="slug" value="{{ writing.slug }}" />
+		<input type="hidden" name="slug" value="{{ content.slug }}" />
 		{% endif %}
 		<div class="title-wrap">
-			<input type="text" class="form-control" name="title" value="{{ writing.title }}" placeholder="Title" />
+			<input type="text" class="form-control" name="title" value="{{ content.title }}" placeholder="Title" />
 		</div>
 		{% block input_content %}
 		<div class="form-group">
 			<label for="writing-content">Content</label>
-			<textarea id="writing-content" class="form-control" style="height:500px;" type="hidden" name="content" rows="15">{{ writing.content }}</textarea>
+			<textarea id="writing-content" class="form-control" style="height:500px;" type="hidden" name="content" rows="15">{{ content.content }}</textarea>
 		</div>
 		{% endblock %}
 		{% block extra %}
 			<div class="form-group">
 				<label for="post-excerpt">Excerpt</label>
-				<textarea class="form-control" id="post-excerpt" name="excerpt" placeholder="Excerpt">{{ writing.excerpt }}</textarea>
+				<textarea class="form-control" id="post-excerpt" name="excerpt" placeholder="Excerpt">{{ content.excerpt }}</textarea>
 			</div>
 			<div class="form-group">
 				<label for="post-key-points">Key Points</label>
-				<textarea class="form-control" id="post-key-points" name="key-points" placeholder="Key Points">{{ writing.key_points }}</textarea>
+				<textarea class="form-control" id="post-key-points" name="key-points" placeholder="Key Points">{{ content.key_points }}</textarea>
 			</div>
 		{% endblock %}
 	</div>

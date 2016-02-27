@@ -50,7 +50,7 @@ def category(request, slug, page):
 	})
 
 def series(request, slug):
-	series = get_writing(Series, slug)
+	series = get_content(Series, slug)
 	return render(request, "blog/series.html", {
 		"series" : series,
 	})
@@ -215,28 +215,28 @@ def contact_success(request):
 	})	
 
 def product(request, slug):
-	product = get_writing(Product, slug)
+	product = get_content(Product, slug)
 	return render(request, "blog/product.html", {
 		'post': product,
 		'content': process_content(product.content),
 	})
 
 def thank_you(request, slug):
-	product = get_writing(Product, slug)
+	product = get_content(Product, slug)
 	return render(request, "blog/thank-you.html", {
 		"product": product,
 		'content': process_content(product.thank_you),
 	})
 
 def special_offer(request, slug):
-	product = get_writing(Product, slug)
+	product = get_content(Product, slug)
 	return render(request, "blog/special-offer.html", {
 		"product": product,
 		"content": process_content(product.special_offer),
 	})
 
 def payment(request, slug):
-	product = get_writing(Product, slug)
+	product = get_content(Product, slug)
 	stripe_pub_key = get_setting('stripe-public-key')
 	return render(request, "blog/payment.html", {
 		"product": product,
@@ -253,7 +253,7 @@ def configure_paypal_api():
 def paypal_payment(request):
 	configure_paypal_api()
 
-	product = get_writing(Product, request.POST['slug'])
+	product = get_content(Product, request.POST['slug'])
 	
 	order = create_order(request.POST['email'], 'paypal', product, status='pending')
 	
@@ -327,7 +327,7 @@ def paypal_cancel(request, order_id):
 def credit_card_payment(request):
 	stripe.api_key = get_setting('stripe-private-key')
 
-	product = get_writing(Product, request.POST['slug'])
+	product = get_content(Product, request.POST['slug'])
 	
 	order = create_order(request.POST['email'], 'credit-card', product)
 	
@@ -383,7 +383,7 @@ def subscribe(request):
 	first_name = request.POST['first-name']
 	
 	# get email list
-	emaillist = get_writing(EmailList, request.POST['slug'])
+	emaillist = get_content(EmailList, request.POST['slug'])
 	
 	# get user
 	if User.objects(email=user_email).count() > 0:
@@ -496,8 +496,8 @@ def sitemap(request, type_string=None):
 		
 		for t in types:
 			if t["obj"].objects.count() > 0:
-				writing = t["obj"].objects().order_by("-last_modified_date")[0:0]
-				last_mod = writing[0].last_modified_date
+				content = t["obj"].objects().order_by("-last_modified_date")[0:0]
+				last_mod = content[0].last_modified_date
 				
 				sitemaps.append({
 					"loc_name": "sitemap-{0}.xml".format(t["name"]),
@@ -514,7 +514,7 @@ def sitemap(request, type_string=None):
 	elif type_string == "legacy":
 		posts = Post.objects(published_date__lte=date(2016, 2, 26)).order_by("-last_modified_date").only("slug", "last_modified_date")
 		return TemplateResponse(request, 'sitemap/legacy.xml', {
-			"writings" : posts,
+			"contents" : posts,
 			"url_name" : "blog:single-post-legacy",
 			"changefreq": "never",
 			"priority": "0.1",
@@ -526,7 +526,7 @@ def sitemap(request, type_string=None):
 		}
 		
 		return TemplateResponse(request, 'sitemap/type.xml', {
-			"writings": types[type_string]["class"].objects.order_by("-last_modified_date").only("slug", "last_modified_date"),
+			"contents": types[type_string]["class"].objects.order_by("-last_modified_date").only("slug", "last_modified_date"),
 			"url_name": types[type_string]["url_name"],
 			"changefreq": "monthly",
 			"priority": "0.2",

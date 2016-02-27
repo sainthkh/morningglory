@@ -32,13 +32,13 @@ def normalize_page(page):
 # These are common helper functions for writing types like Post, Series, Views 
 #
 ##############################################################
-def get_writing(writing_type, slug):
+def get_content(content_type, slug):
 	try:
-		writing = writing_type.objects(slug=normalize_slug(slug))[0]
+		content = content_type.objects(slug=normalize_slug(slug))[0]
 	except IndexError:
 		raise Http404
 
-	return writing	
+	return content	
 
 def process_content(text):
 	text = text.replace("\r\n", "\n")
@@ -71,7 +71,7 @@ def save_comment_to_db(comment, slug, spam):
 	activity.comment = comment
 	activity.date = comment.time
 	
-	post = get_writing(Post, slug)
+	post = get_content(Post, slug)
 	activity.slug = slug
 	activity.title = post.title
 	
@@ -116,7 +116,7 @@ def is_spam(request):
 ###################################################################
 
 def send_to_subscriber(address, email_slug, list_slug, request):
-	e = get_writing(Email, email_slug)
+	e = get_content(Email, email_slug)
 	content = template_to_html("blog/email-template.html", {
 		"content": e.content,
 		"email": address,
@@ -127,7 +127,7 @@ def send_to_subscriber(address, email_slug, list_slug, request):
 	send_mail(address, e.title, content) 
 
 def send_receipt(order, request):
-	product = get_writing(Product, order.product_slug)
+	product = get_content(Product, order.product_slug)
 	
 	file_links = []
 	for file in product.files:

@@ -13,8 +13,8 @@ from blog.utils.models import *
 
 
 class AdminViewBase:
-	def __init__(self, writing_type, name):
-		self.writing_type = writing_type
+	def __init__(self, content_type, name):
+		self.content_type = content_type
 		self.name = name
 		slug = name.lower().replace(' ', '-')
 		
@@ -65,13 +65,13 @@ class AdminViewBase:
 		
 	def list(self, request, page=1):
 		page = normalize_page(page)
-		writings = self.page(page)
+		contents = self.page(page)
 		
 		context = {
-			"writings": writings,
+			"contents": contents,
 			"url_name": 'blog:{0}'.format(self.t['edit-name']),
 			"page_context": {
-				"count": self.writing_type.objects.count(),
+				"count": self.content_type.objects.count(),
 				"current": page,
 				"url-name": self.t['list-redirect'],
 				"document-per-page": 20,
@@ -96,17 +96,17 @@ class AdminViewBase:
 			return self.edit_post(request, slug)
 	
 	def trash(self, request, slug):
-		writing = self.get(slug)
-		writing.status = 'trash'
-		writing.save()
+		content = self.get(slug)
+		content.status = 'trash'
+		content.save()
 		
 		return redirect(self.t['list-redirect'])
 		
 	def delete(self, request, slug):
-		writing = self.get(slug)
-		self.delete_or_alter_related(request, writing)
+		content = self.get(slug)
+		self.delete_or_alter_related(request, content)
 		
-		writing.delete()
+		content.delete()
 		return redirect(self.t['list-redirect'])
 	
 	def add_new_get(self, request):
@@ -119,15 +119,15 @@ class AdminViewBase:
 		return render(request, self.t['write-file-path'], context)
 	
 	def edit_get(self, request, slug):
-		writing = self.get(slug)
+		content = self.get(slug)
 		
 		context = {
-			"writing": writing,
+			"content": content,
 			"add_new": False,
 		}
 		
-		if hasattr(writing, 'title'):
-			context["page_title"] = "Edit {0} : {1}".format(self.name, writing.title) 
+		if hasattr(content, 'title'):
+			context["page_title"] = "Edit {0} : {1}".format(self.name, content.title) 
 		
 		context.update(self.edit_context(request, context))
 		
@@ -141,15 +141,15 @@ class AdminViewBase:
 	
 	def handle_post(self, request, add_new):
 		errors = self.check_errors(request)
-		writing = self.construct(request)
+		content = self.construct(request)
 		
 		if len(errors) == 0:
-			writing.save()
-			return redirect(self.t['save-redirect'], slug=unquote(writing.slug))
+			content.save()
+			return redirect(self.t['save-redirect'], slug=unquote(content.slug))
 		else:
 			return render(request, self.t['write-file-path'], {
 				"errors": errors,
-				"writing": writing,
+				"content": content,
 				"add_new": add_new, 
 			})
 	
@@ -165,35 +165,35 @@ class AdminViewBase:
 		add_new = request.POST['add-new'] == "True"
 	
 		if add_new:
-			writing = self.writing_type()
-			writing.published_date = writing.last_modified_date = datetime.now()
+			content = self.content_type()
+			content.published_date = content.last_modified_date = datetime.now()
 		else:
-			writing = self.get(request.POST["slug"])
+			content = self.get(request.POST["slug"])
 
 		if add_new and not 'slug' in request.POST:
-			writing.slug = self.create_slug(request.POST["title"]) 
+			content.slug = self.create_slug(request.POST["title"]) 
 
-		self.setup_basic_content(writing, request.POST)
-		self.construct_other_contents(writing, request.POST)
+		self.setup_basic_content(content, request.POST)
+		self.construct_other_contents(content, request.POST)
 		
-		return writing
+		return content
 	
 	def get(self, slug):
-		return get_writing(self.writing_type, slug)
+		return get_content(self.content_type, slug)
 	
-	def create_slug(self, title, writing_type=None):
-		if not writing_type:
-			writing_type = self.writing_type 
+	def create_slug(self, title, content_type=None):
+		if not content_type:
+			content_type = self.content_type 
 
 		slug_base = slugify(title)
 		final_slug = slug_base
-		exist = writing_type.objects(slug=slug_base).count() != 0
+		exist = content_type.objects(slug=slug_base).count() != 0
 
 		if exist:
 			num = 1
 			while True:
 				slug_candidate = slug_base + '-' + str(num)
-				exist = writing_type.objects(slug=slug_candidate).count() != 0
+				exist = content_type.objects(slug=slug_candidate).count() != 0
 				if not exist:
 					break
 				num = num + 1
@@ -204,26 +204,26 @@ class AdminViewBase:
 	def primary_level_slug(self, title):
 		return self.create_slug(title, PrimarySlug)
 	
-	def setup_basic_content(self, writing, POST):
+	def setup_basic_content(self, content, POST):
 		if 'title' in POST:
-			writing.title = POST['title']
+			content.title = POST['title']
 
 		if 'content' in POST:
-			writing.content = POST['content']
+			content.content = POST['content']
 
 		if 'excerpt' in POST:
-			writing.excerpt = POST['excerpt']
+			content.excerpt = POST['excerpt']
 
 		if 'key-points' in POST:
-			writing.key_points = POST['key-points']		
+			content.key_points = POST['key-points']		
 	
 	def page(self, page):
-		return self.writing_type.objects(status__ne='trash')[(page-1)*20:page*20]
+		return self.content_type.objects(status__ne='trash')[(page-1)*20:page*20]
 	
 	def setup_other_path(self, t):
 		pass
 	
-	def construct_other_contents(self, writing, POST):
+	def construct_other_contents(self, content, POST):
 		pass
 		
 	def list_context(self, request, context):
@@ -238,7 +238,7 @@ class AdminViewBase:
 	def edit_context(self, request, context):
 		return {}
 	
-	def delete_or_alter_related(self, request, writing):
+	def delete_or_alter_related(self, request, content):
 		pass
 
 #
@@ -261,7 +261,7 @@ class PostAdmin(AdminViewBase):
 
 	def list_context(self, request, context):
 		return {
-			"writings": context["writings"].order_by("-published_date")
+			"contents": context["contents"].order_by("-published_date")
 		}
 	
 	def menu_context(self):
@@ -270,11 +270,11 @@ class PostAdmin(AdminViewBase):
 			{"name": "View", "url_name": 'blog:distribute-post', "new":True },
 		]
 	
-	def construct_other_contents(self, writing, POST):
+	def construct_other_contents(self, content, POST):
 		if POST['add-new'] == 'True':
-			writing.slug = self.primary_level_slug(POST['title'])
+			content.slug = self.primary_level_slug(POST['title'])
 			
-		writing.series_slug = POST['series']
+		content.series_slug = POST['series']
 
 class PageAdmin(AdminViewBase):
 	def __init__(self):
@@ -286,11 +286,11 @@ class PageAdmin(AdminViewBase):
 			{"name": "View", "url_name": 'blog:distribute-post', "new":True },
 		]
 	
-	def construct_other_contents(self, writing, POST):
+	def construct_other_contents(self, content, POST):
 		if POST['add-new'] == 'True':
-			writing.slug = self.primary_level_slug(POST['title'])
+			content.slug = self.primary_level_slug(POST['title'])
 		
-		writing.layout = POST['layout']
+		content.layout = POST['layout']
 
 class SeriesAdmin(AdminViewBase):
 	def __init__(self):
@@ -302,11 +302,11 @@ class SeriesAdmin(AdminViewBase):
 			{"name": "View", "url_name": 'blog:series-list', "new":True },
 		]
 	
-	def contstruct_other_contents(self, writing, POST):
-		writing.category_slug = POST['category']
+	def contstruct_other_contents(self, content, POST):
+		content.category_slug = POST['category']
 	
-	def delete_or_alter_related(self, request, writing):
-		Post.objects(series_slug=writing.slug).update(series_slug='etc')
+	def delete_or_alter_related(self, request, content):
+		Post.objects(series_slug=content.slug).update(series_slug='etc')
 	
 
 class CategoryAdmin(AdminViewBase):
@@ -319,8 +319,8 @@ class CategoryAdmin(AdminViewBase):
 			{"name": "View", "url_name": 'blog:category', "new":True },
 		]
 	
-	def delete_or_alter_related(self, request, writing):
-		Series.objects(category_slug=writing.slug).update(category_slug='etc')
+	def delete_or_alter_related(self, request, content):
+		Series.objects(category_slug=content.slug).update(category_slug='etc')
 
 class EmailAdmin(AdminViewBase):
 	def __init__(self):
@@ -340,9 +340,9 @@ class EmailListAdmin(AdminViewBase):
 			self.trash_menu,
 		]
 	
-	def contstruct_other_contents(self, writing, POST):
-		writing.lead_magnet_slug = POST['lead-magnet-slug']
-		writing.thankyou_page = POST['thankyou-page']
+	def contstruct_other_contents(self, content, POST):
+		content.lead_magnet_slug = POST['lead-magnet-slug']
+		content.thankyou_page = POST['thankyou-page']
 
 class LinkAdmin(AdminViewBase):
 	def __init__(self):
@@ -358,11 +358,11 @@ class LinkAdmin(AdminViewBase):
 			"page_title": "Edit Link",
 		}
 	
-	def contstruct_other_contents(self, writing, POST):
+	def contstruct_other_contents(self, content, POST):
 		if POST['add-new'] == 'True':
-			writing.slug = primary_level_slug(POST['slug'])
+			content.slug = primary_level_slug(POST['slug'])
 		
-		writing.url = POST['url']
+		content.url = POST['url']
 
 class ProductAdmin(AdminViewBase):
 	def __init__(self):
@@ -375,23 +375,23 @@ class ProductAdmin(AdminViewBase):
 		]
 	
 	def add_new_context(self, request):
-		writing = {
+		content = {
 			"files": ['', '', '', '', ''],
 		}
 		
 		return {
-			"writing": writing,
+			"content": content,
 		}
 	
-	def contstruct_other_contents(self, writing, POST):
-		writing.thank_you = POST['thank-you']
-		writing.price = float(POST['price'])
-		writing.thumbnail = POST['thumbnail']
+	def contstruct_other_contents(self, content, POST):
+		content.thank_you = POST['thank-you']
+		content.price = float(POST['price'])
+		content.thumbnail = POST['thumbnail']
 		
-		writing.files = []
+		content.files = []
 		for i in range(0, 5):
 			filename = POST['filename-' + str(i)].strip()
-			writing.files.append(filename)
+			content.files.append(filename)
 
 class UserAdmin(AdminViewBase):
 	def __init__(self):
@@ -404,17 +404,17 @@ class UserAdmin(AdminViewBase):
 	
 	def list_context(self, request, context):
 		return {
-			"users": context["writings"]
+			"users": context["contents"]
 		}
 	
 	def add_new_context(self, request, context):
 		return {
-			"user": context["writing"]
+			"user": context["content"]
 		}
 		
 	def edit_context(self, request, context):
 		return {
-			"user": context["writing"]
+			"user": context["content"]
 		}
 	
 	def get(self, email):
@@ -430,24 +430,24 @@ class MessageLoopAdmin(AdminViewBase):
 	def list_context(self, request, context):
 		return {
 			"url_base": reverse('blog:admin-message') + '?loop={0}',
-			"loops": context['writings'],
+			"loops": context['contents'],
 		}
 	
-	def construct_other_contents(self, writing, POST):
-		writing.term = int(POST['term'])
-		writing.platform = POST['platform']
+	def construct_other_contents(self, content, POST):
+		content.term = int(POST['term'])
+		content.platform = POST['platform']
 		
 		tags = []
 		for tag in POST['hashtags'].split(','):
 			tags.append(tag.strip())
 		
-		writing.hashtags = tags
+		content.hashtags = tags
 		
 		if not POST['current'].strip():
-			writing.current = 0
+			content.current = 0
 		
 		if POST['add-new'] == 'True':
-			writing.created_date = datetime.now()
+			content.created_date = datetime.now()
 	
 class MessageAdmin(AdminViewBase):
 	def __init__(self):
@@ -463,7 +463,7 @@ class AddSubscriber(View):
 		first_name = request.POST['first-name']
 		
 		# get email list
-		emaillist = get_writing(EmailList, request.POST['slug'])
+		emaillist = get_content(EmailList, request.POST['slug'])
 		
 		# get user
 		if User.objects(email=user_email).count() > 0:

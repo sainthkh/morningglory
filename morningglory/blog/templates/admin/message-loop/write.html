@@ -6,13 +6,13 @@
 	{% csrf_token %}
 	<input type="hidden" name="add-new" value="{{add_new}}">
 	{% if not add_new %}
-	<input type="hidden" name="slug" value="{{ writing.slug }}" />
+	<input type="hidden" name="slug" value="{{ content.slug }}" />
 	{% endif %}
-	{% horizontal 'Title' writing.title %}
-	{% horizontal 'Platform' writing.platform %}
-	{% horizontal 'Term' writing.term %}
-	{% horizontal 'Hash Tags' writing.hashtags|comma_list 'hashtags' %}
-	{% horizontal 'Current' writing.current %}
+	{% horizontal 'Title' content.title %}
+	{% horizontal 'Platform' content.platform %}
+	{% horizontal 'Term' content.term %}
+	{% horizontal 'Hash Tags' content.hashtags|comma_list 'hashtags' %}
+	{% horizontal 'Current' content.current %}
 	<div class="pull-right">
 		<button type="submit" class="btn btn-default">Submit</button>
 	</div>

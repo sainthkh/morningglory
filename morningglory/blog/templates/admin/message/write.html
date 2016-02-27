@@ -6,12 +6,12 @@
 	{% csrf_token %}
 	<input type="hidden" name="add-new" value="{{add_new}}">
 	{% if not add_new %}
-	<input type="hidden" name="slug" value="{{ writing.slug }}" />
+	<input type="hidden" name="slug" value="{{ content.slug }}" />
 	{% endif %}
 	<div class="form-horizontal">
-		{% horizontal 'Title' writing.title %}
-		{% horizontal 'Hash Tags' writing.hashtags|comma_list 'hashtags' %}
-		{% horizontal 'Current' writing.current %}
+		{% horizontal 'Title' content.title %}
+		{% horizontal 'Hash Tags' content.hashtags|comma_list 'hashtags' %}
+		{% horizontal 'Current' content.current %}
 	</div>
 	<div class="sns-messages">
 		<div class="messages-title">

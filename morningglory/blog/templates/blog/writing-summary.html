@@ -1,15 +1,15 @@
 {% load blog_tags %}
-{% url 'blog:distribute-post' writing.slug as the_url %}
+{% url 'blog:distribute-post' content.slug as the_url %}
 <div class="post-summary">
 	<div class="post-summary-title">
-		<h2><a href="{{ the_url|unquote }}">{{ writing.title }}</a></h2>
+		<h2><a href="{{ the_url|unquote }}">{{ content.title }}</a></h2>
 	</div>
-	{% if writing.splash_image %}
+	{% if content.splash_image %}
 	<div class="post-summary-img">
-		<img src="{% uploads splash_image %}" alt="{{writing.title}} splash image" />
+		<img src="{% uploads splash_image %}" alt="{{content.title}} splash image" />
 	</div>
 	{% endif %}
-	{% if writing.key_points %}
+	{% if content.key_points %}
 	<div class="post-summary-key-points">
 		<div class="key-points-title">
 			<h4><i class="fa fa-arrow-right"></i> Key Points</h4>
@@ -20,10 +20,10 @@
 	</div>
 	{% endif %}
 	<div class="post-summary-excerpt">
-		{% if writing.excerpt %}
+		{% if content.excerpt %}
 			{{ post.excerpt }}
 		{% else %}
-			{{ writing.content|remove_tags|remove_audio_headline|markdown|truncatewords_html:60 }}
+			{{ content.content|remove_tags|remove_audio_headline|markdown|truncatewords_html:60 }}
 		{% endif %}
 		<a class="btn btn-info" href="{{ the_url|unquote }}">Read More</a>
 	</div>

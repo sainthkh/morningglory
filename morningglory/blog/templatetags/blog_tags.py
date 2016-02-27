@@ -21,12 +21,12 @@ def markdown_format(text):
 	return markdown(text)
 
 @register.inclusion_tag('blog/share.html', name="share", takes_context=True)
-def share_div(context, writing):
+def share_div(context, content):
 	request = context['request']
 
 	share = {}
-	share['title'] = quote(writing.title)
-	share['url'] = request.build_absolute_uri(quote(get_post_url_by_slug(writing.slug)))
+	share['title'] = quote(content.title)
+	share['url'] = request.build_absolute_uri(quote(get_post_url_by_slug(content.slug)))
 	
 	return {
 		"share": share
@@ -101,9 +101,9 @@ def blog_categories():
 	}
 
 @register.inclusion_tag('blog/writing-summary.html')
-def writing_summary(writing):
+def writing_summary(content):
 	return {
-		"writing": writing,
+		"content": content,
 	}
 
 @register.filter
