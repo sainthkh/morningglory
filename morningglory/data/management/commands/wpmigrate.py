@@ -30,6 +30,8 @@ def to_markdown(content):
 
 class Command(BaseCommand):
 	def handle(self, *arg, **options):
+		from morningglory import wpmigration
+
 		print("Start Migration")
 		
 		if settings.DEBUG:

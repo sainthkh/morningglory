@@ -156,5 +156,3 @@ EMAIL = config['SYSTEM']['EMAIL'] == 'True'
 
 if not EMAIL:
 	EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-from morningglory import wpmigration
