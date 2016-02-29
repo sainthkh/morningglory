@@ -14,28 +14,10 @@
 		{% horizontal 'Current' content.current %}
 	</div>
 	<div class="sns-messages">
-		<div class="messages-title">
-			<label>Messages</label>
-			<div class="pull-right">
-				<button id="add-new-message" class="btn btn-default">Add New Message</button>
-			</div>
+		<div class="form-group">
+			<label for="messages">Messages</label>
+			<textarea class="form-control" id="messages" name="messages" rows="10" placeholder="Messages">{{ content.messages_text }}</textarea>
 		</div>
-		<table class="table table-bordered message-table">
-			<thead>
-				<tr>
-					<th>Text</th>
-					<th>Image</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for m in messages %}
-				<tr>
-					<td>{{ m.text }}</td>
-					<td>{{ m.images|comma_list }}</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
 	</div>
 	<div class="clear"></div>
 	<div class="pull-right">
