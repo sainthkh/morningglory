@@ -146,26 +146,21 @@ class MessageLoop(DynamicDocument):
 	term = IntField()
 	platform = StringField()
 	hashtags = ListField(StringField())
-	messages = ListField(ReferenceField('Message'))
 	current = IntField()
 	created_date = DateTimeField()
 	last_published_date = DateTimeField()
 
-class Message(DynamicDocument):
+class Message(EmbeddedDocument):
+	text = StringField()
+	images = ListField(StringField())	
+
+class MessageGroup(DynamicDocument):
 	slug = StringField()
 	title = StringField()
 	current = IntField()
 	hashtags = ListField(StringField())
+	message_loop_slug = StringField()
 	last_published_date = DateTimeField()
-	
-	meta = {
-		"allow_inheritance": True,
-	}
-
-class TweetMessage(Message):
-	class TweetText(EmbeddedDocument):
-		text = StringField()
-		images = ListField(StringField())
-	
-	messages = ListField(EmbeddedDocumentField('TweetText'))
-	
+	created_date = DateTimeField()
+	messages = ListField(EmbeddedDocumentField('Message'))
+	messages_text = StringField()

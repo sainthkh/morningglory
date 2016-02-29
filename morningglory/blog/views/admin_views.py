@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 
 from urllib.parse import unquote
 from datetime import datetime
+import re
 
 from blog.models import *
 from blog.utils.views import *
@@ -449,9 +450,59 @@ class MessageLoopAdmin(AdminViewBase):
 		if POST['add-new'] == 'True':
 			content.created_date = datetime.now()
 	
-class MessageAdmin(AdminViewBase):
+class MessageGroupAdmin(AdminViewBase):
 	def __init__(self):
-		AdminViewBase.__init__(self, Message, 'Message')
+		AdminViewBase.__init__(self, MessageGroup, 'Message Group')
+	
+	def construct_other_contents(self, content, POST):
+		
+		content.hashtags = POST['hashtags']
+		
+		if not POST['current'].strip():
+			content.current = 0
+			
+		if POST['add-new'] == 'True':
+			content.created_date = datetime.now()
+	
+	def messages(self, text):
+		text = text.replace('\r\n', '\n')
+		text = text.replace('\r', '\n')
+		lines = text.split('\n')
+		
+		result = []
+		chunks = []
+		paths = []
+		for l in lines:
+			t = self.get_line_type(l)
+			
+			if t == 'end message':
+				result.append(self.construct_message(chunks, paths))
+				chunks = [] 
+				paths = []
+			elif t == 'text':
+				chunks.append(l)
+			elif t == 'path':
+				paths.append(l)
+
+		result.append(self.construct_message(chunks, paths))
+		
+		return result
+	
+	def construct_message(self, chunks, paths):
+		message = Message()
+		message.text = '\n'.join(chunks) 		
+		message.images = paths
+		
+		return message
+	
+	def get_line_type(self, line):
+		if re.match(r"^\*+$", line.strip()):
+			return "end message"
+		elif re.match(r"^<-+image-+>$", line.strip()):
+			return "images"
+		elif re.match(r"^/.+$", line.strip()):
+			return "path"
+		return "text"
 
 class AddSubscriber(View):
 	def get(self, request):

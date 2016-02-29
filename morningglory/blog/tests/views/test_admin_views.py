@@ -68,3 +68,89 @@ class TestAdminViews(MorningGloryTestCase):
 		'''
 	
 		self.run_tests(test_set, get_url_name)
+	
+	def test__MessageGroupAdmin_get_line_type__stars__return_new_message_string(self):
+		test_set = [
+			("*", "end message"),
+			("**", "end message"),
+			("*****", "end message"),
+			("*******", "end message"),
+			("**************", "end message"),
+			("*******************", "end message"),
+		]
+		
+		a = MessageGroupAdmin()
+		
+		self.run_tests(test_set, a.get_line_type)
+	
+	def test__MessageGroupAdmin_get_line_type__image_tag__return_images_string(self):
+		test_set = [
+			("<-image->", "images"),
+			("<-----image--->", "images"),
+			("<-------image--------->", "images"),
+			("<--image-->", "images"),
+			("<--------------image-->", "images"),
+			("<---image------------------------->", "images"),
+			
+		]
+		
+		a = MessageGroupAdmin()
+		
+		self.run_tests(test_set, a.get_line_type)
+	
+	def test__MessageGroupAdmin_get_line_type__other_string__return_text_string(self):
+		test_set = [
+			("aasdfaaa", "text"),
+			("* this is test", "text"),
+			("<---test---->", "text"),
+			("***** good! *****", "text"),			
+		]
+		
+		a = MessageGroupAdmin()
+		
+		self.run_tests(test_set, a.get_line_type)
+	
+	def text_example(self):
+		return ("Hello, World!\n"
+			"Good to see you again\n"
+			"<-----image----->\n"
+			"/uploads/image1.jpg\n"
+			"/uploads/img-awesome.png\n"
+			"****************\n"
+			"Second Message #2nd \n"
+		)
+	
+	def test__MessageGroupAdmin_messages__messages_correct_format__correct_message_count(self):
+		text = self.text_example() 
+		
+		a = MessageGroupAdmin()
+		
+		self.assertEqual(len(a.messages(text)), 2)
+	
+	def test__MessageGroupAdmin_messages__messages_correct_format__correct_message_text(self):
+		text = self.text_example() 
+		
+		a = MessageGroupAdmin()
+		m = a.messages(text)
+		
+		self.assertEqual(m[0].text, "Hello, World!\nGood to see you again")
+		self.assertEqual(m[1].text, "Second Message #2nd \n")
+	
+	def test__MessageGroupAdmin_messages__messages_correct_format__correct_images_count(self):
+		text = self.text_example() 
+		
+		a = MessageGroupAdmin()
+		m = a.messages(text)
+		
+		self.assertEqual(len(m[0].images), 2)
+		self.assertEqual(len(m[1].images), 0)
+			
+	def test__MessageGroupAdmin_messages__messages_correct_format__correct_images_path(self):
+		text = self.text_example() 
+		
+		a = MessageGroupAdmin()
+		m = a.messages(text)
+		
+		self.assertEqual(m[0].images[0], "/uploads/image1.jpg")
+		self.assertEqual(m[0].images[1], "/uploads/img-awesome.png")
+		
