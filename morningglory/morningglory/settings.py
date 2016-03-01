@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',
+	'scheduler.apps.SchedulerConfig',
 ]
 
 MIDDLEWARE_CLASSES = [
