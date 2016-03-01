@@ -141,7 +141,7 @@ class EmailList(DynamicDocument):
 #
 ################################################################
 class MessageLoop(DynamicDocument):
-	slug = StringField()
+	slug = StringField(unique=True)
 	title = StringField()
 	term = IntField()
 	platform = StringField()
@@ -151,11 +151,11 @@ class MessageLoop(DynamicDocument):
 	last_published_date = DateTimeField()
 
 class Message(EmbeddedDocument):
-	text = StringField()
+	text = StringField(unique=True)
 	images = ListField(StringField())	
 
 class MessageGroup(DynamicDocument):
-	slug = StringField()
+	slug = StringField(unique=True)
 	title = StringField()
 	current = IntField()
 	hashtags = ListField(StringField())
@@ -164,3 +164,4 @@ class MessageGroup(DynamicDocument):
 	created_date = DateTimeField()
 	messages = ListField(EmbeddedDocumentField('Message'))
 	messages_text = StringField()
+	
