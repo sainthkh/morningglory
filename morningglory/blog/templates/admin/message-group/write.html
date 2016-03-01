@@ -11,6 +11,8 @@
 	<div class="form-horizontal">
 		{% horizontal 'Title' content.title %}
 		{% horizontal 'Hash Tags' content.hashtags|comma_list 'hashtags' %}
+		{% horizontal 'Link' content.link %}
+		{% horizontal 'Message Loop Slug' content.message_loop_slug %}
 		{% horizontal 'Current' content.current %}
 	</div>
 	<div class="sns-messages">

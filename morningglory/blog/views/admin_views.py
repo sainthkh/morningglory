@@ -446,6 +446,8 @@ class MessageLoopAdmin(AdminViewBase):
 		
 		if not POST['current'].strip():
 			content.current = 0
+		else:
+			content.current = int(POST['current'])
 		
 		if POST['add-new'] == 'True':
 			content.created_date = datetime.now()
@@ -455,14 +457,26 @@ class MessageGroupAdmin(AdminViewBase):
 		AdminViewBase.__init__(self, MessageGroup, 'Message Group')
 	
 	def construct_other_contents(self, content, POST):
+		content.link = POST['link'].strip()
 		
-		content.hashtags = POST['hashtags']
+		tags = []
+		for tag in POST['hashtags'].split(','):
+			tags.append(tag.strip())
+		
+		content.hashtags = tags
+		
+		content.message_loop_slug = POST['message-loop-slug'].strip()
 		
 		if not POST['current'].strip():
 			content.current = 0
+		else:
+			content.current = int(POST['current'])
 			
 		if POST['add-new'] == 'True':
 			content.created_date = datetime.now()
+			
+		content.messages_text = POST['messages']
+		content.messages = self.messages(content.messages_text)
 	
 	def messages(self, text):
 		text = text.replace('\r\n', '\n')
