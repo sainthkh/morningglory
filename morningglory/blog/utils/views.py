@@ -12,6 +12,7 @@ import hashlib
 from urllib.parse import quote, unquote
 from blog.models import *
 from blog.utils import slugify
+from .models import *
 from datetime import datetime
 from blog.expanders import template_to_html, expand_content, expand_image_tags
 
@@ -168,25 +169,3 @@ def send_mail(address, title, content):
 			[address], [], reply_to=['sainthkh@gmail.com'])
 	message.content_subtype = "html"
 	message.send()
-
-#
-# Setting functions
-#
-##################################################################
-def get_setting(name):
-	if len(Setting.objects(name=name)) > 0:
-		value = (Setting.objects(name=name)[0]).value
-	else:
-		value = ''
-	
-	return value
-
-def save_setting(name, value):
-	if len(Setting.objects(name=name)) > 0:
-		setting = Setting.objects(name=name)[0]
-	else:
-		setting = Setting()
-		setting.name = name
-	
-	setting.value = value
-	setting.save()

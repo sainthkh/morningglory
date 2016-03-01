@@ -29,3 +29,25 @@ def get_order(id):
 		raise Http404
 	
 	return order
+
+#
+# Setting functions
+#
+##################################################################
+def get_setting(name):
+	if len(Setting.objects(name=name)) > 0:
+		value = (Setting.objects(name=name)[0]).value
+	else:
+		value = ''
+	
+	return value
+
+def save_setting(name, value):
+	if len(Setting.objects(name=name)) > 0:
+		setting = Setting.objects(name=name)[0]
+	else:
+		setting = Setting()
+		setting.name = name
+	
+	setting.value = value
+	setting.save()
