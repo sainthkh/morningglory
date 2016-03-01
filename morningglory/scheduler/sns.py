@@ -1,7 +1,7 @@
 from django.conf import settings
 
 from threading import Thread
-from datetime import timedelta
+from datetime import timedelta, datetime
 from twython import Twython, TwythonError
 import random
 
@@ -23,11 +23,16 @@ class SnsUploader(Thread):
 		hashtags = loop.hashtags + message_group.hashtags
 		self.send_message(message, hashtags)
 		
+		current_time = datetime.now()
+		message_group.last_published_date = current_time
+		
 		message_group.current = message_group.current + 1
 		if len(message_group.messages) == message_group.current:
-			message_group.current = 1
+			message_group.current = 1 
 		
 		message_group.save()
+		
+		loop.last_published_date = current_time
 		
 		loop.current = loop.current + 1
 		if MessageGroup.objects(message_loop_slug=loop_slug).count() == loop.current:
