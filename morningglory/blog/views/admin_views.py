@@ -430,7 +430,7 @@ class MessageLoopAdmin(AdminViewBase):
 	
 	def list_context(self, request, context):
 		return {
-			"url_base": reverse('blog:admin-message') + '?loop={0}',
+			"url_base": reverse('blog:admin-message-group') + '?loop={0}',
 			"loops": context['contents'],
 		}
 	
