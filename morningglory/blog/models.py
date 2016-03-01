@@ -165,4 +165,13 @@ class MessageGroup(DynamicDocument):
 	created_date = DateTimeField()
 	messages = ListField(EmbeddedDocumentField('Message'))
 	messages_text = StringField()
-	
+
+#
+# Schedule Models
+#
+################################################################
+class Schedule(DynamicDocument):
+	slug = StringField(unique=True)
+	type = StringField()
+	time = DateTimeField()
+	content = DictField()
