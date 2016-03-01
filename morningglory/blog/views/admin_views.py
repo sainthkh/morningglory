@@ -451,6 +451,17 @@ class MessageLoopAdmin(AdminViewBase):
 		
 		if POST['add-new'] == 'True':
 			content.created_date = datetime.now()
+			
+		if POST['add-new'] == 'True':
+			schedule = Schedule()
+			schedule.slug = content.slug
+			schedule.time = datetime.now()
+			schedule.type = content.platform
+			schedule.content = {
+				'loop-slug': content.slug,
+			}
+			
+			schedule.save()
 	
 class MessageGroupAdmin(AdminViewBase):
 	def __init__(self):
