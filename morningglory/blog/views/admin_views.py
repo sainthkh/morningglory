@@ -603,6 +603,10 @@ def settings(request):
 	paypal_client_id = get_setting('paypal-client-id')
 	paypal_client_secret = get_setting('paypal-client-secret')
 	paypal_mode = get_setting('paypal-mode')
+	twitter_app_key = get_setting('twitter-app-key')
+	twitter_app_secret = get_setting('twitter-app-secret')
+	twitter_oauth_token = get_setting('twitter-oauth-token')
+	twitter_oauth_token_secret = get_setting('twitter-oauth-token-secret')
 	
 	return render(request, 'admin/settings.html', {
 		"akismet_key": akismet_key,
@@ -611,6 +615,10 @@ def settings(request):
 		"paypal_client_id": paypal_client_id,
 		"paypal_client_secret": paypal_client_secret,
 		"paypal_mode": paypal_mode,
+		"twitter_app_key": twitter_app_key,
+		"twitter_app_secret": twitter_app_secret,
+		"twitter_oauth_token": twitter_oauth_token,
+		"twitter_oauth_token_secret": twitter_oauth_token_secret,
 	})
 
 
@@ -623,6 +631,10 @@ def save_settings(request):
 	save_setting('paypal-client-id', request.POST['paypal-client-id'])
 	save_setting('paypal-client-secret', request.POST['paypal-client-secret'])
 	save_setting('paypal-mode', request.POST['paypal-mode'])
+	save_setting('twitter-app-key', request.POST['twitter-app-key'])
+	save_setting('twitter-app-secret', request.POST['twitter-app-secret'])
+	save_setting('twitter-oauth-token', request.POST['twitter-oauth-token'])
+	save_setting('twitter-oauth-token-secret', request.POST['twitter-oauth-token-secret'])
 	
 	return redirect('blog:admin-settings')
 
