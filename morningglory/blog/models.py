@@ -158,6 +158,7 @@ class MessageGroup(DynamicDocument):
 	slug = StringField(unique=True)
 	title = StringField()
 	current = IntField()
+	link = StringField()
 	hashtags = ListField(StringField())
 	message_loop_slug = StringField()
 	last_published_date = DateTimeField()
