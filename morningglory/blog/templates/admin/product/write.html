@@ -9,11 +9,11 @@
 </ul>
 <div id="writing-tab-contents" class="tab-content">
 	<div class="tab-pane fade in active" id="writing-content-page">
-		<textarea id="writing-content" class="form-control" style="height:500px;" type="hidden" name="content" rows="15">{{ writing.content }}</textarea>
+		<textarea id="writing-content" class="form-control" style="height:500px;" type="hidden" name="content" rows="15">{{ content.content }}</textarea>
 	</div>
 	<div class="tab-pane fade" id="thank-you-message-page">
 		<div class="form-group">
-			<textarea id="thank-you-message" class="form-control" style="height:500px;" type="hidden" name="thank-you" rows="15">{{ writing.thank_you }}</textarea>
+			<textarea id="thank-you-message" class="form-control" style="height:500px;" type="hidden" name="thank-you" rows="15">{{ content.thank_you }}</textarea>
 		</div>
 	</div>
 </div>
@@ -22,15 +22,15 @@
 {% block extra %}
 <div class="form-group">
 	<label for="excerpt">Excerpt</label>
-	<textarea class="form-control" id="excerpt" name="excerpt" placeholder="Excerpt">{{ writing.excerpt }}</textarea>
+	<textarea class="form-control" id="excerpt" name="excerpt" placeholder="Excerpt">{{ content.excerpt }}</textarea>
 </div>
 <div class="form-group">
 	<label for="price">Price</label>
-	<input class="form-control" id="price" name="price" value="{{ writing.price }}" />
+	<input class="form-control" id="price" name="price" value="{{ content.price }}" />
 </div>
 <div class="form-horizontal">
 	<label>Files</label>
-	{% for file in writing.files %}
+	{% for file in content.files %}
 	<div class="form-group">
 		{% with "filename-{0}"|simpleformat:forloop.counter0 as filename %}
 		<div class="col-sm-10">
@@ -54,7 +54,7 @@
 	</div>
 	<div class="panel-body">
 		<div class="form-group">
-			<input class="form-control" id="thumbnail" name="thumbnail" value="{{writing.thumbnail}}" />
+			<input class="form-control" id="thumbnail" name="thumbnail" value="{{content.thumbnail}}" />
 		</div>
 	</div>
 </div>
