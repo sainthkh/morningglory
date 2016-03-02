@@ -1,8 +1,10 @@
 {% load blog_tags %}
 
 {% autoescape off %}
+<div style="max-width:600px">
 {{ content|markdown }}
-
+</div>
+<br><br>
 <p>
 	If you no longer wish to receive our emails, <a href="{% unsubscribe_url email list_slug %}" title="unsubscribe">unsubscribe</a>.<br>
 	This email is brought to you by <a href="http://wiseinit.com">WiseInit Korean</a> where you can learn and practice your Korean.<br>
