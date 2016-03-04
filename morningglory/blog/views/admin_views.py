@@ -384,7 +384,7 @@ class ProductAdmin(AdminViewBase):
 			"content": content,
 		}
 	
-	def contstruct_other_contents(self, content, POST):
+	def construct_other_contents(self, content, POST):
 		content.thank_you = POST['thank-you']
 		content.price = float(POST['price'])
 		content.thumbnail = POST['thumbnail']
