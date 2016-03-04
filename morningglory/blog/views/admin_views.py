@@ -375,7 +375,7 @@ class ProductAdmin(AdminViewBase):
 			{"name": "View", "url_name": 'blog:product', "new":True },
 		]
 	
-	def add_new_context(self, request):
+	def add_new_context(self, request, context):
 		content = {
 			"files": ['', '', '', '', ''],
 		}
