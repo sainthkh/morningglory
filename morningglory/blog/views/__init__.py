@@ -26,7 +26,7 @@ def index(request):
 def blog_main(request, page):
 	page = normalize_page(page)
 	posts = Post.objects(status__ne='trash').order_by("-published_date")[(page-1)*5:page*5]
-	products = Product.objects
+	products = Product.objects(status__ne='trash')
 	
 	return render(request, 'blog/index.html', {
 		"posts": posts,
