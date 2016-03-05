@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import Http404, JsonResponse, HttpResponse
+from django.http import Http404, JsonResponse, HttpResponse, HttpResponseServerError
 from django.views.generic import View
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -289,12 +289,19 @@ def paypal_payment(request):
 		},
 	})
 	
-	payment.create()
-	
-	for link in payment['links']:
-		if link['rel'] == 'approval_url':
-			url = link['href']
-			break;
+	if payment.create():
+		for link in payment['links']:
+			if link['rel'] == 'approval_url':
+				url = link['href']
+				break;
+	else:
+		with open(settings.SECRET_ROOT + 'log.txt', 'a') as f:
+			f.write('Payment Error: ')
+			f.write(str(datetime.now()) + '\n')
+			f.write(str(payment) + '\n')
+			f.write(str(payment.error) + '\n')
+		
+		return HttpResponseServerError()
 	
 	order.paypal_payment_id = payment.id
 	order.save()
