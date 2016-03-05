@@ -257,7 +257,7 @@ def paypal_payment(request):
 	
 	order = create_order(request.POST['email'], 'paypal', product, status='pending')
 	
-	price = "{0}".format(product.price)
+	price = "{0:.2f}".format(product.price)
 	payment = paypalrestsdk.Payment({
 		"intent": "sale",
 		"payer": {
